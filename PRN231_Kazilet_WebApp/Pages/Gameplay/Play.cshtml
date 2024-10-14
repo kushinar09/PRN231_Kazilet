@@ -1,0 +1,65 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.Gameplay.PlayModel
+@{
+}
+<div style="background-color:#381271FF; height: 596px" class="flex items-center justify-center p-8">
+    <div id="countDisplay" class="text-9xl font-bold text-white transition-all duration-300 ease-in-out transform animate-pop">
+        Are you ready?
+    </div>
+</div>
+<button id="restartButton" class="bg-white text-purple-600 hover:bg-purple-100 transition-colors duration-300 px-4 py-2 rounded">
+    Restart
+</button>
+
+<script>
+    let count = 4;
+    let isStart = true;
+    let isRunning = false;
+    let key = 0;
+    let timer;
+
+    const countDisplay = document.getElementById('countDisplay');
+    const restartButton = document.getElementById('restartButton');
+    window.onload = function () {
+        getQuestion();
+    }
+    // Function to start the countdown
+    function startCountdown() {
+        if (isRunning || count <= 0) return;
+        isRunning = true;
+
+        timer = setInterval(() => {
+            if (count > 0) {
+                count--;
+                count == 4 ? countDisplay.textContent = 'Are you ready?' : countDisplay.textContent = count
+                countDisplay.textContent = count === 0 ? 'Go!' : count;
+                countDisplay.classList.remove('animate-pop');
+                void countDisplay.offsetWidth; // Trigger reflow to restart animation
+                countDisplay.classList.add('animate-pop');
+            } else {
+                clearInterval(timer);
+                isRunning = false;
+            }
+
+
+        }, 1000);
+    }
+
+    // Function to reset the count
+    function resetCount() {
+        clearInterval(timer);
+        count = 3;
+        isRunning = false;
+        countDisplay.textContent = count;
+        countDisplay.classList.remove('animate-pop');
+        void countDisplay.offsetWidth; // Trigger reflow to restart animation
+        countDisplay.classList.add('animate-pop');
+        startCountdown();
+    }
+
+    // Add event listener to the restart button
+    restartButton.addEventListener('click', resetCount);
+
+    // Start countdown on page load
+    startCountdown();
+</script>

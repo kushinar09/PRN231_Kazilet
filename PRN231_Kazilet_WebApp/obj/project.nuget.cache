@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "9WZo+eumqKYW4/ShB2fiaeK+20tZ3l/ddNrtLd2QcWle52R+GiXrY5U5GbNQBxmo8AYv5s2Rl4LKkfu+fJ6Z2Q==",
+  "success": true,
+  "projectFilePath": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\acer\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

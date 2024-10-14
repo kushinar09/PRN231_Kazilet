@@ -1,0 +1,209 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.Gameplay.JoinModel
+@{
+}
+
+<div style="background-color:#381271FF" class="flex items-center justify-center p-8">
+    <div class="max-w-3xl  rounded-lg overflow-hidden shadow-2xl">
+        <div class="text-center flex flex-col items-center justify-center" style="padding: 100px">
+            <h1 class="text-4xl font-bold text-white mb-4">GAME PIN</h1>
+            <form id="formFind" onsubmit="find(event)" class="text-center flex flex-col w-fit justify-center p-8 rounded-lg items-center bg-white">
+                <input type="text" id="code" class="text-black mb-4 py-5 px-10 border text-xl border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center h-16 w-full" placeholder="Enter Game PIN" required />
+                <button style="background: black" type="submit" class="focus:outline-none text-xl text-white bg-black focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm h-16 w-full">Find</button>
+            </form>
+
+            <form id="formJoin" style="display:none" onsubmit="join(event)" class="text-center flex flex-col w-fit justify-center p-8 rounded-lg items-center bg-white">
+                <input type="text" id="username" class="text-black mb-4 py-5 px-10 border text-xl border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center h-16 w-full" placeholder="Enter Username" required />
+                <button style="background: black" type="submit" class="focus:outline-none text-xl text-white bg-black focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm h-16 w-full">Join</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="toast-success-create" class="flex hidden animate-[fade-out_2s_ease-out_5s_1_forwards] opacity-1 flex-col fixed z-50 top-5 right-5 items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+    <div class="flex flex-row items-center justify-between w-full">
+        <div class="flex flex-row items-center">
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                </svg>
+                <span class="sr-only">Check icon</span>
+            </div>
+            <div class="ms-3 text-sm font-normal">Find game successfully</div>
+        </div>
+        <div>
+            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="flex flex-row items-center justify-between w-full">
+        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-1 mt-2 dark:bg-gray-700">
+            <div id="animateDiv-create" class="bg-green-400 h-1.5 rounded-full dark:bg-green-300 animate-[reduce_7s_ease-in-out_0s_1_forwards]" style="width: 100%"></div>
+        </div>
+    </div>
+</div>
+
+<div id="toast-danger-create" class="flex hidden animate-[fade-out_2s_ease-out_5s_1_forwards] opacity-1 flex-col fixed z-50 top-5 right-5 items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+    <div class="flex flex-row items-center justify-between w-full">
+        <div class="flex flex-row items-center">
+            <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
+                </svg>
+                <span class="sr-only">Error icon</span>
+            </div>
+            <div class="ms-3 text-sm font-normal">Room not existed</div>
+        </div>
+        <div>
+            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="flex flex-row items-center justify-between w-full">
+        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-1 mt-2 dark:bg-gray-700">
+            <div id="animateDiv-danger" class="bg-red-400 h-1.5 rounded-full dark:bg-green-300 animate-[reduce_7s_ease-in-out_0s_1_forwards]" style="width: 100%"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showToastDanger() {
+        console.log("sda");
+        var toast = document.getElementById("toast-danger-create");
+        toast.classList.remove("hidden");
+        toast.classList.remove("animate-[fade-out_2s_ease-out_5s_1_forwards]");
+
+        // Đặt độ rộng về 100%
+        var animateDiv = document.getElementById('animateDiv-danger');
+        animateDiv.classList.remove("animate-[reduce_7s_ease-in-out_0s_1_forwards]");
+
+        // Gây ra sự tái tính toán kích thước
+        void toast.offsetWidth;
+
+        // Thêm lớp animation fade-out
+        toast.classList.add("animate-[fade-out_2s_ease-out_5s_1_forwards]");
+        animateDiv.classList.add("animate-[reduce_7s_ease-in-out_0s_1_forwards]");
+
+        // Thêm lớp để giảm độ rộng
+        animateDiv.classList.add("reduceWidth");
+
+        // Reset độ rộng sau khi animation hoàn tất
+        setTimeout(function () {
+            animateDiv.style.width = '100%'; // Đặt lại độ rộng về 100%
+        }, 2000);
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var toast = document.getElementById("toast-danger-create");
+        if (toast.classList.contains("block")) {
+            document.getElementById('animateDiv-danger').classList.add("reduceWidth");
+            document.getElementById('animateDiv-danger').style.width = '0%';
+
+
+        }
+        function onTransitionEnd(event) {
+            if (event.propertyName === 'width' && animateDiv.style.width === '0%') {
+                document.getElementById('animateDiv-danger').classList.remove("reduceWidth");
+                //    document.getElementById('animateDiv').style.width = '100%';
+                //  console.log(document.getElementById('animateDiv').style.width);
+                //   toast.classList.add("animate-[fade-out_1s_ease-out_0.25s_1]");
+
+            }
+        }
+
+
+
+        document.getElementById('animateDiv-danger').addEventListener('transitionend', onTransitionEnd);
+    });
+</script>
+
+<script>
+    function showToastSuccess() {
+        var toast = document.getElementById("toast-success-create");
+        toast.classList.remove("hidden");
+        toast.classList.remove("animate-[fade-out_2s_ease-out_5s_1_forwards]");
+
+        // Đặt độ rộng về 100%
+        var animateDiv = document.getElementById('animateDiv-create');
+        animateDiv.classList.remove("animate-[reduce_7s_ease-in-out_0s_1_forwards]");
+
+        // Gây ra sự tái tính toán kích thước
+        void toast.offsetWidth;
+
+        // Thêm lớp animation fade-out
+        toast.classList.add("animate-[fade-out_2s_ease-out_5s_1_forwards]");
+        animateDiv.classList.add("animate-[reduce_7s_ease-in-out_0s_1_forwards]");
+
+        // Thêm lớp để giảm độ rộng
+        animateDiv.classList.add("reduceWidth");
+
+        // Reset độ rộng sau khi animation hoàn tất
+        setTimeout(function () {
+            animateDiv.style.width = '100%'; // Đặt lại độ rộng về 100%
+        }, 2000);
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var toast = document.getElementById("toast-success-create");
+        if (toast.classList.contains("block")) {
+            document.getElementById('animateDiv-create').classList.add("reduceWidth");
+            document.getElementById('animateDiv-create').style.width = '0%';
+
+
+        }
+        function onTransitionEnd(event) {
+            if (event.propertyName === 'width' && animateDiv.style.width === '0%') {
+                document.getElementById('animateDiv-create').classList.remove("reduceWidth");
+                //    document.getElementById('animateDiv').style.width = '100%';
+                //  console.log(document.getElementById('animateDiv').style.width);
+                //   toast.classList.add("animate-[fade-out_1s_ease-out_0.25s_1]");
+
+            }
+        }
+
+
+
+        document.getElementById('animateDiv-create').addEventListener('transitionend', onTransitionEnd);
+    });
+</script>
+<script>
+    async function find(event) {
+        event.preventDefault();
+        const apiUrl = "https://localhost:7024/api/Gameplay/find?code=" + document.getElementById("code").value;
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'GET'
+            })
+            console.log(response);
+            if (response.ok) {
+                document.getElementById("formFind").style.display = "none";
+                document.getElementById("formJoin").style.display = "block";
+                showToastSuccess();
+            }
+            else {
+                throw new Error();
+            }
+        } catch (error) {
+            showToastDanger();
+
+            console.log(error);
+        }
+    }
+</script>
+
+<script>
+    async function join(event) {
+        event.preventDefault();
+        console.log(document.getElementById("code").value + " " + document.getElementById("username").value);
+        window.location.href = "https://localhost:7081/Gameplay/WaitScreen?code=" + document.getElementById("code").value + "&username=" + document.getElementById("username").value;
+
+       
+    }
+</script>

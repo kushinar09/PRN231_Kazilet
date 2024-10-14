@@ -1,0 +1,688 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.Questions.IndexModel
+@{
+}
+<style>
+    /* Thêm transform-style và perspective không có sẵn trong Tailwind */
+    .flip-card {
+        transform-style: preserve-3d;
+        transition: transform 0.7s;
+    }
+
+    .flipped {
+        transform: rotateX(180deg);
+    }
+
+    .backface-hidden {
+        backface-visibility: hidden;
+    }
+</style>
+<!--
+<div id="pBox"  style="width: 80%; display: none; margin-right: 10%; margin-left: 10%" class="flex flex-col">
+    <div id="box" class="w-full [perspective:1000px] cursor-pointer mb-4 animate-[fade-out_2s_ease-out_1s_1_forwards] opacity-1">
+
+        <div class="relative flip-card w-full" id="flipCard">
+            <div id="front-side" class="flex justify-center items-center w-full text-xl mb-4 border-2 border-solid border-gray-100 shadow-xl absolute rounded-lg p-8 backface-hidden inset-0 rounded-xl shadow-xl  [transform:rotateX(180deg)]">
+@{
+    char[] answerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+}
+
+            </div>
+            <div style="font-size: 30px !important; padding: 100px" class="flex flex-col justify-center w-full  text-xl border-2 border-solid border-gray-100 shadow-xl rounded-lg p-8 inset-0 backface-hidden [transform:rotateX(0deg)]">
+                <div id="back-side-q" class="mb-2">
+                </div>
+                <div id="back-side-a" class="flex flex-col">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="flex flex-row items-center justify-between">
+            <div class="flex flex-row items-center">
+                <div style="margin-bottom: 8px; margin-right: 4px">
+                    Track Progress
+                </div>
+                <div>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer">
+                        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="flex flex-row items-center justify-center">
+                <div class="mr-4">
+                    <button id="prevBtn" style="display: none" onclick="getNextFlashcard('PREV')" class="border-2 border-solid border-gray-300 rounded-full">
+                        <svg class="h-8 w-8 text-gray-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <line x1="5" y1="12" x2="19" y2="12" />  <line x1="5" y1="12" x2="9" y2="16" />  <line x1="5" y1="12" x2="9" y2="8" /></svg>
+                    </button>
+                </div>
+                <div class="mr-4 font-medium text-lg" style="margin-bottom: 8px">
+                    <span><span id="page">1</span> / <span id="total">@Model.Total</span></span>
+                </div>
+                <div style="display: none">1</div>
+                <div>
+                    <button id="nextBtn" onclick="getNextFlashcard('NEXT')" class="border-2 border-solid border-gray-300 rounded-full">
+                        <svg class="h-8 w-8 text-gray-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <line x1="5" y1="12" x2="19" y2="12" />  <line x1="15" y1="16" x2="19" y2="12" />  <line x1="15" y1="8" x2="19" y2="12" /></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="flex flex-row">
+                <div class="mr-4">
+                    <button class="h-8 w-8">
+                        <svg id="randomBtn" onclick="randomQuestion()" class="h-full w-full text-gray-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="15 4 19 4 19 8" />  <line x1="14.75" y1="9.25" x2="19" y2="4" />  <line x1="5" y1="19" x2="9" y2="15" />  <polyline points="15 19 19 19 19 15" />  <line x1="5" y1="5" x2="19" y2="19" /></svg>
+                    </button>
+                </div>
+                <div>
+                    <button class="h-8 w-8">
+                        <svg id="fullScreenBtn" onclick="fullScreenClick()" class="h-full w-full text-gray-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="16 4 20 4 20 8" />  <line x1="14" y1="10" x2="20" y2="4" />  <polyline points="8 20 4 20 4 16" />  <line x1="4" y1="20" x2="10" y2="14" />  <polyline points="16 20 20 20 20 16" />  <line x1="14" y1="14" x2="20" y2="20" />  <polyline points="8 4 4 4 4 8" />  <line x1="4" y1="4" x2="10" y2="10" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<button>
+    <a asp-page="/Gameplay/Host" asp-route-courseId="@Model.CourseId">Host</a>
+</button>
+<div class="flex flex-col items-center">
+
+    <div id="ppBox" class="flex flex-col">
+        <div id="pBox" class="flex flex-col">
+            <!--<div id="box" class="w-full h-56 [perspective:1000px] cursor-pointer mb-4 animate-[fade-out_2s_ease-out_1s_1_forwards] opacity-1">-->
+            <div id="box" class="w-full h-56 [perspective:1000px] cursor-pointer mb-4">
+
+                <div class="relative w-full  flip-card" id="flipCard">
+                    <!-- Mặt trước -->
+                    <div id="front-side" class="flex justify-center items-center w-full  text-xl mb-4 border-2 border-solid border-gray-100 shadow-xl rounded-lg p-8 backface-hidden absolute inset-0 rounded-xl shadow-xl  [transform:rotateX(180deg)]">
+                        @{
+                            answerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+                        }
+
+                    </div>
+                    <!-- Mặt sau -->
+                    <div id="back-side" class="flex flex-col justify-center w-full  text-xl border-2 border-solid border-gray-100 shadow-xl rounded-lg p-8 inset-0 backface-hidden [transform:rotateX(0deg)]">
+                        <div id="back-side-q" class="mb-2">
+                        </div>
+                        <div id="back-side-a" class="flex flex-col">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="flex flex-row items-center justify-between">
+                    <div class="flex flex-row items-center">
+                        <div>
+                            <button class="h-8 w-8">
+                                <svg id="randomBtn" onclick="randomQuestion()" class="h-full w-full text-gray-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="15 4 19 4 19 8" />  <line x1="14.75" y1="9.25" x2="19" y2="4" />  <line x1="5" y1="19" x2="9" y2="15" />  <polyline points="15 19 19 19 19 15" />  <line x1="5" y1="5" x2="19" y2="19" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-row items-center justify-center">
+                        <div class="mr-4">
+                            <button id="prevBtn" style="display: none" onclick="getNextFlashcard('PREV')" class="border-2 border-solid border-gray-300 rounded-full">
+                                <svg class="h-8 w-8 text-gray-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <line x1="5" y1="12" x2="19" y2="12" />  <line x1="5" y1="12" x2="9" y2="16" />  <line x1="5" y1="12" x2="9" y2="8" /></svg>
+                            </button>
+                        </div>
+                        <div class="mr-4 font-medium text-lg" style="margin-bottom: 8px">
+                            <span><span id="page">1</span> / <span id="total">@Model.Total</span></span>
+                        </div>
+                        <div style="display:none" id="courseId">@Model.CourseId</div>
+                        <div style="display: none">1</div>
+                        <div>
+                            <button id="nextBtn" onclick="getNextFlashcard('NEXT')" class="border-2 border-solid border-gray-300 rounded-full">
+                                <svg class="h-8 w-8 text-gray-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <line x1="5" y1="12" x2="19" y2="12" />  <line x1="15" y1="16" x2="19" y2="12" />  <line x1="15" y1="8" x2="19" y2="12" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-row">
+
+                        <div>
+                            <button id="maximize" class="h-8 w-8">
+                                <svg id="fullScreenBtn" onclick="fullScreenClick()" class="h-full w-full text-gray-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="16 4 20 4 20 8" />  <line x1="14" y1="10" x2="20" y2="4" />  <polyline points="8 20 4 20 4 16" />  <line x1="4" y1="20" x2="10" y2="14" />  <polyline points="16 20 20 20 20 16" />  <line x1="14" y1="14" x2="20" y2="20" />  <polyline points="8 4 4 4 4 8" />  <line x1="4" y1="4" x2="10" y2="10" /></svg>
+                            </button>
+                            <button style="display:none" id="minimize" class="h-8 w-8">
+                                <svg id="minimizeBtn" class="h-full w-full text-black" onclick="fullScreenClick()" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="5 9 9 9 9 5" />  <line x1="3" y1="3" x2="9" y2="9" />  <polyline points="5 15 9 15 9 19" />  <line x1="3" y1="21" x2="9" y2="15" />  <polyline points="19 9 15 9 15 5" />  <line x1="15" y1="9" x2="21" y2="3" />  <polyline points="19 15 15 15 15 19" />  <line x1="15" y1="15" x2="21" y2="21" /></svg>
+                                </buttonstyle>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="remain">
+            <div class="text-lg font-semibold">
+                Terminology in this module (@Model.QuestionDtos.Count)
+            </div>
+            <div id="questions">
+                @for (int i = 0; i < Model.QuestionDtos.Count; i++)
+                {
+                    <div class="flex flex-row mb-4 border-2 border-solid border-gray-100 shadow-xl rounded-lg p-4">
+                        <div class="flex flex-col mr-2" style="width: 40%">
+                            <div class="mb-2" id="@($"{Model.QuestionDtos[i].Id}question")">
+                                @Model.QuestionDtos[i].Content
+                            </div>
+                            <div class="flex flex-col">
+                                @for (int j = 0; j < Model.QuestionDtos[i].Answers.ToList().Count; j++)
+                                {
+                                    <div>
+                                        <strong>@answerLabels[j].&nbsp;</strong>
+                                        <span id="@($"{Model.QuestionDtos[i].Id}answer{j}")">@Model.QuestionDtos[i].Answers.ToList()[j].Content</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div style="width: 60%" class="flex flex-row">
+                            <div style="width: 50%">
+                                @for (int j = 0; j < Model.QuestionDtos[i].Answers.ToList().Count; j++)
+                                {
+                                    @if (@Model.QuestionDtos[i].Answers.ToList()[j].IsCorrect == true)
+                                    {
+                                        <div>
+                                            <strong>@answerLabels[j].&nbsp;</strong>@Model.QuestionDtos[i].Answers.ToList()[j].Content
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div style="width: 50%" class="flex flex-row justify-end">
+                                <div class="mr-2">
+                                    <svg class="h-6 w-6 text-black cursor-pointer" onclick="starClick('@($"{Model.QuestionDtos[i].Id}star")')" id="@($"{Model.QuestionDtos[i].Id}star")" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                                </div>
+                                <div>
+                                    <svg class="h-6 w-6 text-black cursor-pointer" onclick="speakerClick('@($"{Model.QuestionDtos[i].Id}speaker")')" id="@($"{Model.QuestionDtos[i].Id}speaker")" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            @if (Model.Total > 100)
+            {
+
+                <button type="button" id="btnDisplay" onclick="displayMore('@($"{Model.CourseId}")')" class="text-white cursor-pointer w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Display @(Model.Total - 100) more</button>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const flipCard = document.getElementById('flipCard');
+    var isRandom = false;
+    var iFullScreen = false;
+    var questions = [];
+
+    flipCard.addEventListener('click', function () {
+        flipCard.classList.toggle('flipped');
+    });
+    getMode();
+    initialAction();
+
+    function initialAction() {
+        if (!isRandom) {
+            getQuestionFlashcard(Number(document.getElementById("page").innerHTML));
+        }
+        else {
+            var randomBtn = document.getElementById("randomBtn");
+
+            randomBtn.classList.remove("text-gray-500");
+            randomBtn.classList.add("text-black");
+            for (var i = 0; i < questions.length; i++) {
+                if (questions[i].page == Number(document.getElementById("page").innerHTML)) {
+                    getQuestionFlashcard(questions[i].questionId);
+                }
+            }
+        }
+    }
+
+    function getMode() {
+        var keyArr = JSON.parse(getCookie('kazilet'));
+        var key = null;
+        var courseId = Number(document.getElementById("courseId").innerHTML);
+
+        if (keyArr) {
+            for (var i = 0; i < keyArr.length; i++) {
+                if (keyArr[i].id == courseId) {
+                    key = keyArr[i].property; // Chỉ cần lấy property mà không cần JSON.parse
+                }
+            }
+        }
+
+        if (key) {
+            var attributes = key.split('%');
+
+            for (var i = 0; i < attributes.length; i++) {
+                var attribute = attributes[i].trim();
+                if (attribute.startsWith("isFullScreen=")) {
+                    var value = attribute.split('=')[1];
+                    iFullScreen = (value === 'false');
+                    fullScreenClick();
+                } else if (attribute.startsWith("isRandom=")) {
+                    var value = attribute.split('=')[1];
+                    isRandom = (value === 'true');
+                } else if (attribute.startsWith("page=")) {
+                    var value = attribute.split('=')[1];
+                    document.getElementById("page").innerHTML = Number(value);
+                    if (Number(value) > 1) {
+                        document.getElementById("prevBtn").style.display = "block";
+                    }
+                } else if (attribute.startsWith("questions=")) {
+                    var value = attribute.split('=')[1];
+                    // Chuyển đổi chuỗi JSON thành mảng
+                    var questionsArray = JSON.parse(value);
+                    console.log(questionsArray); // Kiểm tra mảng
+                    questions = questionsArray;
+                }
+            }
+        }
+    }
+
+    function setMode(key, value) {
+        // Lấy cookie kazilet hiện tại
+        var cookieValueArr = JSON.parse(getCookie('kazilet')) || []; // Chuyển đổi chuỗi cookie thành mảng
+        var properties = {};
+        var courseId = Number(document.getElementById("courseId").innerHTML);
+        var existingIndex = cookieValueArr.findIndex(cookie => cookie.id == courseId);
+
+        // Nếu cookie đã tồn tại, tách các thuộc tính
+        var cookieValue = existingIndex !== -1 ? cookieValueArr[existingIndex].property : null;
+        if (cookieValue) {
+            cookieValue.split('%').forEach(function (prop) {
+                var [k, v] = prop.split('=');
+                if (k && v) {
+                    properties[k.trim()] = v.trim();
+                }
+            });
+        }
+
+        // Cập nhật hoặc thêm mới thuộc tính
+        if (key === 'questions') {
+            // Nếu giá trị là mảng, chuyển đổi mảng thành chuỗi JSON
+            properties[key] = JSON.stringify(value);
+        } else {
+            properties[key] = value;
+        }
+
+        // Tạo lại cookie với các thuộc tính đã được cập nhật
+        var updatedCookie = Object.entries(properties).map(([k, v]) => `${k}=${v}`).join('%');
+
+        if (existingIndex !== -1) {
+            cookieValueArr[existingIndex].property = updatedCookie; // Cập nhật property
+        } else {
+            cookieValueArr.push({ id: courseId, property: updatedCookie }); // Thêm mới nếu không tồn tại
+        }
+
+        console.log(cookieValueArr);
+        var storedCookie = JSON.stringify(cookieValueArr);
+        document.cookie = `kazilet=${storedCookie}`;
+    }
+
+
+    function getCookie(key) {
+        const name = key + "=";
+        const decodedCookie = document.cookie;
+        const cookiesArray = decodedCookie.split(';');
+
+        for (let i = 0; i < cookiesArray.length; i++) {
+            let cookie = cookiesArray[i].trim();
+            if (cookie.indexOf(name) === 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+
+        return null;
+    }
+
+
+
+    function fullScreen() {
+        var page = Number(document.getElementById("page").innerHTML);
+        var box = document.getElementById("box");
+        var backSide = document.getElementById("back-side");
+        var pBox = document.getElementById("pBox");
+        var ppBox = document.getElementById("ppBox");
+        if (iFullScreen) {
+            box.classList.remove("h-56");
+            backSide.style.padding = "100px";
+            backSide.style.fontSize = "30px";
+            pBox.style.width = "80%";
+            pBox.style.marginRight = "10%";
+            pBox.style.marginLeft = "10%";
+            ppBox.classList.add("w-full");
+        }
+        else {
+            box.classList.add("h-56");
+            backSide.style.padding = "2rem";
+            backSide.style.fontSize = "1.25rem";
+            pBox.removeAttribute("style");
+            ppBox.classList.remove("w-full");
+        }
+        if (!isRandom)
+            getQuestionFlashcard(page);
+        else
+            getRandomFlashcard(page);
+    }
+
+    function fullScreenClick() {
+        var fullScreenBtn = document.getElementById("fullScreenBtn");
+        var maximize = document.getElementById("maximize");
+        var minimize = document.getElementById("minimize");
+        if (fullScreenBtn) {
+            if (!iFullScreen) {
+                minimize.style.display = "block";
+                maximize.style.display = "none";
+                document.getElementById("remain").style.display = "none";
+                setMode('isFullScreen', 'true');
+            } else {
+                maximize.style.display = "block";
+                minimize.style.display = "none";
+                document.getElementById("remain").style.display = "block";
+                setMode('isFullScreen', 'false');
+            }
+            iFullScreen = !iFullScreen;
+            fullScreen();
+        }
+    }
+
+    function randomQuestion() {
+        var randomBtn = document.getElementById("randomBtn");
+        if (randomBtn) {
+            if (randomBtn.classList.contains("text-gray-500")) {
+                randomBtn.classList.remove("text-gray-500");
+                randomBtn.classList.add("text-black");
+                isRandom = true;
+                setMode('isRandom', 'true');
+            } else {
+                randomBtn.classList.add("text-gray-500");
+                randomBtn.classList.remove("text-black");
+                isRandom = false;
+                setMode('isRandom', 'false');
+            }
+        }
+    }
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function getRandomFlashcard(page) {
+        console.log("true");
+        var total = Number(document.getElementById("total").innerHTML);
+        var nextPage = getRandomInt(page, total);
+        while (questions.find(q => q.questionId === nextPage)) {
+            nextPage = getRandomInt(page, total);
+        }
+        let result = questions.find(q => q.page === page);
+        if (result) {
+            getQuestionFlashcard(result.questionId);
+        }
+        else {
+            getQuestionFlashcard(nextPage);
+            let questionData = {
+                page: page,
+                questionId: nextPage
+            };
+            questions.push(questionData);
+            setMode("questions", questions);
+        }
+
+    }
+
+    function getNextFlashcard(action) {
+        var page = Number(document.getElementById("page").innerHTML);
+        var total = Number(document.getElementById("total").innerHTML);
+        var prevBtn = document.getElementById("prevBtn");
+        var nextBtn = document.getElementById("nextBtn");
+        if (action == 'NEXT') {
+            page++;
+            if (!isRandom) {
+                getQuestionFlashcard(page);
+                questions = [];
+            }
+            else
+                getRandomFlashcard(page);
+        }
+        else {
+            page--;
+            if (!isRandom) {
+                getQuestionFlashcard(page);
+                questions = [];
+            }
+            else
+                getRandomFlashcard(page);
+        }
+        setMode('page', page);
+        document.getElementById("page").innerHTML = page;
+        if (page == total) {
+            nextBtn.style.display = "none";
+        }
+        else if (page == 1) {
+            prevBtn.style.display = "none";
+        }
+        else {
+            nextBtn.style.display = "block";
+            prevBtn.style.display = "block";
+        }
+    }
+
+    async function getQuestionFlashcard(id) {
+        var page = Number(document.getElementById("page").innerHTML);
+        var courseId = Number(document.getElementById("courseId").innerHTML);
+        setMode('question', id);
+        var flipCard = document.getElementById("flipCard");
+        if (flipCard.classList.contains("flipped")) {
+            flipCard.classList.remove("flipped");
+        }
+        const apiUrl = "https://localhost:7024/odata/Question?questionNumber=" + id + "&courseId=" + courseId + "&$expand=Answers";
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'GET'
+            })
+            if (response.ok) {
+
+                const data = await response.json();
+                var frontSide = $("#front-side"); // jQuery object
+                var backSideA = $("#back-side-a"); // jQuery object
+                var backSideQ = $("#back-side-q"); // jQuery object
+                frontSide.html("");
+                backSideQ.html(data.Content); // jQuery method to set innerHTML
+                backSideA.html("");
+                var answerDivBack;
+                var answerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                for (var i = 0; i < data.Answers.length; i++) {
+                    if (iFullScreen)
+                        answerDivBack = $("<div style=\"margin-top: 30px\"><strong>" + answerLabels.charAt(i) + ".&nbsp;</strong><span>" + data.Answers[i].Content + "</span></div>");
+                    else
+                        answerDivBack = $("<div style=\"margin-top: 4px\"><strong>" + answerLabels.charAt(i) + ".&nbsp;</strong><span>" + data.Answers[i].Content + "</span></div>");
+                    backSideA.append(answerDivBack);
+
+                    if (data.Answers[i].IsCorrect) {
+                        var answerDivFront = $("<div><strong>" + answerLabels.charAt(i) + ".&nbsp;</strong><span>" + data.Answers[i].Content + "</span></div>");
+                        frontSide.append(answerDivFront);
+                    }
+                }
+
+
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    function fillYellow(id) {
+        if (document.getElementById(id).classList.contains("text-yellow-300")) {
+            document.getElementById(id).classList.remove("text-yellow-300");
+            document.getElementById(id).classList.add("text-black");
+        }
+        else {
+            document.getElementById(id).classList.add("text-yellow-300");
+            document.getElementById(id).classList.remove("text-black");
+        }
+    }
+
+    function starClick(id) {
+        fillYellow(id);
+    }
+
+    function speakerClick(id) {
+        fillYellow(id);
+        var i = 0;
+        var answerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var input = "";
+        var ids = id.replace('speaker', '');
+
+        input += document.getElementById(ids + "question").innerHTML;
+
+        const elements = document.querySelectorAll('[id^="' + (ids + "answer") + '"]');
+
+        elements.forEach(element => {
+            input += (answerLabels.charAt(i) + element.innerHTML);
+            i++;
+        });
+        getAudioForText(input, id);
+    }
+
+    async function displayMore(id) {
+        var questionEle = document.getElementById("questions");
+        const apiUrl = "https://localhost:7024/odata/Question/" + id + "?$skip=100&$expand=Answers&$count=true";
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'GET'
+            })
+            if (!response.ok) {
+                throw new Error("Error");
+            }
+
+            const data = await response.json();
+            const questions = data.value;
+            console.log(questions);
+
+            for (var i = 0; i < questions.length; i++) {
+                let pparentDiv = $("<div></div>")
+                    .addClass("flex flex-row mb-4 border-2 border-solid border-gray-100 shadow-xl rounded-lg p-4")
+
+                let parentDiv1 = $("<div style=\"width: 40%\"></div>")
+                    .addClass("flex flex-col mr-2")
+
+                let parentDiv2 = $("<div style=\"width: 60%\"></div>")
+                    .addClass("flex flex-row")
+
+                let pAnswerDiv = $("<div></div>").addClass("flex flex-col")
+                let pAnswerTrueDiv = $("<div style=\"width: 50%\"></div>")
+                let pSvgTrueDiv = $("<div style=\"width: 50%\"></div>").addClass("flex flex-row justify-end");
+
+
+                let questionDiv = $("<div></div>")
+                    .addClass("mb-2")
+                    .attr("id", questions[i].Id + "question")
+                    .text(questions[i].Content);
+
+                parentDiv1.append(questionDiv);
+                pparentDiv.append(parentDiv1);
+
+                for (var j = 0; j < questions[i].Answers.length; j++) {
+                    var answerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                    let answerDiv = $("<div><strong>" + answerLabels[j] + ".&nbsp;</strong><span>" + questions[i].Answers[j].Content + "</span></div>");
+                    pAnswerDiv.append(answerDiv);
+
+                    let answerTrueDiv = $("<div><strong>" + answerLabels[j] + ".&nbsp;</strong><span>" + questions[i].Answers[j].Content + "</span></div>");
+                    if (questions[i].Answers[j].IsCorrect) {
+                        pAnswerTrueDiv.append(answerTrueDiv);
+
+                        let svgDiv = $(`
+                                                                                                                                                                                    <div class=\"mr-2\">
+                                                                                                                                                                                                            <svg class="h-6 w-6 text-black cursor-pointer" onclick="starClick('${questions[i].Id}star')" id="${questions[i].Id}star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                                                                                                                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                                                                                                                                                                        </svg>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                    <div>
+                                                                                                                                                                                                    <svg class="h-6 w-6 text-black cursor-pointer" onclick="speakerClick('${questions[i].Id}speaker')" id="${questions[i].Id}speaker" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                                                                                                                                                                                        </svg>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                `);
+                        pSvgTrueDiv.append(svgDiv);
+                        parentDiv2.append(pAnswerTrueDiv);
+                        parentDiv2.append(pSvgTrueDiv);
+                    }
+                }
+                pparentDiv.append(parentDiv2);
+                parentDiv1.append(pAnswerDiv);
+
+                questionEle.append(pparentDiv.get(0));
+            }
+            document.getElementById("btnDisplay").style.display = "none";
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    var audio;
+    async function getAudioForText(input, id) {
+        const apiUrl = "https://api.zalo.ai/v1/tts/synthesize";
+        //const apiKey = "Feqez0TEKKHFJnWAxrBUd7fgXbP2qgxd";
+        //const apiKey = "Uc4r3fd4QDeiFwOvY5WKxQSnIMRbAsE6";
+        //const apiKey = "XpzAfz1iaeQmrSeAbs0z8iMW0sQgUgNs";
+        const apiKey = "UY9YfLK4kExVY77jb87TJ3mzoAyBBRFm";
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'apikey': apiKey
+                },
+                body: new URLSearchParams({
+                    'input': input
+                })
+            })
+            if (!response.ok) {
+                throw new Error("Error");
+            }
+
+            const data = await response.json();
+            const audioUrl = data.data.url;
+            playAudio(audioUrl, id);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    async function playAudio(url, id) {
+        try {
+            // Kiểm tra nếu AudioContext đang tạm dừng
+            if (audioContext.state === 'suspended') {
+                await audioContext.resume();
+            }
+
+            // Dừng âm thanh hiện tại nếu có
+            if (currentSource) {
+                currentSource.stop(); // Dừng source hiện tại
+            }
+
+            // Gọi API và nhận dữ liệu âm thanh
+            const response = await fetch(url);
+            const arrayBuffer = await response.arrayBuffer();
+            const buffer = await audioContext.decodeAudioData(arrayBuffer);
+
+            // Tạo một source mới
+            currentSource = audioContext.createBufferSource();
+            currentSource.buffer = buffer;
+            currentSource.connect(audioContext.destination);
+
+            // Thêm sự kiện lắng nghe cho sự kiện 'ended'
+            currentSource.onended = () => {
+                fillYellow(id); // Gọi hàm fillYellow khi âm thanh kết thúc
+            };
+
+            // Bắt đầu phát âm thanh
+            currentSource.start();
+        } catch (error) {
+            console.error('Error playing audio:', error);
+        }
+    }
+</script>

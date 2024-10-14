@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PRN231_Kazilet_API.props" />
+</Project>
