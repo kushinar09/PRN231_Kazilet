@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "tm9wlRDrphItNYmfreZzaI3RxxyGkT/MZG4JHGH3es0=",
+  "Hash": "CCDLWFBBgD7h35B5br2PUVrpjVeTe8N4riaQLtIpZhc=",
   "Source": "PRN231_Kazilet_API",
   "BasePath": "_content/PRN231_Kazilet_API",
   "Mode": "Default",
@@ -10,22 +10,24 @@
     {
       "Name": "PRN231_Kazilet_API\\wwwroot",
       "Source": "PRN231_Kazilet_API",
-      "ContentRoot": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\",
+      "ContentRoot": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\",
       "BasePath": "_content/PRN231_Kazilet_API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.js",
+      "Identity": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.js",
       "SourceId": "PRN231_Kazilet_API",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\",
+      "ContentRoot": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\",
       "BasePath": "_content/PRN231_Kazilet_API",
       "RelativePath": "microsoft/signalr/dist/browser/signalr.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
@@ -34,15 +36,17 @@
       "OriginalItemSpec": "wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.js"
     },
     {
-      "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.min.js",
+      "Identity": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.min.js",
       "SourceId": "PRN231_Kazilet_API",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\",
+      "ContentRoot": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\",
       "BasePath": "_content/PRN231_Kazilet_API",
       "RelativePath": "microsoft/signalr/dist/browser/signalr.min.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
