@@ -33,7 +33,7 @@ namespace PRN231_Kazilet_API
                     options.JsonSerializerOptions.WriteIndented = true;
                 }); 
             builder.Services.AddDbContext<PRN231_KaziletContext>(
-                    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+                    options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")
                     )
                 );
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
