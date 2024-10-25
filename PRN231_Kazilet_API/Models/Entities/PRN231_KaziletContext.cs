@@ -326,7 +326,7 @@ namespace PRN231_Kazilet_API.Models.Entities
                     .HasColumnName("email");
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(50)
+                    .HasMaxLength(70)
                     .IsUnicode(false)
                     .HasColumnName("password");
 

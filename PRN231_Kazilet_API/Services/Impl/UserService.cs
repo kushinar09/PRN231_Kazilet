@@ -1,0 +1,73 @@
+﻿using Microsoft.EntityFrameworkCore;
+using PRN231_Kazilet_API.Models.Entities;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace PRN231_Kazilet_API.Services.Impl
+{
+    public interface IUserService
+    {
+        Task<bool> UserExists(string username);
+        int Register(User user);
+        Task<User> Authenticate(string username, string password);
+        User GetUser(int uid);
+        Task<bool> ResetPasswordAsync(User user, string token, string newPassword);
+        Task UpdatePasswordAsync(User user, string newPassword);
+    }
+
+    public class UserService : IUserService
+    {
+        private readonly Utils utils = new Utils();
+        private readonly PRN231_KaziletContext _context = new PRN231_KaziletContext();
+
+        public Task<bool> UserExists(string email)
+        {
+            return Task.FromResult(_context.Users.Any(u => u.Email == email));
+        }
+
+        public int Register(User user)
+        {
+            string hashPwd = utils.HashPassword(user.Password);
+            user.Password = hashPwd;
+            _context.Users.Add(user);
+            int rs = _context.SaveChanges();
+            return rs > 0 ? user.Id : -1;
+        }
+
+        public Task<User> Authenticate(string email, string password)
+        {
+            var user = _context.Users
+                .Include(u => u.RoleNavigation)
+                .FirstOrDefault(u => u.Email == email && u.Password == utils.HashPassword(password));
+            return Task.FromResult(user);
+        }
+
+        public User GetUser(int uid)
+        {
+            User u = _context.Users.Include(u => u.RoleNavigation).FirstOrDefault(u => u.Id == uid);
+            return u;
+        }
+
+        public Task<bool> ResetPasswordAsync(User user, string token, string newPassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdatePasswordAsync(User user, string newPassword)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class Utils
+    {
+        public string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
+        }
+    }
+}
