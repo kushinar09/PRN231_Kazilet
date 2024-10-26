@@ -20,13 +20,14 @@ namespace PRN231_Kazilet_API.Models.Entities
         public string? Email { get; set; }
         public string? Password { get; set; }
         public int? Role { get; set; }
+        public string? Type { get; set; }
 
         public virtual UserRole? RoleNavigation { get; set; }
-        public virtual ICollection<Course>? Courses { get; set; }
-        public virtual ICollection<Folder>? Folders { get; set; }
-        public virtual ICollection<GameplaySetting>? GameplaySettings { get; set; }
-        public virtual ICollection<Gameplay>? Gameplays { get; set; }
-        public virtual ICollection<LearningHistory>? LearningHistories { get; set; }
-        public virtual ICollection<Notification>? Notifications { get; set; }
+        public virtual ICollection<Course> Courses { get; set; }
+        public virtual ICollection<Folder> Folders { get; set; }
+        public virtual ICollection<GameplaySetting> GameplaySettings { get; set; }
+        public virtual ICollection<Gameplay> Gameplays { get; set; }
+        public virtual ICollection<LearningHistory> LearningHistories { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

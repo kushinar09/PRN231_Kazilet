@@ -1,13 +1,26 @@
-﻿using MimeKit;
+﻿using Microsoft.Extensions.Options;
+using MimeKit;
 
 namespace PRN231_Kazilet_API.Services.Impl
 {
     public class EmailService
     {
-        private readonly string _smtpServer = "smtp.gmail.com";
-        private readonly int _smtpPort = 587;
-        private readonly string _username = "hola.housing.1306@gmail.com";
-        private readonly string _password = "vaap gqqy pvta qklp";
+        private string _smtpServer;
+        private int _smtpPort;
+        private string _username;
+        private string _password;
+        private string _displayName;
+        private readonly IConfiguration mailSettings;
+
+        public EmailService(IConfiguration configuration)
+        {
+            mailSettings = configuration;
+            _smtpServer = mailSettings["MailSettings:Host"];
+            _smtpPort = int.Parse(mailSettings["MailSettings:Port"]);
+            _username = mailSettings["MailSettings:Mail"];
+            _password = mailSettings["MailSettings:Password"];
+            _displayName = mailSettings["MailSettings:DisplayName"];
+        }
         public async Task SendEmailAsync(string toEmail, string tag, string subject, string htmlText)
         {
             //var filePath = Path.Combine(_env.WebRootPath, "template", fileName);
@@ -15,7 +28,7 @@ namespace PRN231_Kazilet_API.Services.Impl
             // htmlContent.replace("{new@Password!Here}", newPwd);
 
             var email = new MimeMessage();
-            email.From.Add(new MailboxAddress("Kazilet", _username));
+            email.From.Add(new MailboxAddress(_displayName, _username));
             email.To.Add(new MailboxAddress("", toEmail));
             email.Subject = !String.IsNullOrEmpty(tag) ? $"[{tag}] {subject}" : subject;
 

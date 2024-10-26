@@ -9,6 +9,8 @@ namespace PRN231_Kazilet_API.Services.Impl
     {
         Task<bool> UserExists(string username);
         int Register(User user);
+        int RegisterGoogle(User user);
+        User? GetUserGoogle(string email, string googleId);
         Task<User> Authenticate(string username, string password);
         User GetUser(int uid);
         Task<bool> ResetPasswordAsync(User user, string token, string newPassword);
@@ -34,11 +36,28 @@ namespace PRN231_Kazilet_API.Services.Impl
             return rs > 0 ? user.Id : -1;
         }
 
+        public int RegisterGoogle(User user)
+        {
+            user.Password = user.Password;
+            _context.Users.Add(user);
+            int rs = _context.SaveChanges();
+            return rs > 0 ? user.Id : -1;
+        }
+
+        public User? GetUserGoogle(string email, string googleId)
+        {
+            return _context.Users
+                .Include(u => u.RoleNavigation)
+                .FirstOrDefault(u => u.Email == email && u.Password == googleId);
+        }
+
         public Task<User> Authenticate(string email, string password)
         {
             var user = _context.Users
                 .Include(u => u.RoleNavigation)
-                .FirstOrDefault(u => u.Email == email && u.Password == utils.HashPassword(password));
+                .FirstOrDefault(u => u.Email == email 
+                && u.Password == utils.HashPassword(password)
+                && u.Type == "email");
             return Task.FromResult(user);
         }
 
