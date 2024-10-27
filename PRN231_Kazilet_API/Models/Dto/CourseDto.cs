@@ -7,6 +7,6 @@
         public int? CreatedBy { get; set; }
         public string? CoursePassword { get; set; }
         public bool? IsPublic { get; set; }
-        public int? NumOfQues { get; set; }
+        public string? CreateByName {  get; set; }
     }
 }

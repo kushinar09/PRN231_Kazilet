@@ -16,6 +16,8 @@ namespace PRN231_Kazilet_API.Utils.Mappers
             CreateMap<AnswerDto, Answer>();
 
             CreateMap<Answer, AnswerDto>();
+            CreateMap<Course, CourseDto>()
+                 .ForMember(dest => dest.CreateByName, opt => opt.MapFrom(src => src.CreatedByNavigation.Username)); ;
         }
     }
 }

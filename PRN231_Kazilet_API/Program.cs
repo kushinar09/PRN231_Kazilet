@@ -96,6 +96,7 @@ namespace PRN231_Kazilet_API
 
             builder.Services.AddTransient<IQuestionService, QuestionService>();
             builder.Services.AddTransient<IGameplayService, GameplayService>();
+            builder.Services.AddTransient<ICourseService, CourseService>();
             builder.Services.AddTransient<IAuthService, AuthService>();
             var app = builder.Build();
             app.UseCors(MyAllowSpecificOrigins);
