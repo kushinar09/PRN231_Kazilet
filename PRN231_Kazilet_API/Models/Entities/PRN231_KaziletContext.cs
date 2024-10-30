@@ -31,11 +31,11 @@ namespace PRN231_Kazilet_API.Models.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var builder = new ConfigurationBuilder()
-                              .SetBasePath(Directory.GetCurrentDirectory())
-                              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            IConfigurationRoot configuration = builder.Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("server =DESKTOP-OSDDH1R\\SQLEXPRESS; database = PRN231_Kazilet;uid=sa;pwd=haibang20042003;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -142,17 +142,23 @@ namespace PRN231_Kazilet_API.Models.Entities
                     .HasColumnName("code")
                     .IsFixedLength();
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Duration).HasColumnName("duration");
 
                 entity.Property(e => e.IsCorrect).HasColumnName("is_correct");
 
-                entity.Property(e => e.PlayerAnswer)
-                    .HasMaxLength(200)
-                    .HasColumnName("player_answer");
+                entity.Property(e => e.IsGetResult).HasColumnName("is_get_result");
+
+                entity.Property(e => e.PlayerAnswer).HasColumnName("player_answer");
 
                 entity.Property(e => e.QuestionId).HasColumnName("question_id");
 
                 entity.Property(e => e.Score).HasColumnName("score");
+
+                entity.Property(e => e.Streak).HasColumnName("streak");
 
                 entity.Property(e => e.Turn).HasColumnName("turn");
 
@@ -168,6 +174,11 @@ namespace PRN231_Kazilet_API.Models.Entities
                     .HasPrincipalKey(p => p.Code)
                     .HasForeignKey(d => d.Code)
                     .HasConstraintName("FK__Gameplay__code__1AD3FDA4");
+
+                entity.HasOne(d => d.PlayerAnswerNavigation)
+                    .WithMany(p => p.Gameplays)
+                    .HasForeignKey(d => d.PlayerAnswer)
+                    .HasConstraintName("FK_Gameplay_Answers");
 
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.Gameplays)

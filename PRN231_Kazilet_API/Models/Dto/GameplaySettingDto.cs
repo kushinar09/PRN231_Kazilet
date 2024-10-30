@@ -2,8 +2,8 @@
 {
     public class GameplaySettingDto
     {
-        public int Id { get; set; }
-        public string Code { get; set; } = null!;
+        public int? Id { get; set; }
+        public string? Code { get; set; } = null!;
         public int? CourseId { get; set; }
         public int? NoQuestion { get; set; }
         public int? TimeLimit { get; set; }

@@ -16,6 +16,10 @@ namespace PRN231_Kazilet_API.Utils.Mappers
             CreateMap<AnswerDto, Answer>();
 
             CreateMap<Answer, AnswerDto>();
+
+            CreateMap<GameplaySettingDto, GameplaySetting>();
+
+            CreateMap<GameplaySetting, GameplaySettingDto>();
         }
     }
 }

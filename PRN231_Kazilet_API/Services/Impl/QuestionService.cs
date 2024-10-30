@@ -50,5 +50,13 @@ namespace PRN231_Kazilet_API.Services.Impl
             Question question = _context.Questions.FirstOrDefault(q => q.Id == questionId);
             return _mapper.Map<QuestionDto>(question);
         }
+
+        public int GetNumberOfQuestionsInCourse(int courseId)
+        {
+            List<Question> question = _context.Questions
+                .Where(q => q.CourseId == courseId)
+                .ToList();
+            return question.Count;
+        }
     }
 }

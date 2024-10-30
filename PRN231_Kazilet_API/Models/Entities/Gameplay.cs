@@ -10,21 +10,30 @@ namespace PRN231_Kazilet_API.Models.Entities
         public int? UserId { get; set; }
         public string? Username { get; set; }
         public int? QuestionId { get; set; }
-        public string? PlayerAnswer { get; set; }
+        public int? PlayerAnswer { get; set; }
         public bool? IsCorrect { get; set; }
         public int? Turn { get; set; }
         public int? Score { get; set; }
         public double? Duration { get; set; }
+        public int? Streak { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public bool? IsGetResult { get; set; }
 
         public virtual GameplaySetting? CodeNavigation { get; set; }
+        public virtual Answer? PlayerAnswerNavigation { get; set; }
         public virtual Question? Question { get; set; }
         public virtual User? User { get; set; }
 
-        public Gameplay(string? Code, string? Username, int? Turn)
+        public Gameplay()
         {
-            this.Code = Code;
-            this.Username = Username;
-            this.Turn = Turn;
         }
+
+        public Gameplay(string? code, string? username, int? turn)
+        {
+            Code = code;
+            Username = username;
+            Turn = turn;
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "aEDi1EG62bTZ0wU+AFoeqHbH1M3GnaxJULjcll4ciLm3Zx0f1vC94kAkNjmkFtr29xr3xzXG+OJVPIHhczeoyA==",
+  "dgSpecHash": "PKCgU4cnb2+hLr8YECnpTEBv0/2FWMGMvZUstqvvIRWGEKBhTepK1vzbt9AeYTXkA7LphUxHpwi1awX98YdOnw==",
   "success": true,
   "projectFilePath": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\PRN231_Kazilet_API.csproj",
   "expectedPackageFiles": [
@@ -42,6 +42,7 @@
     "C:\\Users\\acer\\.nuget\\packages\\microsoft.spatial\\7.9.0\\microsoft.spatial.7.9.0.nupkg.sha512",
     "C:\\Users\\acer\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\acer\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\acer\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\acer\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\acer\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\acer\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

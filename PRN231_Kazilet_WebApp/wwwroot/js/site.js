@@ -25,7 +25,7 @@ function getCookie(key) {
 
 function connect(token) {
     connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7024/signalrServer?token=" + token, {
+        .withUrl("http://localhost:7024/signalrServer?token=" + token, {
             accessTokenFactory: () => token,
             skipNegotiation: true,  // skipNegotiation as we specify WebSockets
             transport: signalR.HttpTransportType.WebSockets

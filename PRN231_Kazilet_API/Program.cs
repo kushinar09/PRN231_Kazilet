@@ -10,6 +10,7 @@ using PRN231_Kazilet_API.Services.Impl;
 using PRN231_Kazilet_API.Utils.Mappers;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace PRN231_Kazilet_API
@@ -40,6 +41,7 @@ namespace PRN231_Kazilet_API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddSignalR();
+
             builder.Services.AddHttpContextAccessor();
 
             var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";

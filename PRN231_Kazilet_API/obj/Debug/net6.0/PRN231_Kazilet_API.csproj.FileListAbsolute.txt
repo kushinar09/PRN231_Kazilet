@@ -150,3 +150,4 @@ D:\CSharpAPI\PRN231_Kazilet\PRN231_Kazilet\PRN231_Kazilet_API\obj\Debug\net6.0\r
 D:\CSharpAPI\PRN231_Kazilet\PRN231_Kazilet\PRN231_Kazilet_API\obj\Debug\net6.0\PRN231_Kazilet_API.pdb
 D:\CSharpAPI\PRN231_Kazilet\PRN231_Kazilet\PRN231_Kazilet_API\obj\Debug\net6.0\PRN231_Kazilet_API.genruntimeconfig.cache
 D:\CSharpAPI\PRN231_Kazilet\PRN231_Kazilet\PRN231_Kazilet_API\obj\Debug\net6.0\ref\PRN231_Kazilet_API.dll
+D:\CSharpAPI\PRN231_Kazilet\PRN231_Kazilet\PRN231_Kazilet_API\bin\Debug\net6.0\Newtonsoft.Json.dll
