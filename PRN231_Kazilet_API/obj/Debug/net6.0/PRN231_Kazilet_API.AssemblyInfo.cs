@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PRN231_Kazilet_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+089b84cc293dddf28221cb093a17a2215ed11250")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6dd94cdf45a6575a0eba74f021d34ed7729475d8")]
 [assembly: System.Reflection.AssemblyProductAttribute("PRN231_Kazilet_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PRN231_Kazilet_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
