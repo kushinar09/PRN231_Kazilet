@@ -184,7 +184,7 @@ namespace PRN231_Kazilet_API.Models.Entities
             {
                 entity.ToTable("GameplaySetting");
 
-                entity.HasIndex(e => e.Code, "UQ__Gameplay__357D4CF93A4862E8")
+                entity.HasIndex(e => e.Code, "UQ__Gameplay__357D4CF99BA0C3FE")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -321,6 +321,11 @@ namespace PRN231_Kazilet_API.Models.Entities
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("email");
+
+                entity.Property(e => e.Gid)
+                    .HasMaxLength(70)
+                    .IsUnicode(false)
+                    .HasColumnName("gid");
 
                 entity.Property(e => e.Password)
                     .HasMaxLength(70)

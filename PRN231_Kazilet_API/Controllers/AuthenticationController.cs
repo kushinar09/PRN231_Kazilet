@@ -6,6 +6,9 @@ using PRN231_Kazilet_API.Services.Impl;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using PRN231_Kazilet_API.Utils;
+using PRN231_Kazilet_API.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace PRN231_Kazilet_API.Controllers
 {
@@ -15,24 +18,31 @@ namespace PRN231_Kazilet_API.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
+        private readonly EmailService _emailService;
+        private readonly IAuthService _authService;
+        private readonly Common utils = new Common();
+        private readonly IWebHostEnvironment _env;
 
-        public AuthenticationController(IConfiguration configuration, IUserService userService)
+        public AuthenticationController(IConfiguration configuration, IUserService userService, IWebHostEnvironment env, IAuthService authService)
         {
             _configuration = configuration;
             _userService = userService;
+            _emailService = new EmailService(configuration);
+            _env = env;
+            _authService = authService;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(string username, string email, string password)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
-            if (await _userService.UserExists(email))
+            if (await _userService.UserExists(registerRequest.email))
                 return BadRequest("Email already exists.");
 
             User u = new User
             {
-                Username = username,
-                Email = email,
-                Password = password,
+                Username = registerRequest.username,
+                Email = registerRequest.email,
+                Password = registerRequest.password,
                 Role = 1,
                 Type = "email",
             };
@@ -42,12 +52,12 @@ namespace PRN231_Kazilet_API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
-            var authenticatedUser = await _userService.Authenticate(email, password);
+            var authenticatedUser = await _userService.Authenticate(loginRequest.email, loginRequest.password);
             if (authenticatedUser == null)
                 return Unauthorized();
-            var token = GenerateJwtToken(authenticatedUser);
+            var token = _authService.GenerateJwtToken(authenticatedUser);
             return Ok(new { Token = token });
         }
 
@@ -71,22 +81,31 @@ namespace PRN231_Kazilet_API.Controllers
                 User? u = _userService.GetUserGoogle(email, googleId);
                 int uid;
                 if (u == null){
+                    string pwd = utils.GeneratePassword();
                     u = new User
                     {
                         Username = username,
                         Email = email,
-                        Password = googleId,
+                        Password = utils.HashPassword(pwd),
+                        Gid = googleId,
                         Role = 1,
                         Type = "google"
                     };
                     uid = _userService.RegisterGoogle(u);
                     u = _userService.GetUser(uid);
+
+                    // TODO: Send email notificate about passowrd
+                    var filePath = Path.Combine(_env.WebRootPath, "email_template", "createPassword.html");
+                    var htmlContent = await System.IO.File.ReadAllTextAsync(filePath);
+                    htmlContent = htmlContent.Replace("{Ent3r@Usernam3!Her3}", u.Username);
+                    htmlContent = htmlContent.Replace("{new@Password!Here}", pwd);
+                    _emailService.SendEmailAsync(email, "Kazilet", "Your account has been created successfully", htmlContent);
                 }
                 else
                 {
                     uid = u.Id;
                 }
-                var token = GenerateJwtToken(u);
+                var token = _authService.GenerateJwtToken(u);
 
                 // Lưu token vào cookie
                 var cookieOptions = new CookieOptions
@@ -102,59 +121,18 @@ namespace PRN231_Kazilet_API.Controllers
             }
             return Unauthorized();
         }
-
-        private string GenerateJwtToken(User authenticatedUser)
-        {
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, authenticatedUser.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Name, authenticatedUser.Username),
-                new Claim("role", authenticatedUser.RoleNavigation.Role),
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddSeconds(int.Parse(_configuration["Jwt:ExpireSeconds"])),
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        private string GetValueFromJwtToken(string field, string token)
-        {
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-
-            var value = jwtToken.Claims.FirstOrDefault(c => c.Type == field);
-            return value != null ? value.Value : "";
-        }
-
-        private User? GetUserFromJwtToken(string token)
-        {
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-
-            var uid = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub);
-            var usernameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Name);
-            var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role");
-
-            if (usernameClaim == null || usernameClaim == null)
-                return null;
-
-            try
-            {
-                int userId = int.Parse(uid.Value);
-                return _userService.GetUser(userId);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
     }
+}
+
+public class LoginRequest
+{
+    public string email { get; set; }
+    public string password { get; set; }
+}
+
+public class RegisterRequest
+{
+    public string username { get; set; }
+    public string email { get; set; }
+    public string password { get; set; }
 }

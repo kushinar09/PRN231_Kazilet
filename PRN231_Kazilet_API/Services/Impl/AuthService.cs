@@ -9,13 +9,15 @@ namespace PRN231_Kazilet_API.Services.Impl
     public class AuthService : IAuthService
     {
         private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
 
         private readonly PRN231_KaziletContext _context;
         
-        public AuthService(IConfiguration configuration, PRN231_KaziletContext context)
+        public AuthService(IConfiguration configuration, PRN231_KaziletContext context, IUserService userService)
         {
             _configuration = configuration;
             _context = context;
+            _userService = userService;
         }
 
         public string GetGameplayToken(string code, string username)
@@ -124,6 +126,60 @@ namespace PRN231_Kazilet_API.Services.Impl
             {
                 Console.WriteLine(ex.Message);
                 return "";
+            }
+        }
+
+        public string GenerateJwtToken(User authenticatedUser)
+        {
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, authenticatedUser.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Name, authenticatedUser.Username),
+                new Claim("role", authenticatedUser.RoleNavigation.Role),
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddSeconds(int.Parse(_configuration["Jwt:ExpireSeconds"])),
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public string GetValueFromJwtToken(string field, string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+
+            var value = jwtToken.Claims.FirstOrDefault(c => c.Type == field);
+            return value != null ? value.Value : "";
+        }
+
+        public User? GetUserFromJwtToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+
+            var uid = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub);
+            var usernameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Name);
+            var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role");
+
+            if (usernameClaim == null || usernameClaim == null)
+                return null;
+
+            try
+            {
+                int userId = int.Parse(uid.Value);
+                return _userService.GetUser(userId);
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }

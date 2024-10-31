@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "j4oMW2MQVrdpJfCv0J0dBVBPbD2xoAiECMvZuOdWxBD+g+OM6Xr5wjuYulcP8Y8Z9dqGBvASsqp+VXPB4Agumw==",
+  "dgSpecHash": "hPCtL+6vZBDwvwEDO7tNv/8zN35saDx32d+QT3qiiMLq0VMzJhd5BqqUDWKC6pifvMHhDcpSyrulbLBd66vCsA==",
   "success": true,
   "projectFilePath": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_API\\PRN231_Kazilet_API.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,8 @@
     "C:\\Users\\Admin\\.nuget\\packages\\bouncycastle.cryptography\\2.4.0\\bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\mailkit\\4.8.0\\mailkit.4.8.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.authentication.facebook\\6.0.33\\microsoft.aspnetcore.authentication.facebook.6.0.33.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\6.0.33\\microsoft.aspnetcore.authentication.google.6.0.33.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.1\\microsoft.aspnetcore.authentication.jwtbearer.6.0.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.odata\\8.0.0\\microsoft.aspnetcore.odata.8.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

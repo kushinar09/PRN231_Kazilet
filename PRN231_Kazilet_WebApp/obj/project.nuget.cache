@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "jtzvmNYGK85RSj+568mR/TRx32A1SU/QuNE3qmYmYuaucQAhEKhL3C566v6kEiwpETHYFCfRSs/OlCsaDJLtZQ==",
+  "dgSpecHash": "LVGnpJekKe9P1L8oi6r5ATSmb8MBedQohvIcoRkwf9DLK4CdbPVfhAl8wlYWpJt7gBmdzXw8KHBxfThxcn8jyw==",
   "success": true,
   "projectFilePath": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\6.0.33\\microsoft.aspnetcore.authentication.google.6.0.33.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
   "logs": []
