@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace PRN231_Kazilet_API.Models.Entities
 {
@@ -16,7 +17,7 @@ namespace PRN231_Kazilet_API.Models.Entities
         public string? Content { get; set; }
         public bool? IsMarked { get; set; }
         public int? Status { get; set; }
-
+        [JsonIgnore]
         public virtual Course? Course { get; set; }
         public virtual QuestionStatus? StatusNavigation { get; set; }
         public virtual ICollection<Answer> Answers { get; set; }

@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PRN231_Kazilet_API.Models.Entities;
+using System.Text.Json.Serialization;
 
-namespace PRN231_Kazilet_API.Models.Entities
+namespace PRN231_Kazilet_API.Models.Dto
 {
-    public partial class Course
+    public class CourseDto
     {
-        public Course()
-        {
-            FolderCourses = new HashSet<FolderCourse>();
-            GameplaySettings = new HashSet<GameplaySetting>();
-            LearningHistories = new HashSet<LearningHistory>();
-            Questions = new HashSet<Question>();
-        }
-
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public DateTime? CreatedAt { get; set; }

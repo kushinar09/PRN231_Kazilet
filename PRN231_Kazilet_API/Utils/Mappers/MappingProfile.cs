@@ -20,6 +20,11 @@ namespace PRN231_Kazilet_API.Utils.Mappers
             CreateMap<GameplaySettingDto, GameplaySetting>();
 
             CreateMap<GameplaySetting, GameplaySettingDto>();
+
+            CreateMap<Course, CourseDto>()
+                .ForMember(dest => dest.Questions, opt => opt.MapFrom(src => src.Questions));
+
+            CreateMap<CourseDto, Course>().ForMember(dest => dest.Questions, opt => opt.MapFrom(src => src.Questions));
         }
     }
 }
