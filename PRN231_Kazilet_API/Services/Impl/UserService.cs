@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PRN231_Kazilet_API.Models.Entities;
+using PRN231_Kazilet_API.Utils;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -19,7 +21,7 @@ namespace PRN231_Kazilet_API.Services.Impl
 
     public class UserService : IUserService
     {
-        private readonly Utils utils = new Utils();
+        private readonly Common utils = new Common();
         private readonly PRN231_KaziletContext _context = new PRN231_KaziletContext();
 
         public Task<bool> UserExists(string email)
@@ -38,7 +40,6 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public int RegisterGoogle(User user)
         {
-            user.Password = user.Password;
             _context.Users.Add(user);
             int rs = _context.SaveChanges();
             return rs > 0 ? user.Id : -1;
@@ -48,7 +49,7 @@ namespace PRN231_Kazilet_API.Services.Impl
         {
             return _context.Users
                 .Include(u => u.RoleNavigation)
-                .FirstOrDefault(u => u.Email == email && u.Password == googleId);
+                .FirstOrDefault(u => u.Email == email && u.Gid == googleId);
         }
 
         public Task<User> Authenticate(string email, string password)
@@ -56,8 +57,7 @@ namespace PRN231_Kazilet_API.Services.Impl
             var user = _context.Users
                 .Include(u => u.RoleNavigation)
                 .FirstOrDefault(u => u.Email == email 
-                && u.Password == utils.HashPassword(password)
-                && u.Type == "email");
+                && u.Password == utils.HashPassword(password));
             return Task.FromResult(user);
         }
 
@@ -76,17 +76,5 @@ namespace PRN231_Kazilet_API.Services.Impl
         {
             throw new NotImplementedException();
         }
-    }
-
-    public class Utils
-    {
-        public string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-            }
-        }
-    }
+    } 
 }
