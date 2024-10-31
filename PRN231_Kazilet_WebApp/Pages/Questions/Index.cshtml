@@ -476,7 +476,7 @@
         if (flipCard.classList.contains("flipped")) {
             flipCard.classList.remove("flipped");
         }
-        const apiUrl = "https://localhost:7024/odata/Question?questionNumber=" + id + "&courseId=" + courseId + "&$expand=Answers";
+        const apiUrl = "http://localhost:7024/odata/Question?questionNumber=" + id + "&courseId=" + courseId + "&$expand=Answers";
         try {
             const response = await fetch(apiUrl, {
                 method: 'GET'
@@ -547,7 +547,7 @@
 
     async function displayMore(id) {
         var questionEle = document.getElementById("questions");
-        const apiUrl = "https://localhost:7024/odata/Question/" + id + "?$skip=100&$expand=Answers&$count=true";
+        const apiUrl = "http://localhost:7024/odata/Question/" + id + "?$skip=100&$expand=Answers&$count=true";
         try {
             const response = await fetch(apiUrl, {
                 method: 'GET'

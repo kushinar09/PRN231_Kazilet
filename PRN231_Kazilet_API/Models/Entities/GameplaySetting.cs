@@ -26,11 +26,11 @@ namespace PRN231_Kazilet_API.Models.Entities
         public virtual User? CreatedByNavigation { get; set; }
         public virtual ICollection<Gameplay> Gameplays { get; set; }
 
-        public GameplaySetting(string? Code, DateTime? CreatedAt, int? CreatedBy)
+        public GameplaySetting(string code, DateTime? createdAt, int? createdBy)
         {
-            this.Code = Code;
-            this.CreatedAt = CreatedAt;
-            this.CreatedBy = CreatedBy;
+            Code = code;
+            CreatedAt = createdAt;
+            CreatedBy = createdBy;
         }
     }
 }

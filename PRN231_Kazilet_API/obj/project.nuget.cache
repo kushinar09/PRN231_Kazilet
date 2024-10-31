@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hPCtL+6vZBDwvwEDO7tNv/8zN35saDx32d+QT3qiiMLq0VMzJhd5BqqUDWKC6pifvMHhDcpSyrulbLBd66vCsA==",
+  "dgSpecHash": "wfIjyElWJjbt5fciUNNelXKFru8LlfajyfXv8AySGIfLwjDuXXhEMlEkn+q8j01el76+pXFGNx2GTqjQupjm6A==",
   "success": true,
   "projectFilePath": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_API\\PRN231_Kazilet_API.csproj",
   "expectedPackageFiles": [
@@ -47,6 +47,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\mimekit\\4.8.0\\mimekit.4.8.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
