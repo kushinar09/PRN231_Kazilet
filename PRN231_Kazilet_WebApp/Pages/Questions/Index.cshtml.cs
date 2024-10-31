@@ -27,6 +27,7 @@ namespace PRN231_Kazilet_WebApp.Pages.Questions
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
+            QuestionDtos = new List<QuestionDto>();
         }
 
         public async Task OnGetAsync(int courseId)

@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\CSharpAPI\PRN231_Kazilet\PRN231_Kazilet\PRN231_Kazilet_WebApp
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Authen/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aGVuXExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
