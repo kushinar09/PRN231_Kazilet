@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
 using PRN231_Kazilet_API.Models.Dto;
@@ -11,7 +10,6 @@ using PRN231_Kazilet_API.Services.Impl;
 using PRN231_Kazilet_API.Utils.Mappers;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace PRN231_Kazilet_API
@@ -33,7 +31,7 @@ namespace PRN231_Kazilet_API
                 {
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                     options.JsonSerializerOptions.WriteIndented = true;
-                }); 
+                });
             builder.Services.AddDbContext<PRN231_KaziletContext>(
                     options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")
                     )
