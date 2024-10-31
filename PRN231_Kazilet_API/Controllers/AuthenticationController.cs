@@ -94,7 +94,6 @@ namespace PRN231_Kazilet_API.Controllers
                     uid = _userService.RegisterGoogle(u);
                     u = _userService.GetUser(uid);
 
-                    // TODO: Send email notificate about passowrd
                     var filePath = Path.Combine(_env.WebRootPath, "email_template", "createPassword.html");
                     var htmlContent = await System.IO.File.ReadAllTextAsync(filePath);
                     htmlContent = htmlContent.Replace("{Ent3r@Usernam3!Her3}", u.Username);
