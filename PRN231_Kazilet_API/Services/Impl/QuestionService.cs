@@ -47,7 +47,9 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public QuestionDto GetById(int questionId)
         {
-            Question question = _context.Questions.FirstOrDefault(q => q.Id == questionId);
+            Question question = _context.Questions
+                .Include(q => q.Answers)
+                .FirstOrDefault(q => q.Id == questionId);
             return _mapper.Map<QuestionDto>(question);
         }
 

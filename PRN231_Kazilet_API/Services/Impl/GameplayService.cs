@@ -39,8 +39,8 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public string HostGame(int courseId, string username, HttpContext httpContext)
         {
+            /*
             var authHeader = httpContext.Request.Headers["Authorization"].ToString();
-            Console.WriteLine("Auth Header: " + authHeader);
             // Check if it starts with "Bearer "
             if (authHeader.StartsWith("Bearer "))
             {
@@ -75,6 +75,32 @@ namespace PRN231_Kazilet_API.Services.Impl
             }
             Console.WriteLine("HIHI" + "AHIHO");
             return "";
+            */
+            if (username != null)
+            {
+                string code;
+                code = GameplayUtils.GenerateUniqueRandomNumbers();
+                while (CheckExistCode(code))
+                {
+                    code = GameplayUtils.GenerateUniqueRandomNumbers();
+                }
+                GameplaySetting gameplaySetting = new GameplaySetting(code, DateTime.Now, 1);
+                gameplaySetting.CreatedBy = 1;
+                gameplaySetting.TimeLimit = 15;
+                gameplaySetting.CourseId = courseId;
+                gameplaySetting.IsSkillEnabled = true;
+                gameplaySetting.NoQuestion = 20;
+                _context.GameplaySettings.Add(gameplaySetting);
+                Gameplay gameplay = new Gameplay(code, username, 0);
+
+                _context.Gameplays.Add(gameplay);
+                _context.SaveChanges();
+                return code;
+            }
+            else
+            {
+                return "";
+            }
 
         }
 
@@ -122,20 +148,15 @@ namespace PRN231_Kazilet_API.Services.Impl
             {
                 if (_context.Gameplays.FirstOrDefault(g => g.Code == code && g.Username == username) == null)
                 {
-                    var authHeader = httpContext.Request.Headers["Authorization"].ToString();
 
-                    // Check if it starts with "Bearer "
-                    if (authHeader.StartsWith("Bearer "))
-                    {
-                        // Extract token string
-                        var token = authHeader.Substring("Bearer ".Length).Trim();
-                        User user = _authService.GetUserFromJwtToken(token);
-                        string gameToken = _authService.GetGameplayToken(code, username);
-                        Gameplay gameplay = new Gameplay(code, username, 0);
-                        _context.Gameplays.Add(gameplay);
-                        _context.SaveChanges();
-                        return gameToken;
-                    }
+                    // Extract token string
+
+                    string gameToken = _authService.GetGameplayToken(code, username);
+                    Gameplay gameplay = new Gameplay(code, username, 0);
+                    _context.Gameplays.Add(gameplay);
+                    _context.SaveChanges();
+                    return gameToken;
+
                 }
             }
             return "";
@@ -193,6 +214,12 @@ namespace PRN231_Kazilet_API.Services.Impl
                 int timeLimit = GetTimeLimit(code);
                 int point = GetPoint(code, players[i]);
                 gameplayAdds.Add(new GameplayAddI(players[i], currentQuestion, totalQuestion, streak, timeLimit, point, DateTime.Now));
+                
+            }
+            await Console.Out.WriteLineAsync("N: " + questionDto.Answers.ToList().Count);
+            for (int i = 0; i < questionDto.Answers.ToList().Count; i++)
+            {
+                await Console.Out.WriteLineAsync("N" + questionDto.Answers.ToList()[i].Content);
             }
             GameplayQuestionDto gameplayQuestionDto = new GameplayQuestionDto(questionDto, gameplayAdds);
             //await _signalRHub.Clients.Group(code).SendAsync("GetQuestion", questionDto);
@@ -206,20 +233,11 @@ namespace PRN231_Kazilet_API.Services.Impl
             var authHeader = httpContext.Request.Headers["Authorization"].ToString();
             User user;
             // Check if it starts with "Bearer "
-            
+
             GameplaySetting gameplaySetting = _context.GameplaySettings.FirstOrDefault(gs => gs.Code == code);
             Gameplay gameplay = new Gameplay();
-            
-            if (authHeader.StartsWith("Bearer "))
-            {
-                // Extract token string
-                var token = authHeader.Substring("Bearer ".Length).Trim();
-                user = _authService.GetUserFromJwtToken(token);
-                if (user != null)
-                {
-                    gameplay.UserId = user.Id;
-                }
-            }
+
+           
             gameplay.Code = code;
             gameplay.Username = username;
             gameplay.QuestionId = playerAnswerDto.QuestionId;
