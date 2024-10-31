@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PRN231_Kazilet_API.Models.Dto;
+using PRN231_Kazilet_API.Models.Entities;
 using PRN231_Kazilet_API.Services;
 using PRN231_Kazilet_API.Services.Impl;
 
@@ -12,11 +14,13 @@ namespace PRN231_Kazilet_API.Controllers
     {
         private IFolderService _folderService;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly PRN231_KaziletContext _context;
 
-        public FoldersController(IFolderService folderService, IHttpContextAccessor contextAccessor)
+        public FoldersController(IFolderService folderService, IHttpContextAccessor contextAccessor, PRN231_KaziletContext context)
         {
             _folderService = folderService;
             _contextAccessor = contextAccessor;
+            _context = context;
 
         }
         //TODO: Sửa created By đổi qua getUser
@@ -28,6 +32,17 @@ namespace PRN231_Kazilet_API.Controllers
             folderDto.Name = folderName;
             _folderService.AddFolder(folderDto);
             return Ok(folderDto);
+        }
+
+        [HttpGet("folders/{userid}")]
+        public IActionResult GetFoldersByUser(int userid)
+        {
+            var folders = _context.Folders.Include(f => f.FolderCourses).ThenInclude(fc => fc.Course).Where(f => f.CreatedByNavigation.Id == userid).ToList();
+            if (folders == null || folders.Count == 0)
+            {
+                return NotFound("No folders found for user");
+            }
+            return Ok(folders);
         }
 
         [HttpPost("AddCourse")]
