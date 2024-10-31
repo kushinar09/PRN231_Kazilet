@@ -164,7 +164,7 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public bool CheckExistCode(string code)
         {
-            if (_context.GameplaySettings.FirstOrDefault(g => (g.IsCompleted == false || g.IsCompleted == null) && g.Code == code) != null)
+            if (_context.GameplaySettings.FirstOrDefault(g => (g.IsCompleted == false || g.IsCompleted == null) && (g.IsStarted == false || g.IsStarted == null) && g.Code == code) != null)
             {
                 return true;
             }
@@ -203,6 +203,9 @@ namespace PRN231_Kazilet_API.Services.Impl
             {
                 questionId = GameplayUtils.GenerateRandom(questionDtos.Count);
             }
+            GameplaySetting gameplaySetting = _context.GameplaySettings.FirstOrDefault(gs => gs.Code == code);
+            gameplaySetting.IsStarted = true;
+            _context.SaveChanges();
             QuestionDto questionDto = _questionService.GetById(questionId);
             List<GameplayAddI> gameplayAdds = new List<GameplayAddI>();
             List<string> players = GetPlayerInRoom(code);
