@@ -126,7 +126,7 @@ namespace PRN231_Kazilet_API
             string username = _authService.GetUsernameFromToken(token);
             string code = _authService.CheckGameplayCodeValid(token);
             PlayerAnswerDto playerAnswerDto = JsonConvert.DeserializeObject<PlayerAnswerDto>(json);
-            int numberSubmitted = _gameplayService.AddPlayerAnswer(code, username, playerAnswerDto);
+            int numberSubmitted = _gameplayService.AddPlayerAnswer(code, username, playerAnswerDto, _contextAccessor.HttpContext);
             if (numberSubmitted == _gameplayService.GetPlayerInRoom(code).Count)
             {
                 List<GameplayResultDto> gameplayResultDtos = _gameplayService.GetGameplayResultForTurn(code, playerAnswerDto.Turn);

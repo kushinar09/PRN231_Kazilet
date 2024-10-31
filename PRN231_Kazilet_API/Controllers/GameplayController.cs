@@ -26,7 +26,7 @@ namespace PRN231_Kazilet_API.Controllers
         [Route("host")]
         public IActionResult HostGame([FromQuery] int courseId, [FromQuery] string username)
         {
-            string code = _gameplayService.HostGame(courseId, username);
+            string code = _gameplayService.HostGame(courseId, username, HttpContext);
             return Ok(new
             {
                 Code = code,
@@ -53,7 +53,7 @@ namespace PRN231_Kazilet_API.Controllers
         [Route("join")]
         public IActionResult JoinGame([FromQuery] string code, [FromQuery] string username)
         {
-            string token = _gameplayService.JoinGame(code, username);
+            string token = _gameplayService.JoinGame(code, username, HttpContext);
             if (!string.IsNullOrEmpty(token))
             {
                 return Ok(new { token });

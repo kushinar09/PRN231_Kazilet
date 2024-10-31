@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.Edm;
@@ -6,8 +7,10 @@ using Newtonsoft.Json;
 using PRN231_Kazilet_API.Models.Dto;
 using PRN231_Kazilet_API.Models.Entities;
 using PRN231_Kazilet_API.Utils;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text.Json.Serialization;
+using static System.Net.WebRequestMethods;
 
 namespace PRN231_Kazilet_API.Services.Impl
 {
@@ -34,33 +37,45 @@ namespace PRN231_Kazilet_API.Services.Impl
             _signalRHub = signalRHub;
         }
 
-        public string HostGame(int courseId, string username)
+        public string HostGame(int courseId, string username, HttpContext httpContext)
         {
-            User user = _context.Users.FirstOrDefault(u => u.Username == username);
-            if (user != null)
+            var authHeader = httpContext.Request.Headers["Authorization"].ToString();
+            Console.WriteLine("Auth Header: " + authHeader);
+            // Check if it starts with "Bearer "
+            if (authHeader.StartsWith("Bearer "))
             {
-                string code;
-                code = GameplayUtils.GenerateUniqueRandomNumbers();
-                while (CheckExistCode(code))
+                // Extract token string
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+                if (username != null)
                 {
+                    User user = _authService.GetUserFromJwtToken(token);
+                    string code;
                     code = GameplayUtils.GenerateUniqueRandomNumbers();
-                }
-                GameplaySetting gameplaySetting = new GameplaySetting(code, DateTime.Now, user.Id);
-                gameplaySetting.TimeLimit = 15;
-                gameplaySetting.CourseId = courseId;
-                gameplaySetting.IsSkillEnabled = true;
-                gameplaySetting.NoQuestion = 20;
-                _context.GameplaySettings.Add(gameplaySetting);
-                Gameplay gameplay = new Gameplay(code, username, 0);
+                    while (CheckExistCode(code))
+                    {
+                        code = GameplayUtils.GenerateUniqueRandomNumbers();
+                    }
+                    GameplaySetting gameplaySetting = new GameplaySetting(code, DateTime.Now, user.Id);
+                    gameplaySetting.CreatedBy = user.Id;
+                    gameplaySetting.TimeLimit = 15;
+                    gameplaySetting.CourseId = courseId;
+                    gameplaySetting.IsSkillEnabled = true;
+                    gameplaySetting.NoQuestion = 20;
+                    _context.GameplaySettings.Add(gameplaySetting);
+                    Gameplay gameplay = new Gameplay(code, username, 0);
 
-                _context.Gameplays.Add(gameplay);
-                _context.SaveChanges();
-                return code;
+                    _context.Gameplays.Add(gameplay);
+                    _context.SaveChanges();
+                    return code;
+                }
+                else
+                {
+                    return "";
+                }
             }
-            else
-            {
-                return "";
-            }
+            Console.WriteLine("HIHI" + "AHIHO");
+            return "";
+
         }
 
         public int GetCurrentQuestion(string code)
@@ -101,17 +116,26 @@ namespace PRN231_Kazilet_API.Services.Impl
                 .Sum(g => g.Score.GetValueOrDefault(0));
         }
 
-        public string JoinGame(string code, string username)
+        public string JoinGame(string code, string username, HttpContext httpContext)
         {
             if (CheckExistCode(code))
             {
                 if (_context.Gameplays.FirstOrDefault(g => g.Code == code && g.Username == username) == null)
                 {
-                    string token = _authService.GetGameplayToken(code, username);
-                    Gameplay gameplay = new Gameplay(code, username, 0);
-                    _context.Gameplays.Add(gameplay);
-                    _context.SaveChanges();
-                    return token;
+                    var authHeader = httpContext.Request.Headers["Authorization"].ToString();
+
+                    // Check if it starts with "Bearer "
+                    if (authHeader.StartsWith("Bearer "))
+                    {
+                        // Extract token string
+                        var token = authHeader.Substring("Bearer ".Length).Trim();
+                        User user = _authService.GetUserFromJwtToken(token);
+                        string gameToken = _authService.GetGameplayToken(code, username);
+                        Gameplay gameplay = new Gameplay(code, username, 0);
+                        _context.Gameplays.Add(gameplay);
+                        _context.SaveChanges();
+                        return gameToken;
+                    }
                 }
             }
             return "";
@@ -177,10 +201,25 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         }
 
-        public int AddPlayerAnswer(string code, string username, PlayerAnswerDto playerAnswerDto)
+        public int AddPlayerAnswer(string code, string username, PlayerAnswerDto playerAnswerDto, HttpContext httpContext)
         {
+            var authHeader = httpContext.Request.Headers["Authorization"].ToString();
+            User user;
+            // Check if it starts with "Bearer "
+            
             GameplaySetting gameplaySetting = _context.GameplaySettings.FirstOrDefault(gs => gs.Code == code);
             Gameplay gameplay = new Gameplay();
+            
+            if (authHeader.StartsWith("Bearer "))
+            {
+                // Extract token string
+                var token = authHeader.Substring("Bearer ".Length).Trim();
+                user = _authService.GetUserFromJwtToken(token);
+                if (user != null)
+                {
+                    gameplay.UserId = user.Id;
+                }
+            }
             gameplay.Code = code;
             gameplay.Username = username;
             gameplay.QuestionId = playerAnswerDto.QuestionId;
@@ -414,9 +453,9 @@ namespace PRN231_Kazilet_API.Services.Impl
                 .ThenBy(gm => gm.Duration)
                 .ThenBy(gm => gm.Username)
                 .ToList();
-            for(int i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                if(username == list[i].Username)
+                if (username == list[i].Username)
                 {
                     return i + 1;
                 }
@@ -488,7 +527,7 @@ namespace PRN231_Kazilet_API.Services.Impl
         {
             int turn = GetLatestTurn(code);
             int cnt = _context.Gameplays.Where(g => g.Code == code && g.Turn == turn && (g.IsGetResult == false || g.IsGetResult == null)).Count();
-            if(cnt == GetPlayerInRoom(code).Count)
+            if (cnt == GetPlayerInRoom(code).Count)
             {
                 Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn && g.Username == username);
                 PlayerAnswerDto playerAnswerDto = new PlayerAnswerDto();
