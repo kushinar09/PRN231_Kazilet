@@ -1,0 +1,213 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.Courses.AddCourseModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a new flashcard set</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #471b43;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 70%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 98%;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #33333350;
+            margin-bottom: 15px;
+            background-color: #ffffff;
+            color: #471b43;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #33333350;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .card-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .term, .definition {
+            flex: 1 1 45%;
+            min-width: 200px;
+        }
+
+        .language-select {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        button {
+            background-color: #8854c0;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+            button:hover {
+                background-color: #60255b;
+            }
+
+        .add-card {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 16px;
+        }
+
+        .add-definition {
+            background-color: #ffffff;
+            border: 1px dashed #333;
+            width: 100%;
+            margin-top: 10px;
+            color: #471b43;
+        }
+
+            .add-definition:hover {
+                background-color: #60255b1f;
+            }
+
+        .definition-container {
+            position: relative;
+            width: 98%;
+        }
+
+        .remove-definition {
+            position: absolute;
+            right: -25px;
+            top: 25%;
+            transform: translateY(-50%);
+            background-color: transparent;
+            color: #888;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+            .remove-definition:hover {
+                color: #fff;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create a new course</h1>
+        <input type="text" id="title" placeholder="Enter a title">
+        <textarea id="description" placeholder="Add a description..."></textarea>
+        <div id="flashcards"></div>
+        <button class="add-card" onclick="addCard()">Add a card</button>
+    </div>
+
+
+</body>
+<script>
+    let cardCount = 0;
+
+    function addCard() {
+        cardCount++;
+        const flashcardsContainer = document.getElementById('flashcards');
+        const newCard = document.createElement('div');
+        newCard.className = 'card';
+        newCard.innerHTML = `
+                        <div class="card-header">
+                            <span class="card-number">${cardCount}</span>
+                            <div>
+                                <button onclick="removeCard(this)">×</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="term">
+                                <input type="text" placeholder="Enter term">
+                            </div>
+                            <div class="definition">
+                                <div class="definition-container">
+                                    <input type="text" placeholder="Enter definition">
+                                </div>
+                                <button class="add-definition" onclick="addDefinition(this)">+ Add another definition</button>
+                            </div>
+                        </div>
+                    `;
+        flashcardsContainer.appendChild(newCard);
+    }
+
+    function addDefinition(button) {
+        const definitionContainer = button.parentElement;
+        const newDefinition = document.createElement('div');
+        newDefinition.className = 'definition-container';
+        newDefinition.innerHTML = `
+                        <div>
+                            <input type="text" placeholder="Enter definition">
+                        <button class="remove-definition" onclick="removeDefinition(this)">×</button>
+                            </div>
+                    `;
+        definitionContainer.insertBefore(newDefinition, button);
+    }
+
+    function removeDefinition(button) {
+        const definitionContainer = button.closest('.definition');
+        const definitions = definitionContainer.querySelectorAll('.definition-container');
+        if (definitions.length > 1) {
+            button.closest('.definition-container').remove();
+        } else {
+            alert("You must have at least one definition for each term.");
+        }
+    }
+
+    function removeCard(button) {
+        const card = button.closest('.card');
+        card.remove();
+    }
+
+    // Initialize with two cards
+    addCard();
+    addCard();
+</script>
+</html>

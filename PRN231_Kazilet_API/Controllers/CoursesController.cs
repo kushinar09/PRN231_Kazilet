@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PRN231_Kazilet_API.Models.Dto;
 //using OfficeOpenXml;
 using PRN231_Kazilet_API.Models.Entities;
+using PRN231_Kazilet_API.Services;
+using PRN231_Kazilet_API.Services.Impl;
 
 namespace PRN231_Kazilet_API.Controllers
 {
@@ -11,10 +14,11 @@ namespace PRN231_Kazilet_API.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly PRN231_KaziletContext _context;
-
-        public CoursesController(PRN231_KaziletContext context)
+        private readonly ICourseService _courseService;
+        public CoursesController(PRN231_KaziletContext context, ICourseService courseService)
         {
             _context = context;
+            _courseService = courseService;
         }
 
 
@@ -106,6 +110,53 @@ namespace PRN231_Kazilet_API.Controllers
             }
             */
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("Details/{courseId}")]
+        public IActionResult GetCourseDetails(int courseId)
+        {
+            return Ok(_courseService.GetCourse(courseId));
+        }
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> AddCourse([FromBody] CourseDto courseDto)
+        {
+            if (courseDto == null)
+            {
+                return BadRequest("Question list cannot be null or empty.");
+            }
+
+            bool result = _courseService.AddCourse(courseDto);
+
+            if (result)
+            {
+                return Ok("Questions added successfully.");
+            }
+            else
+            {
+                return StatusCode(500, "An error occurred while adding questions.");
+            }
+        }
+
+        [HttpPost("Update/{courseId}")]
+        public IActionResult UpdateCourse(int courseId, [FromBody] CourseDto courseDto)
+        {
+            if (courseDto == null)
+            {
+                return BadRequest("Course data cannot be null.");
+            }
+
+            bool result = _courseService.UpdateCourse(courseId, courseDto);
+
+            if (result)
+            {
+                return Ok("Course updated successfully.");
+            }
+            else
+            {
+                return StatusCode(500, "An error occurred while updating the course.");
+            }
         }
     }
 }

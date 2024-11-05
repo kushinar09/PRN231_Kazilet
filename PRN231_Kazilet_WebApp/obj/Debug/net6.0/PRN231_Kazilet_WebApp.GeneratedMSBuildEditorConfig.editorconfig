@@ -9,61 +9,65 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PRN231_Kazilet_WebApp
 build_property.RootNamespace = PRN231_Kazilet_WebApp
-build_property.ProjectDir = D:\CSharpAPI\PRN231_Kazilet\PRN231_Kazilet\PRN231_Kazilet_WebApp\
+build_property.ProjectDir = C:\Users\Admin\Documents\GitHub\PRN231_Kazilet\PRN231_Kazilet_WebApp\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\CSharpAPI\PRN231_Kazilet\PRN231_Kazilet\PRN231_Kazilet_WebApp
+build_property.MSBuildProjectDirectory = C:\Users\Admin\Documents\GitHub\PRN231_Kazilet\PRN231_Kazilet_WebApp
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Authen/Login.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Authen/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aGVuXExvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Error.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Courses/AddCourse.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291cnNlc1xBZGRDb3Vyc2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/Host.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZXBsYXlcSG9zdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/Join.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/Join.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZXBsYXlcSm9pbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/Play.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/Play.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZXBsYXlcUGxheS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/WaitScreen.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/WaitScreen.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZXBsYXlcV2FpdFNjcmVlbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Index.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Privacy.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Questions/Index.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Questions/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlc3Rpb25zXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/_ViewImports.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/_ViewStart.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Shared/_Layout.cshtml]
+[C:/Users/Admin/Documents/GitHub/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-1q5lrczqkz
