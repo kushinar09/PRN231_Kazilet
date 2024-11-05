@@ -20,6 +20,8 @@ namespace PRN231_Kazilet_API.Models
         public string? Email { get; set; }
         public string? Password { get; set; }
         public int? Role { get; set; }
+        public string? Type { get; set; }
+        public string? Gid { get; set; }
 
         public virtual UserRole? RoleNavigation { get; set; }
         public virtual ICollection<Course> Courses { get; set; }

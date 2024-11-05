@@ -1,0 +1,136 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.TestScreen.TestOptionsModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #471b43;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 70%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .input-text {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #33333350;
+            margin-bottom: 15px;
+            background-color: #ffffff;
+            color: #471b43;
+        }
+
+        button {
+            background-color: #8854c0;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+            button:hover {
+                background-color: #60255b;
+            }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #33333350;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .input-block {
+            margin-bottom: 10px;
+        }
+
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            border-radius: 3px;
+            border: 1px solid #33333350;
+        }
+
+            .custom-checkbox:checked {
+                background-color: #8854c0;
+                border-color: #8854c0;
+            }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="padding:20px">
+            <h1>Select test options</h1>
+            <div class="card">
+                <form id="test-options-form">
+                    <div class="input-block">
+                        <p>Duration</p>
+                        <input id="duration" class="input-text" type="number" min="1" max="360" placeholder="Enter duration(Minutes)" required />
+                        <span id="duration-err" class="error"></span>
+                    </div>
+
+                    <div class="input-block" style="padding-top:10px; padding-bottom:10px; margin-bottom:20px">
+                        <div style="display: flex; align-items: center">
+                            <input id="random-checkbox" class="custom-checkbox" type="checkbox" style="margin: 0 10px 0 0;" />
+                            <p>Random questions?</p>
+                        </div>
+                    </div>
+
+                    <div class="input-block" id="number-of-questions-div">
+                        <p>Number of questions</p>
+                        <input id="number-of-questions" class="input-text" type="number" min="1" max="360" placeholder="Enter number of questions" required />
+                        <span id="num-of-ques-err" class="error"></span>
+                    </div>
+
+                    <div>
+                        <button style="width: 100%">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const checkbox = document.getElementById("random-checkbox");
+    const numberInput = document.getElementById("number-of-questions");
+    const numberInputDiv = document.getElementById("number-of-questions-div");
+    const durationInput = document.getElementById("duration");
+    const durationError = document.getElementById("duration-err");
+    const numOfQuestionsError = document.getElementById("num-of-ques-err");
+
+    checkbox.addEventListener("change", function () {
+        if (checkbox.checked) {
+            numberInput.disabled = true;
+            numberInputDiv.style.display = "none";
+            numberInput.value = "";
+        } else {
+            numberInput.disabled = false;
+            numberInputDiv.style.display = "inline";
+        }
+    });
+</script>
+</html>
