@@ -78,8 +78,9 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public int[] GetQuestionAlreadyAnswer(string code)
         {
-            int[] questions = (_context.Gameplays.Where(g => g.Turn != 0 && g.Code == code).Where(q => q.QuestionId.HasValue).Select(g => g.QuestionId.Value).ToArray());
-            return questions;
+            //int[] questions = (_context.Gameplays.Where(g => g.Turn != 0 && g.Code == code).Where(q => q.QuestionId.HasValue).Select(g => g.QuestionId.Value).ToArray());
+            //return questions;
+            return null;
         }
 
     }

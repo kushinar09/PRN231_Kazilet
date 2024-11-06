@@ -1,0 +1,102 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.Test.TestModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #471b43;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 70%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .input-text {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #33333350;
+            background-color: #ffffff;
+            color: #471b43;
+        }
+
+        .nextButton {
+            background-color: #8854c0;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+            .nextButton:hover {
+                background-color: #60255b;
+            }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #33333350;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .input-block {
+            margin-bottom: 10px;
+        }
+
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            border-radius: 3px;
+            border: 1px solid #33333350;
+        }
+
+            .custom-checkbox:checked {
+                background-color: #8854c0;
+            }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container" style="padding: 0 2%; margin: 0 auto">
+        <div style="padding: 20px;display: flex">
+            <div class="card" style="width:80%;margin-right:10px">
+                <form id="questionForm" method="post" onsubmit="return checkSelectedQuestions(event)">
+                            <p>111</p>                                      
+                </form>
+            </div>
+            <div class="card" id="option-menu" style="width: 20%">
+                <p>Questions</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+    </script>
+</body>
+</html>

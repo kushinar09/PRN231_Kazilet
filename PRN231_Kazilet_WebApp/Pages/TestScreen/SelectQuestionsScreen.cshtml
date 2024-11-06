@@ -2,3 +2,142 @@
 @model PRN231_Kazilet_WebApp.Pages.TestScreen.SelectQuestionsScreenModel
 @{
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #471b43;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 70%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .input-text {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #33333350;
+            background-color: #ffffff;
+            color: #471b43;
+        }
+
+        .nextButton {
+            background-color: #8854c0;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+            .nextButton:hover {
+                background-color: #60255b;
+            }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #33333350;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .input-block {
+            margin-bottom: 10px;
+        }
+
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            border-radius: 3px;
+            border: 1px solid #33333350;
+        }
+
+            .custom-checkbox:checked {
+                background-color: #8854c0;
+            }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container" style="padding: 0 5%; margin: 0 auto">
+        <div style="padding: 20px">
+            <h1>Select Questions for Your Test</h1>
+            <div class="card">
+                <form id="questionForm" method="post" onsubmit="return checkSelectedQuestions(event)">
+                    <div style="display: flex; margin-bottom: 15px">
+                        <input class="input-text" id="search-question-by-content" type="text" placeholder="Search questions..." oninput="filterQuestions()" style="width:80%;margin-right: 10px" />
+                        <button class="nextButton" type="submit" style="width:30%">Create Test</button>
+                    </div>
+
+                    <div id="questions-list">
+                        @foreach (var question in Model.Questions)
+                        {
+                            <div class="card question-card">
+                                <div class="question-item" style="display: flex">
+                                    <input type="checkbox" class="custom-checkbox" id="question-@question.Id" name="selectedQuestions" value="@question.Id" style="margin-right:10px" />
+                                    <div>
+                                        <label for="question-@question.Id">@question.Content</label>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterQuestions() {
+            const searchTerm = document.getElementById("search-question-by-content").value.toLowerCase();
+            const questionCards = document.querySelectorAll(".question-card");
+            questionCards.forEach(card => {
+                const questionContent = card.querySelector("label").textContent.toLowerCase();
+                if (questionContent.includes(searchTerm)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        function checkSelectedQuestions(event) {
+            const selected = document.querySelectorAll("input[name='selectedQuestions']:checked");
+            if (selected.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No Questions Selected',
+                    text: 'Please select at least one question to create the test.',
+                    confirmButtonColor: '#8854c0'
+                });
+                event.preventDefault();
+                return false;
+            }
+            return true; 
+        }
+    </script>
+</body>
+</html>

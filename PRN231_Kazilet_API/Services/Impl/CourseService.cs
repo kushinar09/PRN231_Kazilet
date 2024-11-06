@@ -33,10 +33,11 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public List<Course> GetCoursesByFolder(int folderId)
         {
-            return  _context.FolderCourses
-                    .Where(fc => fc.FolderId == folderId)
-                    .Select(fc => fc.Course)
-                    .ToList();
+            //return _context.FolderCourses
+            //        .Where(fc => fc.FolderId == folderId)
+            //        .Select(fc => fc.Course)
+            //        .ToList();
+            return null;
         }
 
         public List<Course> GetCoursesByUser(int userId)

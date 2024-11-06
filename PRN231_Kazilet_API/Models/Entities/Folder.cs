@@ -7,7 +7,7 @@ namespace PRN231_Kazilet_API.Models.Entities
     {
         public Folder()
         {
-            FolderCourses = new HashSet<FolderCourse>();
+            Courses = new HashSet<Course>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,7 @@ namespace PRN231_Kazilet_API.Models.Entities
         public DateTime? CreatedAt { get; set; }
 
         public virtual User? CreatedByNavigation { get; set; }
-        public virtual ICollection<FolderCourse> FolderCourses { get; set; }
+
+        public virtual ICollection<Course> Courses { get; set; }
     }
 }

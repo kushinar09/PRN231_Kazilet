@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PRN231_Kazilet_API.Models;
 using PRN231_Kazilet_API.Models.Dto;
 using PRN231_Kazilet_API.Models.Entities;
 
