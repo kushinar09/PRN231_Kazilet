@@ -9,16 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create a new flashcard set</title>
     <style>
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
             color: #471b43;
-            margin: 0;
-            padding: 20px;
         }
 
         .container {
-            max-width: 70%;
+            max-width: 80%;
             margin: 0 auto;
         }
 
@@ -96,7 +95,8 @@
             }
 
         .add-card {
-            width: 100%;
+            width: 70%;
+            margin-left: 15%;
             margin-top: 20px;
             padding: 15px;
             font-size: 16px;
@@ -138,7 +138,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="padding: 0 5%">
         <h1>Create a new course</h1>
         <input type="text" id="title" placeholder="Enter a title">
         <textarea id="description" placeholder="Add a description..."></textarea>
@@ -205,6 +205,51 @@
         const card = button.closest('.card');
         card.remove();
     }
+
+    // Hàm kiểm tra các trường input
+    function validateForm() {
+        const title = document.getElementById('title');
+        const description = document.getElementById('description');
+        const terms = document.querySelectorAll('.term input');
+        const definitions = document.querySelectorAll('.definition input');
+
+        // Kiểm tra tiêu đề và mô tả
+        if (!title.value.trim()) {
+            alert('Tiêu đề không được để trống!');
+            return false; // Dừng lại nếu tiêu đề trống
+        }
+
+        if (!description.value.trim()) {
+            alert('Mô tả không được để trống!');
+            return false; // Dừng lại nếu mô tả trống
+        }
+
+        // Kiểm tra các thẻ (term) và định nghĩa (definition)
+        for (let i = 0; i < terms.length; i++) {
+            if (!terms[i].value.trim()) {
+                alert(`Thẻ ${i + 1} không được để trống!`);
+                return false; // Dừng lại nếu có thẻ trống
+            }
+        }
+
+        for (let i = 0; i < definitions.length; i++) {
+            if (!definitions[i].value.trim()) {
+                alert(`Định nghĩa cho thẻ ${Math.floor(i / 2) + 1} không được để trống!`);
+                return false; // Dừng lại nếu có định nghĩa trống
+            }
+        }
+
+        // Nếu không có lỗi, form sẽ được gửi đi
+        return true;
+    }
+
+    // Gọi hàm validateForm khi người dùng cố gắng submit
+    document.querySelector('form').onsubmit = function (event) {
+        if (!validateForm()) {
+            event.preventDefault(); // Ngăn form được gửi nếu có lỗi
+        }
+    };
+
 
     // Initialize with two cards
     addCard();

@@ -10,6 +10,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.33" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Folders\" />
+  </ItemGroup>
 	
 <Target Name="Tailwind" BeforeTargets="Build">
 		<Exec Command="npm run css:build" />
