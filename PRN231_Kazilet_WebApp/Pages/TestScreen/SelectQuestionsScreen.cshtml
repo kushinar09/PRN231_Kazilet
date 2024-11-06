@@ -45,9 +45,9 @@
             width: 100%;
         }
 
-            .nextButton:hover {
-                background-color: #60255b;
-            }
+        .nextButton:hover {
+            background-color: #60255b;
+        }
 
         .card {
             background-color: #ffffff;
@@ -70,13 +70,17 @@
             border: 1px solid #33333350;
         }
 
-            .custom-checkbox:checked {
-                background-color: #8854c0;
-            }
+        .custom-checkbox:checked {
+            background-color: #8854c0;
+        }
 
         .error {
             color: red;
             font-size: 12px;
+        }
+        
+        .question-item:hover {
+            background-color: #f5f5f5;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -91,15 +95,15 @@
                         <input class="input-text" id="search-question-by-content" type="text" placeholder="Search questions..." oninput="filterQuestions()" style="width:80%;margin-right: 10px" />
                         <button class="nextButton" type="submit" style="width:30%">Create Test</button>
                     </div>
-
+                    <p style="margin-left:10px;margin-bottom:10px">Number of selected questions: <span id="selected-count">0</span></p>
                     <div id="questions-list">
                         @foreach (var question in Model.Questions)
                         {
-                            <div class="card question-card">
+                            <div id="question-item-@question.Id" class="card question-card question-item" style="cursor:pointer;display: flex" onclick="toggleCheckbox(@question.Id)">
                                 <div class="question-item" style="display: flex">
-                                    <input type="checkbox" class="custom-checkbox" id="question-@question.Id" name="selectedQuestions" value="@question.Id" style="margin-right:10px" />
+                                    <input type="checkbox" class="custom-checkbox" id="question-@question.Id" name="selectedQuestions" value="@question.Id" style="margin-right:10px" onchange="updateSelectedCount()"/>
                                     <div>
-                                        <label for="question-@question.Id">@question.Content</label>
+                                        <label for="question-@question.Id" style="cursor:pointer">@question.Content</label>
                                     </div>
                                 </div>
                             </div>
@@ -124,6 +128,17 @@
             });
         }
 
+        function toggleCheckbox(id) {
+            const checkbox = document.getElementById(`question-${id}`);
+            checkbox.checked = !checkbox.checked; 
+            updateSelectedCount(); 
+        }
+
+        function updateSelectedCount() {
+            const selectedCheckboxes = document.querySelectorAll("input[name='selectedQuestions']:checked");
+            document.getElementById('selected-count').textContent = selectedCheckboxes.length;
+        }
+
         function checkSelectedQuestions(event) {
             const selected = document.querySelectorAll("input[name='selectedQuestions']:checked");
             if (selected.length === 0) {
@@ -138,6 +153,8 @@
             }
             return true; 
         }
+
+        window.onload = updateSelectedCount;
     </script>
 </body>
 </html>

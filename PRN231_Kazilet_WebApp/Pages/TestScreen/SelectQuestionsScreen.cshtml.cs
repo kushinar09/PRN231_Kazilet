@@ -19,13 +19,30 @@ namespace PRN231_Kazilet_WebApp.Pages.TestScreen
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
         }
         public IList<QuestionDto> Questions { get; set; } = default!;
-        public async Task OnGet()
+        [BindProperty]
+        public int Id {  get; set; }
+        [BindProperty]
+        public int Duration {  get; set; }
+        [BindProperty]
+        public List<int> SelectedQuestions { get; set; } = new List<int>();
+        public async Task OnGet(int id, int duration)
         {
-            HttpResponseMessage m = await _httpClient.GetAsync(questionUrl+"/1");
+            Id = id;
+            Duration = duration;
+            HttpResponseMessage m = await _httpClient.GetAsync($"{questionUrl}/{id}");
             string jsonStr = await m.Content.ReadAsStringAsync();
             dynamic temp = JObject.Parse(jsonStr);
             var list = temp.value;
             Questions = JsonConvert.DeserializeObject<IList<QuestionDto>>(list.ToString());
+        }
+        public IActionResult OnPost()
+        {
+            return RedirectToPage("/TestScreen/Test", new
+            {
+                id = Id,
+                duration = Duration,
+                selectedQuestions = string.Join(",", SelectedQuestions)
+            });
         }
     }
 }

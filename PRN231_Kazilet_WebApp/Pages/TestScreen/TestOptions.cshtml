@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test options</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 CDN -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,6 +32,11 @@
             color: #471b43;
         }
 
+            .input-text:disabled {
+                background-color: #e0e0e0; /* Change to light gray when disabled */
+                color: #888888; /* Change text color when disabled */
+            }
+
         .nextButton {
             background-color: #8854c0;
             color: #fff;
@@ -40,7 +46,7 @@
             border-radius: 6px;
         }
 
-        .nextButton:hover {
+            .nextButton:hover {
                 background-color: #60255b;
             }
 
@@ -77,28 +83,26 @@
     </style>
 </head>
 <body>
-    <div class="container" style="padding: 0 5%;margin: 0 auto">
-        <div style="padding:20px">
+    <div class="container" style="padding: 0 5%; margin: 0 auto">
+        <div style="padding: 20px">
             <h1>Select test options</h1>
             <div class="card">
-                <form id="test-options-form">
+                <form method="post" id="test-options-form">
                     <div class="input-block">
                         <p>Duration</p>
-                        <input id="duration" class="input-text" type="number" min="1" max="360" placeholder="Enter duration(Minutes)" required />
-                        <span id="duration-err" class="error"></span>
+                        <input name="duration" id="duration" class="input-text" type="number" min="1" max="360" placeholder="Enter duration (Minutes)" required />
                     </div>
 
-                    <div class="input-block" style="padding-top:10px; padding-bottom:10px; margin-bottom:20px">
+                    <div class="input-block" style="padding-top: 10px; padding-bottom: 10px; margin-bottom: 20px">
                         <div style="display: flex; align-items: center">
-                            <input id="random-checkbox" class="custom-checkbox" type="checkbox" style="margin: 0 10px 0 0;" />
+                            <input name="random" value="true" id="random-checkbox" class="custom-checkbox" type="checkbox" style="margin: 0 10px 0 0;" />
                             <p>Random questions?</p>
                         </div>
                     </div>
 
-                    <div class="input-block" id="number-of-questions-div">
-                        <p>Number of questions</p>
-                        <input id="number-of-questions" class="input-text" type="number" min="1" max="360" placeholder="Enter number of questions" required />
-                        <span id="num-of-ques-err" class="error"></span>
+                    <div class="input-block">
+                        <p>Number of questions (Use this when you want to random question)</p>
+                        <input name="numOfQues" id="number-of-questions" class="input-text" type="number" min="1" max="@Model.Questions.Count" placeholder="Enter number of questions"/>
                     </div>
 
                     <div>
@@ -108,24 +112,27 @@
             </div>
         </div>
     </div>
-</body>
-<script>
-    const checkbox = document.getElementById("random-checkbox");
-    const numberInput = document.getElementById("number-of-questions");
-    const numberInputDiv = document.getElementById("number-of-questions-div");
-    const durationInput = document.getElementById("duration");
-    const durationError = document.getElementById("duration-err");
-    const numOfQuestionsError = document.getElementById("num-of-ques-err");
 
-    checkbox.addEventListener("change", function () {
-        if (checkbox.checked) {
-            numberInput.disabled = true;
-            numberInputDiv.style.display = "none";
-            numberInput.value = "";
-        } else {
-            numberInput.disabled = false;
-            numberInputDiv.style.display = "inline";
-        }
-    });
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("test-options-form");
+            const checkbox = document.getElementById("random-checkbox");
+            const numberInput = document.getElementById("number-of-questions");
+            form.addEventListener("submit", function (event) {
+                if (checkbox.checked) {
+                    if (numberInput.value === "" || numberInput.value < 1) {
+                        Swal.fire({
+                            icon: 'error',
+                                title: 'Error',
+                                text: 'Please enter a valid number of questions.',
+                                confirmButtonText: 'Close',
+                                confirmButtonColor: '#8854c0'
+                            });
+                            event.preventDefault();
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
 </html>

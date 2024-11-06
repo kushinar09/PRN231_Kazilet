@@ -1,6 +1,7 @@
 ﻿@page
 @model PRN231_Kazilet_WebApp.Pages.Test.TestModel
 @{
+    Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -9,15 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select Questions</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #471b43;
-            margin: 0;
-        }
-
         .container {
-            max-width: 70%;
+            max-width: 80%;
             margin: 0 auto;
         }
 
@@ -78,25 +72,130 @@
             color: red;
             font-size: 12px;
         }
+
+        .question-list-button {
+            margin: 5px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+            .question-list-button.active {
+                background-color: #8854c0;
+                color: white;
+            }
+
+        .navigation-question {
+            font-size: 12px;
+            border: 1px solid #33333350;
+            width: 22px;
+            height: 22px;
+            justify-content: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .navigation-question.active {
+                background-color: #8854c0;
+                color: white;
+            }
+
+            .navigation-question:hover {
+                background-color: #f5f5f5;
+            }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container" style="padding: 0 2%; margin: 0 auto">
-        <div style="padding: 20px;display: flex">
-            <div class="card" style="width:80%;margin-right:10px">
-                <form id="questionForm" method="post" onsubmit="return checkSelectedQuestions(event)">
-                            <p>111</p>                                      
+        <div style="padding: 20px; display: flex">
+            <div class="card" style="width:75%; margin-right:10px; height: min-content">
+                <form id="questionForm" method="post" onsubmit="return saveAnswersBeforeSubmit()">
+                    <div id="question-display">
+                        <h3>@Model.QuestionList.FirstOrDefault()?.Content</h3>
+                        <div id="answer-options">
+                            @foreach (var answer in Model.QuestionList.FirstOrDefault()?.Answers)
+                            {
+                                <div>
+                                    <input type="radio" name="question0" value="@answer.Content" onclick="selectAnswer(0, '@answer.Content')">
+                                    <label>@answer.Content</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    @foreach (var question in Model.QuestionList.Select((question, index) => new { question, index }))
+                    {
+                        <input type="hidden" id="selectedAnswer_@question.index" name="selectedAnswer_@question.index" />
+                    }
+
+                    <button type="submit">Submit Answers</button>
                 </form>
             </div>
-            <div class="card" id="option-menu" style="width: 20%">
-                <p>Questions</p>
+
+            <div class="card" id="option-menu" style="width: 25%">
+                <p style="font-size:20px">Questions</p>
+                <div style="display: flex; flex-wrap: wrap; gap:5px">
+                    @foreach (var question in Model.QuestionList.Select((question, index) => new { question, index }))
+                    {
+                        <button class="navigation-question" onclick="showQuestion(@question.index)">@(question.index + 1)</button>
+                    }
+                </div>
+                <button class="nextButton" type="submit" style="margin-top:20px">Submit</button>
             </div>
         </div>
     </div>
 
     <script>
-        
+        var questions = @Html.Raw(Json.Serialize(Model.QuestionList));
+        var selectedAnswers = {};
+
+        function showQuestion(index) {
+            var questionDisplay = document.getElementById('question-display');
+            var selectedQuestion = questions[index];
+
+            // Remove active class from all navigation buttons
+            document.querySelectorAll('.navigation-question').forEach(button => button.classList.remove('active'));
+
+            // Add active class to the clicked navigation button
+            var activeButton = document.querySelector('.navigation-question:nth-child(' + (index + 1) + ')');
+            activeButton.classList.add('active');
+
+            // Update the question display
+            questionDisplay.innerHTML = `
+                <h3>${selectedQuestion.Content}</h3>
+                <div id="answer-options">
+                    ${selectedQuestion.Answers.map((answer, i) => `
+                        <div>
+                            <input type="radio" name="question${index}" value="${answer.Content}" onclick="selectAnswer(${index}, '${answer.Content}')">
+                            <label>${answer.Content}</label>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function selectAnswer(questionIndex, answer) {
+            selectedAnswers[questionIndex] = answer;
+        }
+
+        function saveAnswersBeforeSubmit() {
+            for (var index in selectedAnswers) {
+                var hiddenInput = document.getElementById('selectedAnswer_' + index);
+                if (hiddenInput) {
+                    hiddenInput.value = selectedAnswers[index];
+                }
+            }
+            return true;
+        }
+
+        // Initially show the first question
+        showQuestion(0);
     </script>
 </body>
 </html>
