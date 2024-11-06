@@ -14,9 +14,9 @@ namespace PRN231_Kazilet_API.Controllers
     {
         private IFolderService _folderService;
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
 
-        public FoldersController(IFolderService folderService, IHttpContextAccessor contextAccessor, PRN231_KaziletContext context)
+        public FoldersController(IFolderService folderService, IHttpContextAccessor contextAccessor, PRN231_Kazilet_v2Context context)
         {
             _folderService = folderService;
             _contextAccessor = contextAccessor;
@@ -37,12 +37,15 @@ namespace PRN231_Kazilet_API.Controllers
         [HttpGet("folders/{userid}")]
         public IActionResult GetFoldersByUser(int userid)
         {
+            /*
             var folders = _context.Folders.Include(f => f.FolderCourses).ThenInclude(fc => fc.Course).Where(f => f.CreatedByNavigation.Id == userid).ToList();
             if (folders == null || folders.Count == 0)
             {
                 return NotFound("No folders found for user");
             }
             return Ok(folders);
+            */
+            return Ok();
         }
 
         [HttpPost("AddCourse")]

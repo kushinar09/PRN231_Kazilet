@@ -104,3 +104,4 @@ D:\cms\PRN231_HuongNT7\Projects\Git\PRN231_Kazilet\PRN231_Kazilet_WebApp\obj\Deb
 D:\cms\PRN231_HuongNT7\Projects\Git\PRN231_Kazilet\PRN231_Kazilet_WebApp\obj\Debug\net6.0\PRN231_Kazilet_WebApp.pdb
 D:\cms\PRN231_HuongNT7\Projects\Git\PRN231_Kazilet\PRN231_Kazilet_WebApp\obj\Debug\net6.0\PRN231_Kazilet_WebApp.genruntimeconfig.cache
 D:\cms\PRN231_HuongNT7\Projects\Git\PRN231_Kazilet\PRN231_Kazilet_WebApp\obj\Debug\net6.0\ref\PRN231_Kazilet_WebApp.dll
+D:\CSharpAPI\PRN231_Kazilet\PRN231_Kazilet\PRN231_Kazilet_WebApp\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.Google.dll

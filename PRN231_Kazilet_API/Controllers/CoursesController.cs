@@ -10,9 +10,9 @@ namespace PRN231_Kazilet_API.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
 
-        public CoursesController(PRN231_KaziletContext context)
+        public CoursesController(PRN231_Kazilet_v2Context context)
         {
             _context = context;
         }
@@ -21,7 +21,8 @@ namespace PRN231_Kazilet_API.Controllers
         [HttpGet("by-folder/{folderid}")]
         public IActionResult GetCourseByFolder(int folderid)
         {
-            var courses = _context.FolderCourses
+            /*
+            var courses = _context.
                 .Where(fc => fc.FolderId == folderid)    
                 .Include(fc => fc.Course)               
                 .ThenInclude(c => c.CreatedByNavigation) 
@@ -35,6 +36,8 @@ namespace PRN231_Kazilet_API.Controllers
                 return NotFound("This folder hasn't have any course");
             }
             return Ok(courses);
+            */
+            return Ok();
         }
 
         [HttpPost("import")]
@@ -104,6 +107,66 @@ namespace PRN231_Kazilet_API.Controllers
                 var fileName = "Courses.xlsx";
                 return File(stream, contentType, fileName);
             }
+            */
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("Recent/{userId}")]
+        public IActionResult GetCourseRecent(int userId)
+        {
+            var courses = _context.LearningHistories
+                .Where(fc => fc.UserId == userId)
+                .Include(fc => fc.Course)
+                .ThenInclude(c => c.CreatedByNavigation)
+                .Select(fc => fc.Course)
+                .ToList();
+
+            return Ok(courses);
+        }
+
+        [HttpGet]
+        [Route("Popular")]
+        public IActionResult GetCoursePopular()
+        {
+            var courses = _context.Courses
+                .Include(c => c.CreatedByNavigation)
+                .Include(fc => fc.Questions)
+                .Where(fc => fc.Questions.Count > 0)
+                .OrderByDescending(fc => fc.Questions.Count)
+                .Take(5)
+                .ToList();
+
+            foreach (var item in courses)
+            {
+                item.Questions = new List<Question>();
+            }
+
+            return Ok(courses);
+        }
+
+        [HttpGet]
+        [Route("Users/Popular")]
+        public IActionResult GetUserCoursePopular()
+        {
+            /*
+            var users = _context.Users
+                .Include(u => u.RoleNavigation)
+                .ToList();
+
+            foreach (var item in users)
+            {
+                item.numOfCourse = _context.Courses.Count(c => c.CreatedBy == item.Id);
+                item.roleName = item.RoleNavigation.Role;
+            }
+
+            var popularUsers = users
+                .Where(u => u.numOfCourse > 0)
+                .OrderByDescending(u => u.numOfCourse)
+                .Take(5)
+                .ToList();
+
+            return Ok(popularUsers);
             */
             return Ok();
         }

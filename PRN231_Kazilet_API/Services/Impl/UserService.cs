@@ -22,7 +22,7 @@ namespace PRN231_Kazilet_API.Services.Impl
     public class UserService : IUserService
     {
         private readonly Common utils = new Common();
-        private readonly PRN231_KaziletContext _context = new PRN231_KaziletContext();
+        private readonly PRN231_Kazilet_v2Context _context = new PRN231_Kazilet_v2Context();
 
         public Task<bool> UserExists(string email)
         {

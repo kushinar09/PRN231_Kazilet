@@ -16,7 +16,7 @@ namespace PRN231_Kazilet_API.Services.Impl
 {
     public class GameplayService : IGameplayService
     {
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
 
         private readonly IAuthService _authService;
 
@@ -28,7 +28,7 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         private int baseScore = 500;
 
-        public GameplayService(PRN231_KaziletContext context, IAuthService authService, IQuestionService questionService, IMapper mapper, IHubContext<SignalrServer> signalRHub)
+        public GameplayService(PRN231_Kazilet_v2Context context, IAuthService authService, IQuestionService questionService, IMapper mapper, IHubContext<SignalrServer> signalRHub)
         {
             _context = context;
             _authService = authService;
@@ -134,9 +134,6 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public int GetPoint(string code, string username)
         {
-            Console.WriteLine("Point: " + _context.Gameplays
-                .Where(g => g.Code == code && g.Username == username)
-                .Sum(g => g.Score.GetValueOrDefault(0)) + " " + username + " " + code);
             return _context.Gameplays
                 .Where(g => g.Code == code && g.Username == username)
                 .Sum(g => g.Score.GetValueOrDefault(0));
@@ -179,7 +176,8 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public int[] GetQuestionAlreadyAnswer(string code)
         {
-            int[] questions = (_context.Gameplays.Where(g => g.Turn != 0 && g.Code == code).Where(q => q.QuestionId.HasValue).Select(g => g.QuestionId.Value).ToArray());
+            Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Turn != 0 && g.Code == code);
+            int[] questions = (_context.GameplayAnswers.Where(g => g.GameplayId == gameplay.Id).Select(g => g.QuestionId).ToArray());
             return questions;
         }
 
@@ -239,15 +237,15 @@ namespace PRN231_Kazilet_API.Services.Impl
 
             GameplaySetting gameplaySetting = _context.GameplaySettings.FirstOrDefault(gs => gs.Code == code);
             Gameplay gameplay = new Gameplay();
-
+            GameplayAnswer gameplayAnswer = new GameplayAnswer();
            
             gameplay.Code = code;
             gameplay.Username = username;
-            gameplay.QuestionId = playerAnswerDto.QuestionId;
+            gameplayAnswer.QuestionId = playerAnswerDto.QuestionId;
             if (playerAnswerDto.PlayerAnswer == 0)
-                gameplay.PlayerAnswer = null;
+                gameplayAnswer.PlayerAnswer = null;
             else
-                gameplay.PlayerAnswer = playerAnswerDto.PlayerAnswer;
+                gameplayAnswer.PlayerAnswer = playerAnswerDto.PlayerAnswer;
             gameplay.Turn = playerAnswerDto.Turn;
             gameplay.CreatedAt = playerAnswerDto.CreatedAt;
             int duration = (int)Math.Floor((playerAnswerDto.AnswerAt - playerAnswerDto.CreatedAt).TotalSeconds);
@@ -257,7 +255,6 @@ namespace PRN231_Kazilet_API.Services.Impl
             if (playerAnswerDto.PlayerAnswer != null)
                 if (_context.Answers.FirstOrDefault(a => a.Id == playerAnswerDto.PlayerAnswer) != null)
                     isCorrect = (bool)_context.Answers.FirstOrDefault(a => a.Id == playerAnswerDto.PlayerAnswer).IsCorrect;
-            gameplay.IsCorrect = isCorrect;
             int streak = GetPlayerAnswerStreak(code, username);
             if (isCorrect)
             {
@@ -268,7 +265,7 @@ namespace PRN231_Kazilet_API.Services.Impl
                 streak = 0;
             }
             gameplay.Streak = streak;
-            if (gameplay.IsCorrect == true)
+            if (isCorrect == true)
                 gameplay.Score = calculateScore(streak, duration, (int)gameplaySetting.TimeLimit, playerAnswerDto.Turn, code);
             else
                 gameplay.Score = 0;
@@ -357,8 +354,11 @@ namespace PRN231_Kazilet_API.Services.Impl
             for (int i = 0; i < gameplays.Count; i++)
             {
                 GameplayResultDto gameplayResultDto = new GameplayResultDto();
+                Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn);
                 gameplayResultDto.Username = gameplays[i].Username;
-                gameplayResultDto.IsCorrect = (bool)_context.Gameplays.FirstOrDefault(g => g.Username == gameplays[i].Username && g.Code == code && g.Turn == turn).IsCorrect;
+                GameplayAnswer gameplayAnswer = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplay.Id);
+                Answer answer = _context.Answers.FirstOrDefault(a => a.Id == gameplayAnswer.PlayerAnswer);
+                gameplayResultDto.IsCorrect = (bool)answer.IsCorrect;
                 gameplayResultDto.Streak = (int)_context.Gameplays.FirstOrDefault(g => g.Username == gameplays[i].Username && g.Code == code && g.Turn == turn).Streak;
                 gameplayResultDto.Score = (int)_context.Gameplays.FirstOrDefault(g => g.Username == gameplays[i].Username && g.Code == code && g.Turn == turn).Score;
                 gameplayResultDto.Place = i + 1;
@@ -369,8 +369,9 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public List<GameplayReportDto> GetGameplayReportForTurn(string code, int turn)
         {
-            var gameplays = _context.Gameplays.Where(g => g.Code == code && g.Turn == turn)
-                .GroupBy(g => g.PlayerAnswer)
+            var gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn);
+            var gameplays = _context.GameplayAnswers.Where(g => g.GameplayId == gameplay.Id)
+                .GroupBy(ga => ga.PlayerAnswer)
                 .Select(gm => new
                 {
                     No = gm.Count(),
@@ -378,7 +379,8 @@ namespace PRN231_Kazilet_API.Services.Impl
                 })
                 .ToList();
             List<GameplayReportDto> gameplayReportDtos = new List<GameplayReportDto>();
-            int questionId = (int)_context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn).QuestionId;
+            GameplayAnswer gameplayAnswer = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplay.Id);
+            int questionId = gameplayAnswer.QuestionId;
             List<Answer> answers = _context.Answers.Where(a => a.QuestionId == questionId).ToList();
             for (int i = 0; i < answers.Count; i++)
             {
@@ -442,7 +444,18 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public int GetNumberCorrectAnswer(string code, string username)
         {
-            return _context.Gameplays.Where(g => g.Code == code && g.Username == username && g.IsCorrect == true && g.Turn != 0).Count();
+            List<Gameplay> gameplay = _context.Gameplays.Where(g => g.Code == code && g.Username == username && g.Turn != 0).ToList();
+            int cnt = 0;
+            for(int i = 0; i < gameplay.Count; i++)
+            {
+                GameplayAnswer ga = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplay[i].Id);
+                Answer answer = _context.Answers.FirstOrDefault(a => a.Id == ga.PlayerAnswer);
+                if(answer.IsCorrect == true)
+                {
+                    cnt++;
+                }
+            }
+            return cnt;
         }
 
         public double GetAvgDuration(string code, string username)
@@ -509,11 +522,12 @@ namespace PRN231_Kazilet_API.Services.Impl
             List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code && g.Username == username && g.Turn != 0).ToList();
             for (int i = 0; i < gameplays.Count; i++)
             {
+                GameplayAnswer gameplayAnswer = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplays[i].Id);
                 PlayerResponseDtocs playerResponse = new PlayerResponseDtocs();
-                playerResponse.PlayerAnswer = (int)gameplays[i].PlayerAnswer.GetValueOrDefault(0);
+                playerResponse.PlayerAnswer = (int)gameplayAnswer.PlayerAnswer.GetValueOrDefault(0);
                 playerResponse.QuestionDto = _mapper.Map<QuestionDto>(_context.Questions
                     .Include(q => q.Answers)
-                    .FirstOrDefault(q => q.Id == gameplays[i].QuestionId));
+                    .FirstOrDefault(q => q.Id == gameplayAnswer.QuestionId));
                 playerResponseDtocs.Add(playerResponse);
             }
             gameplayFinalReportDto.PlayerResponses = playerResponseDtocs;
@@ -551,8 +565,9 @@ namespace PRN231_Kazilet_API.Services.Impl
             if (cnt == GetPlayerInRoom(code).Count)
             {
                 Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn && g.Username == username);
+                GameplayAnswer gameplayAnswer = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplay.Id);
                 PlayerAnswerDto playerAnswerDto = new PlayerAnswerDto();
-                playerAnswerDto.PlayerAnswer = gameplay.PlayerAnswer;
+                playerAnswerDto.PlayerAnswer = gameplayAnswer.PlayerAnswer;
                 playerAnswerDto.Turn = (int)gameplay.Turn;
                 return playerAnswerDto;
             }

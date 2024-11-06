@@ -6,11 +6,11 @@ namespace PRN231_Kazilet_API.Services.Impl
 {
     public class FolderService : IFolderService
     {
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
 
         private readonly IMapper _mapper;
 
-        public FolderService(PRN231_KaziletContext context, IMapper mapper)
+        public FolderService(PRN231_Kazilet_v2Context context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -18,6 +18,7 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public bool AddCourseToFolder(int courseId, int folderId)
         {
+            /*
             Folder f = _context.Folders.FirstOrDefault(f => f.Id == folderId);
             _context.FolderCourses.Add(new FolderCourse()
             {
@@ -26,6 +27,8 @@ namespace PRN231_Kazilet_API.Services.Impl
             });
 
             return _context.SaveChanges() > 0;
+            */
+            return true;
         }
 
         public bool AddFolder(FolderDto folderDto)
@@ -43,17 +46,20 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public bool RemoveCourseInFolder(int courseId, int folderId)
         {
+            /*
             FolderCourse folderCourse = _context.FolderCourses.FirstOrDefault(c => c.CourseId == courseId && c.FolderId == folderId);
             if (folderCourse != null)
             {
                 _context.FolderCourses.Remove(folderCourse);
                 return _context.SaveChanges() > 0;
             }
+            */
             return false;
         }
 
         public bool RemoveFolder(int folderId)
         {
+            /*
             Folder folder = _context.Folders.FirstOrDefault(f => f.Id == folderId);
             if (folder == null)
             {
@@ -71,6 +77,8 @@ namespace PRN231_Kazilet_API.Services.Impl
 
             _context.Folders.Remove(folder);
             return _context.SaveChanges() > 0;
+            */
+            return true;
         }
 
     }
