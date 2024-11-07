@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MailKit;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PRN231_Kazilet_API.Models.Dto;
@@ -13,33 +15,33 @@ namespace PRN231_Kazilet_API.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
         private readonly ICourseService _courseService;
-        public CoursesController(PRN231_KaziletContext context, ICourseService courseService)
+        public CoursesController(PRN231_Kazilet_v2Context context, ICourseService courseService)
         {
             _context = context;
             _courseService = courseService;
         }
 
 
-        [HttpGet("by-folder/{folderid}")]
-        public IActionResult GetCourseByFolder(int folderid)
-        {
-            var courses = _context.FolderCourses
-                .Where(fc => fc.FolderId == folderid)    
-                .Include(fc => fc.Course)               
-                .ThenInclude(c => c.CreatedByNavigation) 
-                .Select(fc => fc.Course)                 
-                .ToList();
+        //[HttpGet("by-folder/{folderid}")]
+        //public IActionResult GetCourseByFolder(int folderid)
+        //{
+        //    var courses = _context.FolderCourses
+        //        .Where(fc => fc.FolderId == folderid)    
+        //        .Include(fc => fc.Course)               
+        //        .ThenInclude(c => c.CreatedByNavigation) 
+        //        .Select(fc => fc.Course)                 
+        //        .ToList();
 
 
 
-            if (courses == null || courses.Count == 0)
-            {
-                return NotFound("This folder hasn't have any course");
-            }
-            return Ok(courses);
-        }
+        //    if (courses == null || courses.Count == 0)
+        //    {
+        //        return NotFound("This folder hasn't have any course");
+        //    }
+        //    return Ok(courses);
+        //}
 
         [HttpPost("import")]
         public IActionResult ImportFromExcel(IFormFile file)
@@ -74,7 +76,6 @@ namespace PRN231_Kazilet_API.Controllers
                 }
                 */
             }
-
             return Ok("Courses imported successfully from Excel.");
         }
 
@@ -119,6 +120,7 @@ namespace PRN231_Kazilet_API.Controllers
             return Ok(_courseService.GetCourse(courseId));
         }
 
+        //[Authorize(Roles = "user,admin")]
         [HttpPost("Add")]
         public async Task<IActionResult> AddCourse([FromBody] CourseDto courseDto)
         {
@@ -139,15 +141,16 @@ namespace PRN231_Kazilet_API.Controllers
             }
         }
 
-        [HttpPost("Update/{courseId}")]
-        public IActionResult UpdateCourse(int courseId, [FromBody] CourseDto courseDto)
+        //[Authorize(Roles = "user,admin")]
+        [HttpPost("Update")]
+        public IActionResult UpdateCourse([FromBody] CourseDto courseDto)
         {
             if (courseDto == null)
             {
                 return BadRequest("Course data cannot be null.");
             }
 
-            bool result = _courseService.UpdateCourse(courseId, courseDto);
+            bool result = _courseService.UpdateCourse(courseDto);
 
             if (result)
             {

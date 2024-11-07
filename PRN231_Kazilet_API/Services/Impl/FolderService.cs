@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PRN231_Kazilet_API.Models.Dto;
 using PRN231_Kazilet_API.Models.Entities;
 
@@ -6,25 +7,24 @@ namespace PRN231_Kazilet_API.Services.Impl
 {
     public class FolderService : IFolderService
     {
-        private readonly PRN231_KaziletContext _context;
-
+        private readonly PRN231_Kazilet_v2Context _context;
         private readonly IMapper _mapper;
 
-        public FolderService(PRN231_KaziletContext context, IMapper mapper)
+        public FolderService(PRN231_Kazilet_v2Context context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public bool AddCourseToFolder(int courseId, int folderId)
+        public bool AddCourseToFolder(FolderCourseDto folderCourseDto)
         {
-            Folder f = _context.Folders.FirstOrDefault(f => f.Id == folderId);
-            _context.FolderCourses.Add(new FolderCourse()
-            {
-                FolderId = folderId,
-                CourseId = courseId
-            });
+            var course = _context.Courses.Find(folderCourseDto.CourseId);
+            var folder = _context.Folders.Find(folderCourseDto.FolderId);
 
+            if (course == null || folder == null)
+                return false;
+
+            course.Folders.Add(folder); // Thêm folder vào collection Folders của course
             return _context.SaveChanges() > 0;
         }
 
@@ -43,35 +43,35 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public bool RemoveCourseInFolder(int courseId, int folderId)
         {
-            FolderCourse folderCourse = _context.FolderCourses.FirstOrDefault(c => c.CourseId == courseId && c.FolderId == folderId);
-            if (folderCourse != null)
+            var course = _context.Courses.Include(c => c.Folders).FirstOrDefault(c => c.Id == courseId);
+            var folder = _context.Folders.Find(folderId);
+
+            if (course == null || folder == null)
+                return false;
+
+            if (course.Folders.Contains(folder))
             {
-                _context.FolderCourses.Remove(folderCourse);
+                course.Folders.Remove(folder);
                 return _context.SaveChanges() > 0;
             }
+
             return false;
         }
 
         public bool RemoveFolder(int folderId)
         {
-            Folder folder = _context.Folders.FirstOrDefault(f => f.Id == folderId);
+            var folder = _context.Folders.Include(f => f.Courses).FirstOrDefault(f => f.Id == folderId);
             if (folder == null)
             {
                 return false;
             }
 
-            List<FolderCourse> folderCourses = _context.FolderCourses.Where(c => c.FolderId == folderId).ToList();
-            if (folderCourses.Count > 0)
-            {
-                foreach (FolderCourse c in folderCourses)
-                {
-                    _context.FolderCourses.Remove(c);
-                }
-            }
-
+            // Xóa tất cả các quan hệ với các khóa học trước khi xóa Folder
+            folder.Courses.Clear();
             _context.Folders.Remove(folder);
+
             return _context.SaveChanges() > 0;
         }
-
     }
+
 }

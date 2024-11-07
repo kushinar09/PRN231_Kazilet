@@ -7,10 +7,10 @@ namespace PRN231_Kazilet_API.Services.Impl
 {
     public class CourseService : ICourseService
     {
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
         private readonly IMapper _mapper;
 
-        public CourseService(PRN231_KaziletContext context, IMapper mapper)
+        public CourseService(PRN231_Kazilet_v2Context context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -49,7 +49,6 @@ namespace PRN231_Kazilet_API.Services.Impl
                         CourseId = courseId,
                         Content = questionDto.Content,
                         IsMarked = questionDto.IsMarked,
-                        Status = 1
                     };
 
                     _context.Questions.Add(questionEntity);
@@ -81,12 +80,12 @@ namespace PRN231_Kazilet_API.Services.Impl
             return _context.SaveChanges() > 0;
         }
 
-        public bool UpdateCourse(int courseId, CourseDto courseDto)
+        public bool UpdateCourse(CourseDto courseDto)
         {
             var existingCourse = _context.Courses
                 .Include(c => c.Questions)
                 .ThenInclude(q => q.Answers)
-                .FirstOrDefault(c => c.Id == courseId);
+                .FirstOrDefault(c => c.Id == courseDto.Id);
 
             if (existingCourse == null || courseDto == null)
             {
@@ -110,10 +109,9 @@ namespace PRN231_Kazilet_API.Services.Impl
             {
                 var newQuestion = new Question
                 {
-                    CourseId = courseId,
+                    CourseId = courseDto.Id,
                     Content = questionDto.Content,
                     IsMarked = questionDto.IsMarked,
-                    Status = questionDto.Status
                 };
                 _context.Questions.Add(newQuestion);
                 _context.SaveChanges(); // Save to generate Question ID
