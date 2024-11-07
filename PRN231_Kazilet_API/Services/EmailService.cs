@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace PRN231_Kazilet_API.Services.Impl
+namespace PRN231_Kazilet_API.Services
 {
     public class EmailService
     {
@@ -30,7 +30,7 @@ namespace PRN231_Kazilet_API.Services.Impl
             var email = new MimeMessage();
             email.From.Add(new MailboxAddress(_displayName, _username));
             email.To.Add(new MailboxAddress("", toEmail));
-            email.Subject = !String.IsNullOrEmpty(tag) ? $"[{tag}] {subject}" : subject;
+            email.Subject = !string.IsNullOrEmpty(tag) ? $"[{tag}] {subject}" : subject;
 
             var body = new TextPart("html")
             {

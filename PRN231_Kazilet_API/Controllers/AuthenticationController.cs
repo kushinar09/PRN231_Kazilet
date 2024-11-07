@@ -2,13 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PRN231_Kazilet_API.Models.Entities;
-using PRN231_Kazilet_API.Services.Impl;
+using PRN231_Kazilet_API.Services;
+using PRN231_Kazilet_API.Utils;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using PRN231_Kazilet_API.Utils;
-using PRN231_Kazilet_API.Services;
-using Microsoft.AspNetCore.Identity;
 
 namespace PRN231_Kazilet_API.Controllers
 {
@@ -31,6 +29,35 @@ namespace PRN231_Kazilet_API.Controllers
             _env = env;
             _authService = authService;
         }
+
+        [HttpGet("check")]
+        public async Task<IActionResult> CheckToken()
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized(new { isValid = false, message = "No token provided." });
+            }
+
+            try
+            {
+                User? u = _authService.GetUserFromJwtToken(token);
+                if (u == null)
+                {
+                    return Unauthorized(new { isValid = false, message = "Not found user." });
+                }
+                else
+                {
+                    return Ok(new { UserId = u.Id, Username = u.Username, Email = u.Email });
+                }
+            }
+            catch (Exception)
+            {
+                return Unauthorized(new { isValid = false, message = "Invalid token." });
+            }
+        }
+
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
@@ -58,6 +85,17 @@ namespace PRN231_Kazilet_API.Controllers
             if (authenticatedUser == null)
                 return Unauthorized();
             var token = _authService.GenerateJwtToken(authenticatedUser);
+
+            // Lưu token vào cookie
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTimeOffset.UtcNow.AddSeconds(int.Parse(_configuration["Jwt:ExpireSeconds"]))
+            };
+
+            Response.Cookies.Append("accessToken", token, cookieOptions);
             return Ok(new { Token = token });
         }
 
@@ -78,9 +116,10 @@ namespace PRN231_Kazilet_API.Controllers
                 var googleId = result.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
                 var email = result.Principal.FindFirstValue(ClaimTypes.Email);
                 var username = result.Principal.FindFirstValue(ClaimTypes.Name);
-                User? u = _userService.GetUserGoogle(email, googleId);
+                User? u = _userService.GetUserByEmail(email);
                 int uid;
-                if (u == null){
+                if (u == null)
+                {
                     string pwd = utils.GeneratePassword();
                     u = new User
                     {
@@ -103,15 +142,21 @@ namespace PRN231_Kazilet_API.Controllers
                 else
                 {
                     uid = u.Id;
+                    u.Type = "google";
+                    if (String.IsNullOrEmpty(u.Gid))
+                    {
+                        u.Gid = googleId;
+                    }
+                    bool rs = _userService.UpdateUser(u);
                 }
                 var token = _authService.GenerateJwtToken(u);
 
                 // Lưu token vào cookie
                 var cookieOptions = new CookieOptions
                 {
-                    HttpOnly = true, 
-                    Secure = true, 
-                    SameSite = SameSiteMode.None, 
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
                     Expires = DateTimeOffset.UtcNow.AddSeconds(int.Parse(_configuration["Jwt:ExpireSeconds"]))
                 };
 

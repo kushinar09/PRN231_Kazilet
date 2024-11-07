@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\email_template\\changePwdSuccess.html"
     },
     {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\createPassword.html",
+      "PackagePath": "staticwebassets\\email_template\\createPassword.html"
+    },
+    {
       "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\forgotPassword.html",
       "PackagePath": "staticwebassets\\email_template\\forgotPassword.html"
     },

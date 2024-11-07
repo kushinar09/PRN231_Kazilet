@@ -8,19 +8,21 @@ async function getQuestion() {
     }
 }
 
+function setCookie(name, value, seconds) {
+    const date = new Date();
+    date.setTime(date.getTime() + (seconds * 1000));  
+    const expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${name}=${value}; ${expires}; path=/`;
+}
+
 function getCookie(key) {
-    const name = key + "=";
-    const decodedCookie = document.cookie;
-    const cookiesArray = decodedCookie.split(';');
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${key}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
-    for (let i = 0; i < cookiesArray.length; i++) {
-        let cookie = cookiesArray[i].trim();
-        if (cookie.indexOf(name) === 0) {
-            return cookie.substring(name.length, cookie.length);
-        }
-    }
-
-    return null;
+function deleteCookie(name) {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 
 function connect(token) {

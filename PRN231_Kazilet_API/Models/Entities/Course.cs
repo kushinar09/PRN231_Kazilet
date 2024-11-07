@@ -20,6 +20,7 @@ namespace PRN231_Kazilet_API.Models.Entities
         public int? CreatedBy { get; set; }
         public string? CoursePassword { get; set; }
         public bool? IsPublic { get; set; }
+        public int? Status { get; set; }
 
         public virtual User? CreatedByNavigation { get; set; }
         public virtual ICollection<FolderCourse> FolderCourses { get; set; }

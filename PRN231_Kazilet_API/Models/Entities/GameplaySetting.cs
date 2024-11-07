@@ -25,12 +25,5 @@ namespace PRN231_Kazilet_API.Models.Entities
         public virtual Course? Course { get; set; }
         public virtual User? CreatedByNavigation { get; set; }
         public virtual ICollection<Gameplay> Gameplays { get; set; }
-
-        public GameplaySetting(string code, DateTime? createdAt, int? createdBy)
-        {
-            Code = code;
-            CreatedAt = createdAt;
-            CreatedBy = createdBy;
-        }
     }
 }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "TTr6QtzRnK+fdzxUQtT79RYvlhb6WXYtSWkX3wxJqgY=",
+  "Hash": "2ZfJLyA3JnlF/WMN8mVPJPJPsacknVfDhzT74XOyrZk=",
   "Source": "PRN231_Kazilet_API",
   "BasePath": "_content/PRN231_Kazilet_API",
   "Mode": "Default",
@@ -34,6 +34,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\email_template\\changePwdSuccess.html"
+    },
+    {
+      "Identity": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\createPassword.html",
+      "SourceId": "PRN231_Kazilet_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\",
+      "BasePath": "_content/PRN231_Kazilet_API",
+      "RelativePath": "email_template/createPassword.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\email_template\\createPassword.html"
     },
     {
       "Identity": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\forgotPassword.html",

@@ -11,9 +11,9 @@ namespace PRN231_Kazilet_API.Services.Impl
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
 
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
         
-        public AuthService(IConfiguration configuration, PRN231_KaziletContext context, IUserService userService)
+        public AuthService(IConfiguration configuration, PRN231_Kazilet_v2Context context, IUserService userService)
         {
             _configuration = configuration;
             _context = context;

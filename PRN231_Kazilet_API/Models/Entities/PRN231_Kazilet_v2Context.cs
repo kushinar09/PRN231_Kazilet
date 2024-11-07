@@ -1,17 +1,17 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace PRN231_Kazilet_API.Models.Entities
 {
-    public partial class PRN231_KaziletContext : DbContext
+    public partial class PRN231_Kazilet_v2Context : DbContext
     {
-        public PRN231_KaziletContext()
+        public PRN231_Kazilet_v2Context()
         {
         }
 
-        public PRN231_KaziletContext(DbContextOptions<PRN231_KaziletContext> options)
+        public PRN231_Kazilet_v2Context(DbContextOptions<PRN231_Kazilet_v2Context> options)
             : base(options)
         {
         }
@@ -21,6 +21,7 @@ namespace PRN231_Kazilet_API.Models.Entities
         public virtual DbSet<Folder> Folders { get; set; } = null!;
         public virtual DbSet<FolderCourse> FolderCourses { get; set; } = null!;
         public virtual DbSet<Gameplay> Gameplays { get; set; } = null!;
+        public virtual DbSet<GameplayAnswer> GameplayAnswers { get; set; } = null!;
         public virtual DbSet<GameplaySetting> GameplaySettings { get; set; } = null!;
         public virtual DbSet<LearningHistory> LearningHistories { get; set; } = null!;
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
@@ -55,7 +56,7 @@ namespace PRN231_Kazilet_API.Models.Entities
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.QuestionId)
-                    .HasConstraintName("FK__Answers__questio__4F7CD00D");
+                    .HasConstraintName("FK__Answers__questio__628FA481");
             });
 
             modelBuilder.Entity<Course>(entity =>
@@ -83,10 +84,12 @@ namespace PRN231_Kazilet_API.Models.Entities
                     .HasMaxLength(50)
                     .HasColumnName("name");
 
+                entity.Property(e => e.Status).HasColumnName("status");
+
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.Courses)
                     .HasForeignKey(d => d.CreatedBy)
-                    .HasConstraintName("FK__Courses__created__3F466844");
+                    .HasConstraintName("FK__Courses__created__6383C8BA");
             });
 
             modelBuilder.Entity<Folder>(entity =>
@@ -106,28 +109,33 @@ namespace PRN231_Kazilet_API.Models.Entities
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.Folders)
                     .HasForeignKey(d => d.CreatedBy)
-                    .HasConstraintName("FK__Folders__created__3C69FB99");
+                    .HasConstraintName("FK__Folders__created__66603565");
             });
 
             modelBuilder.Entity<FolderCourse>(entity =>
             {
-                entity.ToTable("FolderCourse");
+                entity.HasKey(e => new { e.CourseId, e.FolderId })
+                    .HasName("PK__FolderCo__2F1AA7DF891609FE");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.ToTable("FolderCourse");
 
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
                 entity.Property(e => e.FolderId).HasColumnName("folder_id");
 
+                entity.Property(e => e.PlayerAnswer).HasColumnName("player_answer");
+
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.FolderCourses)
                     .HasForeignKey(d => d.CourseId)
-                    .HasConstraintName("FK__FolderCou__cours__4222D4EF");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__FolderCou__cours__6477ECF3");
 
                 entity.HasOne(d => d.Folder)
                     .WithMany(p => p.FolderCourses)
                     .HasForeignKey(d => d.FolderId)
-                    .HasConstraintName("FK__FolderCou__folde__4316F928");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__FolderCou__folde__656C112C");
             });
 
             modelBuilder.Entity<Gameplay>(entity =>
@@ -135,6 +143,11 @@ namespace PRN231_Kazilet_API.Models.Entities
                 entity.ToTable("Gameplay");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Avatar)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("avatar");
 
                 entity.Property(e => e.Code)
                     .HasMaxLength(6)
@@ -148,13 +161,7 @@ namespace PRN231_Kazilet_API.Models.Entities
 
                 entity.Property(e => e.Duration).HasColumnName("duration");
 
-                entity.Property(e => e.IsCorrect).HasColumnName("is_correct");
-
                 entity.Property(e => e.IsGetResult).HasColumnName("is_get_result");
-
-                entity.Property(e => e.PlayerAnswer).HasColumnName("player_answer");
-
-                entity.Property(e => e.QuestionId).HasColumnName("question_id");
 
                 entity.Property(e => e.Score).HasColumnName("score");
 
@@ -173,29 +180,45 @@ namespace PRN231_Kazilet_API.Models.Entities
                     .WithMany(p => p.Gameplays)
                     .HasPrincipalKey(p => p.Code)
                     .HasForeignKey(d => d.Code)
-                    .HasConstraintName("FK__Gameplay__code__1AD3FDA4");
-
-                entity.HasOne(d => d.PlayerAnswerNavigation)
-                    .WithMany(p => p.Gameplays)
-                    .HasForeignKey(d => d.PlayerAnswer)
-                    .HasConstraintName("FK_Gameplay_Answers");
-
-                entity.HasOne(d => d.Question)
-                    .WithMany(p => p.Gameplays)
-                    .HasForeignKey(d => d.QuestionId)
-                    .HasConstraintName("FK__Gameplay__questi__1CBC4616");
+                    .HasConstraintName("FK__Gameplay__code__6754599E");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Gameplays)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Gameplay__user_i__1BC821DD");
+                    .HasConstraintName("FK__Gameplay__user_i__68487DD7");
+            });
+
+            modelBuilder.Entity<GameplayAnswer>(entity =>
+            {
+                entity.HasKey(e => new { e.GameplayId, e.QuestionId })
+                    .HasName("PK__Gameplay__65394525124324D1");
+
+                entity.ToTable("GameplayAnswer");
+
+                entity.Property(e => e.GameplayId).HasColumnName("gameplay_id");
+
+                entity.Property(e => e.QuestionId).HasColumnName("question_id");
+
+                entity.Property(e => e.PlayerAnswer).HasColumnName("player_answer");
+
+                entity.HasOne(d => d.Gameplay)
+                    .WithMany(p => p.GameplayAnswers)
+                    .HasForeignKey(d => d.GameplayId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__GameplayA__gamep__693CA210");
+
+                entity.HasOne(d => d.Question)
+                    .WithMany(p => p.GameplayAnswers)
+                    .HasForeignKey(d => d.QuestionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__GameplayA__quest__6A30C649");
             });
 
             modelBuilder.Entity<GameplaySetting>(entity =>
             {
                 entity.ToTable("GameplaySetting");
 
-                entity.HasIndex(e => e.Code, "UQ__Gameplay__357D4CF946332558")
+                entity.HasIndex(e => e.Code, "UQ__Gameplay__357D4CF9577311C4")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -229,37 +252,40 @@ namespace PRN231_Kazilet_API.Models.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.GameplaySettings)
                     .HasForeignKey(d => d.CourseId)
-                    .HasConstraintName("FK__GameplayS__cours__17036CC0");
+                    .HasConstraintName("FK__GameplayS__cours__6B24EA82");
 
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.GameplaySettings)
                     .HasForeignKey(d => d.CreatedBy)
-                    .HasConstraintName("FK__GameplayS__creat__17F790F9");
+                    .HasConstraintName("FK__GameplayS__creat__6C190EBB");
             });
 
             modelBuilder.Entity<LearningHistory>(entity =>
             {
+                entity.HasKey(e => new { e.UserId, e.CourseId })
+                    .HasName("PK__Learning__414FD8757EEAFC24");
+
                 entity.ToTable("LearningHistory");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
                 entity.Property(e => e.LearningDate)
-                    .HasColumnType("datetime")
+                    .HasColumnType("date")
                     .HasColumnName("learning_date");
-
-                entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.LearningHistories)
                     .HasForeignKey(d => d.CourseId)
-                    .HasConstraintName("FK__LearningH__cours__46E78A0C");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__LearningH__cours__6D0D32F4");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.LearningHistories)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__LearningH__user___45F365D3");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__LearningH__user___6E01572D");
             });
 
             modelBuilder.Entity<Notification>(entity =>
@@ -284,7 +310,7 @@ namespace PRN231_Kazilet_API.Models.Entities
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Notifications)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Notificat__user___52593CB8");
+                    .HasConstraintName("FK__Notificat__user___6EF57B66");
             });
 
             modelBuilder.Entity<Question>(entity =>
@@ -304,12 +330,12 @@ namespace PRN231_Kazilet_API.Models.Entities
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.CourseId)
-                    .HasConstraintName("FK__Questions__cours__4BAC3F29");
+                    .HasConstraintName("FK__Questions__cours__6FE99F9F");
 
                 entity.HasOne(d => d.StatusNavigation)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.Status)
-                    .HasConstraintName("FK__Questions__statu__4CA06362");
+                    .HasConstraintName("FK__Questions__statu__70DDC3D8");
             });
 
             modelBuilder.Entity<QuestionStatus>(entity =>
@@ -326,7 +352,7 @@ namespace PRN231_Kazilet_API.Models.Entities
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.Email, "UQ__Users__AB6E6164BE236CF0")
+                entity.HasIndex(e => e.Email, "UQ__Users__AB6E6164A84392AF")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -361,7 +387,7 @@ namespace PRN231_Kazilet_API.Models.Entities
                 entity.HasOne(d => d.RoleNavigation)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.Role)
-                    .HasConstraintName("FK__Users__role__398D8EEE");
+                    .HasConstraintName("FK__Users__role__71D1E811");
             });
 
             modelBuilder.Entity<UserRole>(entity =>

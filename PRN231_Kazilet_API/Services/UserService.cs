@@ -5,14 +5,16 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace PRN231_Kazilet_API.Services.Impl
+namespace PRN231_Kazilet_API.Services
 {
     public interface IUserService
     {
-        Task<bool> UserExists(string username);
+        Task<bool> UserExists(string email);
         int Register(User user);
         int RegisterGoogle(User user);
-        User? GetUserGoogle(string email, string googleId);
+        User? GetUserByEmail(string email);
+        bool UpdateUser(User u);
+        bool ChangePassword(int uid, string newpwd);
         Task<User> Authenticate(string username, string password);
         User GetUser(int uid);
         Task<bool> ResetPasswordAsync(User user, string token, string newPassword);
@@ -22,7 +24,7 @@ namespace PRN231_Kazilet_API.Services.Impl
     public class UserService : IUserService
     {
         private readonly Common utils = new Common();
-        private readonly PRN231_KaziletContext _context = new PRN231_KaziletContext();
+        private readonly PRN231_Kazilet_v2Context _context = new PRN231_Kazilet_v2Context();
 
         public Task<bool> UserExists(string email)
         {
@@ -45,18 +47,18 @@ namespace PRN231_Kazilet_API.Services.Impl
             return rs > 0 ? user.Id : -1;
         }
 
-        public User? GetUserGoogle(string email, string googleId)
+        public User? GetUserByEmail(string email)
         {
             return _context.Users
                 .Include(u => u.RoleNavigation)
-                .FirstOrDefault(u => u.Email == email && u.Gid == googleId);
+                .FirstOrDefault(u => u.Email == email);
         }
 
         public Task<User> Authenticate(string email, string password)
         {
             var user = _context.Users
                 .Include(u => u.RoleNavigation)
-                .FirstOrDefault(u => u.Email == email 
+                .FirstOrDefault(u => u.Email == email
                 && u.Password == utils.HashPassword(password));
             return Task.FromResult(user);
         }
@@ -76,5 +78,27 @@ namespace PRN231_Kazilet_API.Services.Impl
         {
             throw new NotImplementedException();
         }
-    } 
+
+        public bool UpdateUser(User u)
+        {
+            if (u.Id == null || _context.Users.Find(u.Id) == null) return false;
+            User user = _context.Users.Find(u.Id);
+            user.Username = u.Username;
+            user.Email = u.Email;
+            user.Role = u.Role;
+            user.Type = u.Type;
+            user.Gid = u.Gid;
+            _context.Users.Update(user);
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool ChangePassword(int uid, string newpwd)
+        {
+            User user = _context.Users.Find(uid);
+            if(user == null) return false;
+            user.Password = newpwd;
+            _context.Users.Update(user);
+            return _context.SaveChanges() > 0;
+        }
+    }
 }

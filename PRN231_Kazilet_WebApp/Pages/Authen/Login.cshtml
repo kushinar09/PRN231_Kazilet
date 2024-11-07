@@ -71,19 +71,47 @@
 </div>
 
 <script>
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
+    document.addEventListener("DOMContentLoaded", function () {
+        const accessToken = getCookie("accessToken");
+        if (accessToken) {
+            window.location.href = "/";
+        }
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const errorMessage = document.getElementById('errorMessage');
 
-        // Simulated login logic (replace with actual login API call)
-        if (email === 'test@example.com' && password === 'password') {
-            errorMessage.textContent = '';
-            errorMessage.classList.add('hidden');
-            alert('Đăng nhập thành công!');
-        } else {
-            errorMessage.textContent = 'Email hoặc mật khẩu không đúng. Vui lòng thử lại.';
+        const apiUrl = 'https://localhost:7024/api/Authentication/login';
+        const data = {
+            email: email,
+            password: password
+        };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                errorMessage.textContent = "Wrong email or password. Try again!";
+                errorMessage.classList.remove('hidden');
+            } else { 
+                const result = await response.json();
+                let token = result.token;
+                setCookie("accessToken", token, 3600);
+                console.log('Success:', token);
+                errorMessage.textContent = '';
+                errorMessage.classList.add('hidden');
+            }
+        } catch (error) {
+            errorMessage.textContent = error;
             errorMessage.classList.remove('hidden');
         }
     });
