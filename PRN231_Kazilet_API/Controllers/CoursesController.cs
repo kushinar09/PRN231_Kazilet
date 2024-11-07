@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using PRN231_Kazilet_API.Models.Dto;
 //using OfficeOpenXml;
@@ -13,7 +15,7 @@ namespace PRN231_Kazilet_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoursesController : ControllerBase
+    public class CoursesController : ODataController
     {
         private readonly PRN231_Kazilet_v2Context _context;
         private readonly ICourseService _courseService;
@@ -113,6 +115,7 @@ namespace PRN231_Kazilet_API.Controllers
             return Ok();
         }
 
+        [EnableQuery]
         [HttpGet]
         [Route("Details/{courseId}")]
         public IActionResult GetCourseDetails(int courseId)

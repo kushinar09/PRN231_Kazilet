@@ -34,16 +34,25 @@ namespace PRN231_Kazilet_API.Controllers
             return Ok(folderDto);
         }
 
-        //[HttpGet("folders/{userid}")]
-        //public IActionResult GetFoldersByUser(int userid)
-        //{
-        //    var folders = _context.Folders.Include(f => f.FolderCourses).ThenInclude(fc => fc.Course).Where(f => f.CreatedByNavigation.Id == userid).ToList();
-        //    if (folders == null || folders.Count == 0)
-        //    {
-        //        return NotFound("No folders found for user");
-        //    }
-        //    return Ok(folders);
-        //}
+        [HttpGet("folders/{userid}")]
+        public IActionResult GetFoldersByUser(int userid)
+        {
+            var folders = _context.Folders.Include(f => f.CreatedByNavigation)
+                                        .Where(c => c.CreatedByNavigation.Id == userid)
+                                        .Select(f => new
+                                        {
+                                            Id = f.Id,
+                                            Name = f.Name,
+                                            Created_by = f.CreatedByNavigation,
+                                            Created_at = f.CreatedAt
+                                        })
+                                        .ToList();
+            if (folders == null || folders.Count == 0)
+            {
+                return NotFound("No folders found for user");
+            }
+            return Ok(folders);
+        }
 
         [HttpGet("GetCourse/{folderId}")]
         public IActionResult AddCourseToFolder(int folderId)
