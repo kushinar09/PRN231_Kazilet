@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PRN231_Kazilet_API.Models.Entities;
 
 namespace PRN231_Kazilet_API.Controllers
@@ -19,7 +20,7 @@ namespace PRN231_Kazilet_API.Controllers
         [HttpGet("folders/{userid}")]
         public IActionResult GetFoldersByUser(int userid)
         {
-            var folders = _context.Folders.Where(f => f.CreatedByNavigation.Id == userid).ToList();
+            var folders = _context.Folders.Include(f => f.FolderCourses).ThenInclude(fc => fc.Course).Where(f => f.CreatedByNavigation.Id == userid).ToList();
             if (folders == null || folders.Count == 0)
             {
                 return NotFound("No folders found for user");

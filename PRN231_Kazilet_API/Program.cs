@@ -36,6 +36,14 @@ namespace PRN231_Kazilet_API
                     options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")
                     )
                 );
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CORSPolicy", builder => builder.
+                AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .SetIsOriginAllowed((hosts) => true));
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -112,6 +120,7 @@ namespace PRN231_Kazilet_API
             app.UseAuthentication();
 
             app.UseAuthorization();
+            app.UseCors("CORSPolicy");
 
             app.MapHub<SignalrServer>("/signalrServer");
             app.MapControllers();

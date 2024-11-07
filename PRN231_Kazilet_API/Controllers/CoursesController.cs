@@ -18,6 +18,27 @@ namespace PRN231_Kazilet_API.Controllers
         }
 
 
+        [HttpGet("search")]
+        public IActionResult SearchCoursesByName([FromQuery] string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                return BadRequest("Keyword is required.");
+            }
+
+            var courses = _context.Courses
+                .Where(c => c.Name.Contains(keyword))
+                .ToList();
+
+            if (courses == null || courses.Count == 0)
+            {
+                return NotFound("No courses found with the provided keyword.");
+            }
+
+            return Ok(courses);
+        }
+
+
         [HttpGet("by-folder/{folderid}")]
         public IActionResult GetCourseByFolder(int folderid)
         {
