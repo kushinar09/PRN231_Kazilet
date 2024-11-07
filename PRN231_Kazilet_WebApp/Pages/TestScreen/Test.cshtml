@@ -10,38 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select Questions</title>
     <style>
-        .container {
-            max-width: 80%;
-            margin: 0 auto;
-        }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .input-text {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-bottom: 1px solid #33333350;
-            background-color: #ffffff;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
             color: #471b43;
+            margin: 0;
         }
-
-        .nextButton {
-            background-color: #8854c0;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 6px;
-            width: 100%;
-        }
-
-            .nextButton:hover {
-                background-color: #60255b;
-            }
 
         .card {
             background-color: #ffffff;
@@ -52,150 +26,141 @@
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
 
-        .input-block {
-            margin-bottom: 10px;
+        .custom-checkbox {
+            display: none;
         }
 
-        .custom-checkbox {
+        .custom-checkbox-label {
             width: 20px;
             height: 20px;
-            cursor: pointer;
+            display: inline-block;
+            border: 1px solid #33333350;
             border-radius: 3px;
-            border: 1px solid #33333350;
+            cursor: pointer;
+            background-color: #ffffff;
+            position: relative;
         }
 
-            .custom-checkbox:checked {
-                background-color: #8854c0;
-            }
-
-        .error {
-            color: red;
-            font-size: 12px;
+        .custom-checkbox:checked + .custom-checkbox-label {
+            background-color: #8854c0;
+            border-color: #8854c0;
         }
 
-        .question-list-button {
-            margin: 5px;
-            padding: 10px;
+        .custom-checkbox:checked + .custom-checkbox-label::after {
+            content: "✔";
+            color: #fff;
+            font-size: 16px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .nextButton {
+            background-color: #8854c0;
+            color: #fff;
             border: none;
+            padding: 10px 15px;
             cursor: pointer;
+            border-radius: 6px;
         }
 
-            .question-list-button.active {
-                background-color: #8854c0;
-                color: white;
-            }
-
-        .navigation-question {
-            font-size: 12px;
-            border: 1px solid #33333350;
-            width: 22px;
-            height: 22px;
-            justify-content: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
+        .nextButton:hover {
+            background-color: #60255b;
         }
 
-            .navigation-question.active {
-                background-color: #8854c0;
-                color: white;
-            }
+        [type=checkbox]:focus + .custom-checkbox-label, [type=radio]:focus + .custom-checkbox-label {
+            box-shadow: none;
+            outline: none;
+        }
 
-            .navigation-question:hover {
-                background-color: #f5f5f5;
-            }
+        #timer {
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container" style="padding: 0 2%; margin: 0 auto">
         <div style="padding: 20px; display: flex">
             <div class="card" style="width:75%; margin-right:10px; height: min-content">
-                <form id="questionForm" method="post" onsubmit="return saveAnswersBeforeSubmit()">
-                    <div id="question-display">
-                        <h3>@Model.QuestionList.FirstOrDefault()?.Content</h3>
-                        <div id="answer-options">
-                            @foreach (var answer in Model.QuestionList.FirstOrDefault()?.Answers)
+
+                <form id="questionForm" method="post">
+                    @{
+                        int qIndex = 1;
+                    }
+                    @foreach (var question in Model.QuestionList)
+                    {
+                        <div id="question-display">
+                            <p style="margin-bottom: 5px"><strong>Question @qIndex:</strong> @question.Content</p>
+                            @foreach (var answer in question.Answers)
                             {
-                                <div>
-                                    <input type="radio" name="question0" value="@answer.Content" onclick="selectAnswer(0, '@answer.Content')">
-                                    <label>@answer.Content</label>
+                                <div style="display:flex; margin-left:10px; margin-bottom: 5px">
+                                    <input id="checkbox-@answer.Id" class="custom-checkbox" type="checkbox" name="question-@question.Id" value="@answer.Id" data-question-id="@question.Id"/>
+                                    <label for="checkbox-@answer.Id" class="custom-checkbox-label"></label>
+                                    <p style="margin: auto 0 auto 10px">@answer.Content</p>
                                 </div>
                             }
                         </div>
-                    </div>
-
-                    @foreach (var question in Model.QuestionList.Select((question, index) => new { question, index }))
-                    {
-                        <input type="hidden" id="selectedAnswer_@question.index" name="selectedAnswer_@question.index" />
+                        {
+                            qIndex++;
+                        }
                     }
-
-                    <button type="submit">Submit Answers</button>
                 </form>
             </div>
 
-            <div class="card" id="option-menu" style="width: 25%">
-                <p style="font-size:20px">Questions</p>
-                <div style="display: flex; flex-wrap: wrap; gap:5px">
-                    @foreach (var question in Model.QuestionList.Select((question, index) => new { question, index }))
-                    {
-                        <button class="navigation-question" onclick="showQuestion(@question.index)">@(question.index + 1)</button>
-                    }
+            <div class="card" id="option-menu" style="position:sticky; top:20px; width: 25%; height: min-content">
+                <div>
+                    <p style="margin-bottom: 0"><strong>Selected: </strong><span id="selected-count">0</span> of @Model.QuestionList.Count questions</p>
+                    <div style="display:flex"><p style="margin-right:5px"><strong>Time left: </strong></p><p id="timer"></p></div>
                 </div>
-                <button class="nextButton" type="submit" style="margin-top:20px">Submit</button>
+                
+                <button class="nextButton" type="submit" style="margin-top:20px;width:100%">Submit</button>
             </div>
         </div>
+
+        
     </div>
 
     <script>
-        var questions = @Html.Raw(Json.Serialize(Model.QuestionList));
-        var selectedAnswers = {};
-
-        function showQuestion(index) {
-            var questionDisplay = document.getElementById('question-display');
-            var selectedQuestion = questions[index];
-
-            // Remove active class from all navigation buttons
-            document.querySelectorAll('.navigation-question').forEach(button => button.classList.remove('active'));
-
-            // Add active class to the clicked navigation button
-            var activeButton = document.querySelector('.navigation-question:nth-child(' + (index + 1) + ')');
-            activeButton.classList.add('active');
-
-            // Update the question display
-            questionDisplay.innerHTML = `
-                <h3>${selectedQuestion.Content}</h3>
-                <div id="answer-options">
-                    ${selectedQuestion.Answers.map((answer, i) => `
-                        <div>
-                            <input type="radio" name="question${index}" value="${answer.Content}" onclick="selectAnswer(${index}, '${answer.Content}')">
-                            <label>${answer.Content}</label>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-
-        function selectAnswer(questionIndex, answer) {
-            selectedAnswers[questionIndex] = answer;
-        }
-
-        function saveAnswersBeforeSubmit() {
-            for (var index in selectedAnswers) {
-                var hiddenInput = document.getElementById('selectedAnswer_' + index);
-                if (hiddenInput) {
-                    hiddenInput.value = selectedAnswers[index];
-                }
+        let timeLeft = @Model.Duration*60; 
+        let countdown = setInterval(function() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            if (seconds < 10) {
+                seconds = "0" + seconds;
             }
-            return true;
+
+            document.getElementById('timer').textContent = ` ${minutes}:${seconds}`;
+            if (timeLeft <= 60) {
+                document.getElementById('timer').style.color = 'red';
+            }
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                alert("Time is up!");
+            }
+
+            timeLeft--;
+        }, 1000);
+
+        // Function to count selected questions
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        
+        // Function to count the number of questions with at least one checkbox selected
+        function updateSelectedCount() {
+            let selectedQuestions = new Set(); // To store unique question IDs with at least one checkbox checked
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const questionId = checkbox.getAttribute('data-question-id');
+                    selectedQuestions.add(questionId); // Add the question ID to the set if any checkbox is checked
+                }
+            });
+            // Update the display with the count of selected questions
+            document.getElementById('selected-count').textContent = selectedQuestions.size;
         }
 
-        // Initially show the first question
-        showQuestion(0);
+        // Attach event listener to each checkbox
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateSelectedCount);
+        });
     </script>
 </body>
 </html>

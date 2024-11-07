@@ -33,8 +33,8 @@
         }
 
             .input-text:disabled {
-                background-color: #e0e0e0; /* Change to light gray when disabled */
-                color: #888888; /* Change text color when disabled */
+                background-color: #e0e0e0;
+                color: #888888; 
             }
 
         .nextButton {
@@ -69,16 +69,25 @@
             cursor: pointer;
             border-radius: 3px;
             border: 1px solid #33333350;
+            
+
         }
+
 
             .custom-checkbox:checked {
                 background-color: #8854c0;
                 border-color: #8854c0;
+                outline: none;
             }
 
         .error {
             color: red;
             font-size: 12px;
+        }
+
+        [type=checkbox]:focus, [type=radio]:focus {
+            box-shadow: none;
+            outline: none;
         }
     </style>
 </head>
