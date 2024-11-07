@@ -58,6 +58,34 @@ namespace PRN231_Kazilet_API.Controllers
             }
         }
 
+        [HttpGet("forgot")]
+        public async Task<IActionResult> CheckEmail(string email)
+        {
+            bool rs = _userService.UserExists(email).Result;
+            if (rs)
+            {
+                User u = _userService.GetUserByEmail(email);
+
+                if(u == null) return NotFound();
+
+                string pwd = utils.GeneratePassword();
+                _userService.ChangePassword(u.Id, utils.HashPassword(pwd));
+
+                var filePath = Path.Combine(_env.WebRootPath, "email_template", "forgotPassword.html");
+                var htmlContent = await System.IO.File.ReadAllTextAsync(filePath);
+                htmlContent = htmlContent.Replace("{Ent3r@Usernam3!Her3}", u.Username);
+                htmlContent = htmlContent.Replace("{new@Password!Here}", pwd);
+
+                _emailService.SendEmailAsync(email, "Kazilet", "Forgot password", htmlContent);
+
+                return Ok();
+
+            }
+
+            return NotFound();
+
+        }
+
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
@@ -154,14 +182,14 @@ namespace PRN231_Kazilet_API.Controllers
                 // Lưu token vào cookie
                 var cookieOptions = new CookieOptions
                 {
-                    HttpOnly = true,
+                    HttpOnly = false,
                     Secure = true,
                     SameSite = SameSiteMode.None,
                     Expires = DateTimeOffset.UtcNow.AddSeconds(int.Parse(_configuration["Jwt:ExpireSeconds"]))
                 };
 
                 Response.Cookies.Append("accessToken", token, cookieOptions);
-                return Redirect($"https://localhost:7081/gameplay/join");
+                return Redirect($"https://localhost:7081/");
             }
             return Unauthorized();
         }

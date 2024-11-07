@@ -102,6 +102,7 @@
                     console.log('Success:', result);
                     errorMessage.textContent = '';
                     errorMessage.classList.add('hidden');
+                    window.location.href = "/authen/login";
                 }
             } catch (error) {
                 errorMessage.textContent = error;

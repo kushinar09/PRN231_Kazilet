@@ -4,6 +4,31 @@
     ViewData["Title"] = "Home page";
 }
 
+<!-- Change Password Dialog -->
+<div id="changePasswordDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-xl w-full max-w-md">
+        <h3 class="text-2xl font-bold text-white mb-4">Change password</h3>
+        <form class="mt-3" id="changePasswordForm">
+            <div class="mb-4">
+                <label for="oldPwd" class="block text-sm font-medium text-gray-300 mb-2">Old Password</label>
+                <input type="password" id="oldPwd" name="oldPwd" required
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-secondary">
+                <label for="newPwd" class="block text-sm font-medium text-gray-300 mb-2">New Password</label>
+                <input type="password" id="newPwd" name="newPwd" required
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-secondary">
+                <label for="cfPwd" class="block text-sm font-medium text-gray-300 mb-2">Confirm Password</label>
+                <input type="password" id="cfPwd" name="cfPwd" required
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-secondary">
+            </div>
+            <div id="changeErrorMessage" class="mb-4 text-red-500 text-sm hidden"></div>
+            <button type="submit" id="changePasswordBtn" disabled
+                    class="w-full bg-secondary text-white py-2 px-4 rounded-md hover:bg-secondary-dark transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                Change Password
+            </button>
+        </form>
+    </div>
+</div>
+
 <div class="min-h-screen bg-white flex">
     <!-- Sidebar -->
     <aside id="sidebar" class="bg-white border-r border-gray-200 transition-all duration-300 ease-in-out fixed inset-y-0 left-0 z-50 w-64 transform -translate-x-full md:translate-x-0">
@@ -79,31 +104,38 @@
                     <input type="text" placeholder="Tìm kiếm khóa học..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
                 </div>
                 <div class="flex items-center ml-2">
-                    <button class="text-gray-700 bg-gray-100 hover:text-gray-900 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium">
-                        Nhập mã
+                    <button onclick="window.location.href='/gameplay/join'" class="text-gray-700 bg-gray-100 hover:text-gray-900 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium">
+                        Join game
                     </button>
                     <button onclick="window.location.href='/authen/login'" class="login-btn text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
-                        Đăng nhập
+                        Login
                     </button>
                     <button onclick="window.location.href='/authen/register'" class="register-btn bg-secondary hover:bg-primary text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
-                        Đăng ký
+                        Register
                     </button>
-                    <span class="username text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-semibold" style="display: none;"></span>
-                    <button onclick="logout()" class="logout-btn bg-secondary hover:bg-primary text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" style="display: none;">
-                        Đăng xuất
-                    </button>
+                    @* <span class="username text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-semibold" style="display: none;"></span> *@
+                    <div class="relative username" id="username" style="display: none;">
+                        <button id="usernameShow" class="text-secondary hover:text-primary px-3 py-2 rounded-md text-sm font-semibold"></button>
+                        <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="showChangePasswordDialog()">Change Password</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="logout()">Logout</a>
+                        </div>
+                    </div>
+                    @* <button onclick="logout()" class="logout-btn bg-secondary hover:bg-primary text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" style="display: none;">
+                        Logout
+                    </button> *@
                 </div>
             </div>
         </header>
 
         <main class="container mx-auto px-4 py-8">
             <!-- Welcome Section -->
-            <h1 class="text-3xl font-bold text-primary mb-8">
+            <h1 id="history-header" class="text-3xl font-bold text-primary mb-8">
                 Bạn đã học gì hôm qua?
             </h1>
 
             <!-- Categories -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-4 mb-12">
+            <div id="history" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-4 mb-12">
                 <a href="#" class="flex flex-col items-center group">
                     <div class="w-16 h-16 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center text-2xl mb-2 group-hover:bg-secondary-dark group-hover:bg-opacity-20 transition-colors">
                         <img class="h-10 w-10" src="~/imgs/learning.png"/>
@@ -121,11 +153,11 @@
 
             <!-- Courses Section -->
             <div class="mb-12">
-                <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center mb-6 space-x-3">
                     <h2 class="text-2xl font-bold text-primary">Khóa học nổi bật</h2>
                     <a href="#" class="text-secondary hover:text-secondary-dark">Xem thêm</a>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="courses" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <a href="#" class="block">
                         <div class="border border-gray-200 rounded-lg overflow-hidden transition-shadow hover:shadow-lg">
                             <img src="~/imgs/course.jpg" alt="Course" class="w-full h-48 object-cover">
@@ -139,27 +171,102 @@
                     <!-- Add more course cards here -->
                 </div>
             </div>
-
-            @* <!-- Featured Users Section -->
-            <div>
-                <h2 class="text-2xl font-bold text-primary mb-6">Người dùng nổi bật</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="border border-gray-200 rounded-lg p-4 flex items-center">
-                        <img src="/placeholder.svg?height=40&width=40" alt="Alice Cooper" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h4 class="text-lg font-semibold mb-1">Alice Cooper</h4>
-                            <div class="text-sm text-gray-600">Instructor</div>
-                            <div class="text-sm text-gray-600">15 khóa học đã tạo</div>
-                        </div>
-                    </div>
-                    <!-- Add more user cards here -->
-                </div>
-            </div> *@
         </main>
     </div>
 </div>
 
 <script>
+    function logout(){
+        deleteCookie("accessToken");
+        handleAuthUI();
+    }
+
+    async function loadCoursesHistory() {
+        const courseHistory = getCookie("courseHistory");
+        const categoryContainer = document.getElementById('history');
+        const categoryHeader = document.getElementById('history-header');
+
+        // Check if the cookie exists and has a value
+        if (!courseHistory) {
+            console.log("No course history found in cookies.");
+            categoryContainer.style.display = 'none';
+            categoryHeader.style.display = 'none';
+            return;
+        }
+
+        // Split the courseHistory string to get an array of course IDs
+        const courseIds = courseHistory.split("||").map(id => id.trim());
+
+        try {
+            // Send the course IDs in a single POST request to fetch course data
+            const response = await fetch('api call get course history', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ids: courseIds })
+            });
+
+            if (!response.ok) {
+                console.error("Failed to fetch courses:", response.statusText);
+                return;
+            }
+
+            const courses = await response.json();
+
+            // Loop through each course and create a category item
+            courses.forEach(course => {
+                const categoryItem = document.createElement("a");
+                categoryItem.href = "/course/detail" + course.id;
+                categoryItem.className = "flex flex-col items-center group";
+
+                categoryItem.innerHTML = `
+                    <div class="w-16 h-16 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center text-2xl mb-2 group-hover:bg-secondary-dark group-hover:bg-opacity-20 transition-colors">
+                    <img class="h-10 w-10" src="~/imgs/learning.png" alt="${course.name}">
+                    </div>
+                    <span class="text-sm text-center text-primary">${course.name}</span>
+                `;
+
+                categoryContainer.appendChild(categoryItem);
+            });
+        } catch (error) {
+            console.error("Error loading courses:", error);
+            categoryContainer.style.display = 'none';
+            categoryHeader.style.display = 'none';
+        }
+    }
+
+    async function loadCourses() {
+        try {
+            // Fetch data from the API
+            const response = await fetch('api call get course');
+            const courses = await response.json();
+
+            const coursesContainer = document.getElementById('courses');
+
+            courses.forEach(course => {
+                const courseCard = document.createElement('a');
+                courseCard.href = "#"; // Add course link if available
+                courseCard.className = "block";
+
+                courseCard.innerHTML = `
+                    <div class="border border-gray-200 rounded-lg overflow-hidden transition-shadow hover:shadow-lg">
+                            <img src="~/imgs/course.jpg" alt="${course.name}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <div class="text-sm text-gray-600 mb-2">${course.name}</div>
+                            <h3 class="text-lg font-semibold mb-2">${course.description}</h3>
+                            <div class="text-sm text-gray-600">${course.questionCount} Câu hỏi</div>
+                        </div>
+                    </div>
+                `;
+
+                coursesContainer.appendChild(courseCard);
+            });
+        } catch (error) {
+            console.error("Error loading courses:", error);
+        }
+    }
+
     // Function to check if the access token is valid
     async function isAccessTokenValid() {
         const token = getCookie('accessToken');
@@ -178,9 +285,9 @@
 
             const data = await response.json();
 
-            const usernameDisplay = document.querySelector('.username');
+            const usernameDisplay = document.getElementById('usernameShow');
             const username = data.username;
-            usernameDisplay.textContent = 'Hello, ' + username;
+            usernameDisplay.innerHTML = 'Hello, ' + username;
             return true;
         } catch (error) {
             console.error('Error making request:', error);
@@ -193,7 +300,6 @@
         const loginButton = document.querySelector('.login-btn');
         const registerButton = document.querySelector('.register-btn');
         const usernameDisplay = document.querySelector('.username');
-        const logoutButton = document.querySelector('.logout-btn');
 
         const isValid = await isAccessTokenValid();
 
@@ -201,13 +307,11 @@
             loginButton.style.display = 'none';
             registerButton.style.display = 'none';
             usernameDisplay.style.display = 'inline-block';
-            logoutButton.style.display = 'inline-block';
         } else {
             deleteCookie("accessToken");
             loginButton.style.display = 'inline-block';
             registerButton.style.display = 'inline-block';
             usernameDisplay.style.display = 'none';
-            logoutButton.style.display = 'none';
         }
     }
 
@@ -223,7 +327,7 @@
         let isSidebarCollapsed = false;
         let isSidebarOpen = window.innerWidth > 768;
 
-        if (window.innerWidth <= 768) {
+        if(window.innerWidth <= 768) {
             sidebar.classList.toggle('-translate-x-full', !isSidebarOpen);
             sidebar.classList.toggle('translate-x-0', isSidebarOpen);
             mainContent.classList.remove('md:ml-64', 'md:ml-16');
@@ -259,14 +363,119 @@
 
     // Event listener for DOMContentLoaded to initialize UI
     document.addEventListener('DOMContentLoaded', () => {
-        handleAuthUI(); // Handle authentication UI based on the token status
+        handleAuthUI();
+        loadCoursesHistory();
+        loadCourses();
+
+        const userMenu = document.getElementById('username');
+        const userMenuButton = document.getElementById('usernameShow');
+        const userDropdown = document.getElementById('userDropdown');
+        const changePasswordDialog = document.getElementById('changePasswordDialog');
+        const changePasswordBtn = document.getElementById('changePasswordBtn');
+        const changeErrorMessage = document.getElementById('changeErrorMessage');
+
+        const oldPwd = document.getElementById('oldPwd');
+        const newPwd = document.getElementById('newPwd');
+        const cfPwd = document.getElementById('cfPwd');
+
+        oldPwd.addEventListener('input', () => {
+            changePasswordBtn.disabled = (!oldPwd.value || !newPwd.value || !cfPwd.value);
+        });
+
+        newPwd.addEventListener('input', () => {
+            changePasswordBtn.disabled = (!oldPwd.value || !newPwd.value || !cfPwd.value);
+        });
+
+        cfPwd.addEventListener('input', () => {
+            changePasswordBtn.disabled = (!oldPwd.value || !newPwd.value || !cfPwd.value);
+        });
+
+        userMenuButton.addEventListener('click', function () {
+            userDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!userMenu.contains(event.target)) {
+                userDropdown.classList.add('hidden');
+            }
+        });
+
+        window.showChangePasswordDialog = function () {
+            changePasswordDialog.classList.remove('hidden');
+        };
+
+        changePasswordBtn.addEventListener('click', function () {
+            const oldPassword = oldPwd.value;
+            const newPassword = newPwd.value;
+            const confirmPassword = cfPwd.value;
+
+            if (newPassword !== confirmPassword) {
+                changeErrorMessage.textContent = 'New password and confirm password do not match.';
+                changeErrorMessage.classList.remove('hidden');
+                return;
+            }
+
+            alert('Password changed successfully');
+            changePasswordDialog.classList.add('hidden');
+        });
+
+        changePasswordDialog.addEventListener('click', function (event) {
+            if (event.target === changePasswordDialog) {
+                changePasswordDialog.classList.add('hidden');
+            }
+        });
 
         // Sidebar toggle event listeners
-        document.getElementById('toggleSidebar').addEventListener('click', toggleSidebarState);
-        document.getElementById('collapseSidebar').addEventListener('click', toggleSidebarState);
-        document.getElementById('mobileMenuToggle').addEventListener('click', toggleSidebarState);
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        const collapseSidebar = document.getElementById('collapseSidebar');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const menuText = document.getElementById('menuText');
+        const menuItemTexts = document.querySelectorAll('.menuItemText');
+        const mainContent = document.querySelector('.ml-0.md\\:ml-64');
 
-        updateSidebar(); // Initial sidebar setup
+        let isSidebarCollapsed = false;
+        let isSidebarOpen = window.innerWidth > 768;
+
+        function updateSidebar() {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('-translate-x-full', !isSidebarOpen);
+                sidebar.classList.toggle('translate-x-0', isSidebarOpen);
+                mainContent.classList.remove('md:ml-64', 'md:ml-16');
+                mobileMenuToggle.classList.remove('hidden');
+                collapseSidebar.classList.add('hidden');
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                sidebar.classList.toggle('w-64', !isSidebarCollapsed);
+                sidebar.classList.toggle('w-16', isSidebarCollapsed);
+                mainContent.classList.toggle('md:ml-64', !isSidebarCollapsed);
+                mainContent.classList.toggle('md:ml-16', isSidebarCollapsed);
+                mobileMenuToggle.classList.add('hidden');
+                collapseSidebar.classList.toggle('hidden', isSidebarCollapsed);
+            }
+
+            menuText.classList.toggle('hidden', isSidebarCollapsed);
+            menuItemTexts.forEach(text => {
+                text.classList.toggle('hidden', isSidebarCollapsed);
+            });
+        }
+
+        function toggleSidebarState() {
+            if (window.innerWidth <= 768) {
+                isSidebarOpen = !isSidebarOpen;
+            } else {
+                isSidebarCollapsed = !isSidebarCollapsed;
+            }
+            updateSidebar();
+        }
+
+        toggleSidebar.addEventListener('click', toggleSidebarState);
+        collapseSidebar.addEventListener('click', toggleSidebarState);
+        mobileMenuToggle.addEventListener('click', toggleSidebarState);
+
+        window.addEventListener('resize', updateSidebar);
+        updateSidebar();
     });
 
 </script>

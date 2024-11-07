@@ -16,9 +16,15 @@ function setCookie(name, value, seconds) {
 }
 
 function getCookie(key) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${key}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+    const value = document.cookie; 
+
+    const cookies = value.split('; ').reduce((acc, cookie) => {
+        const [k, v] = cookie.split('=');
+        acc[k] = decodeURIComponent(v); 
+        return acc;
+    }, {});
+
+    return cookies[key];
 }
 
 function deleteCookie(name) {
