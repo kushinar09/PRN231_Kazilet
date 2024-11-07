@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace PRN231_Kazilet_WebApp.Pages.Courses
 {
-    public class IndexModel : PageModel
+    public class AddCourseModel : PageModel
     {
         public void OnGet()
         {

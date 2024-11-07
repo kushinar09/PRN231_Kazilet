@@ -10,9 +10,9 @@ namespace PRN231_Kazilet_API.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
 
-        public CoursesController(PRN231_KaziletContext context)
+        public CoursesController(PRN231_Kazilet_v2Context context)
         {
             _context = context;
         }
@@ -38,22 +38,29 @@ namespace PRN231_Kazilet_API.Controllers
             return Ok(courses);
         }
 
-
-        [HttpGet("by-folder/{folderid}")]
-        public IActionResult GetCourseByFolder(int folderid)
+        [HttpGet("by-folder/{folderId}/by-user/{userId}")]
+        public IActionResult GetCoursesByFolderAndUser(int folderId, int userId)
         {
-            var courses = _context.FolderCourses
-                .Where(fc => fc.FolderId == folderid)    
-                .Include(fc => fc.Course)               
-                .ThenInclude(c => c.CreatedByNavigation) 
-                .Select(fc => fc.Course)                 
+            var courses = _context.Courses
+                .Where(c => c.Folders.Any(f => f.Id == folderId && f.CreatedBy == userId))
+                .Include(c => c.Folders)
+                .Include(c => c.CreatedByNavigation)
+                .Select(c => new
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.Description,
+                    Created_at = c.CreatedAt,
+                    Created_by = c.CreatedBy,
+                    Password = c.CoursePassword,
+                    isPublic = c.IsPublic
+
+                })
                 .ToList();
-
-
 
             if (courses == null || courses.Count == 0)
             {
-                return NotFound("This folder hasn't have any course");
+                return NotFound("This folder hasn't any course created by the specified user.");
             }
             return Ok(courses);
         }

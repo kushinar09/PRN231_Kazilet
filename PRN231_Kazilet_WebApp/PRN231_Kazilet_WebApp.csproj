@@ -9,6 +9,10 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PRN231_Kazilet_API\PRN231_Kazilet_API.csproj" />
+  </ItemGroup>
 	
 <Target Name="Tailwind" BeforeTargets="Build">
 		<Exec Command="npm run css:build" />

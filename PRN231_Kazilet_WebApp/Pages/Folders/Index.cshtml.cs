@@ -3,36 +3,41 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 using PRN231_Kazilet_WebApp.Models;
 using PRN231_Kazilet_API.Models.Dto;
+using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Diagnostics.Metrics;
 
 namespace PRN231_Kazilet_WebApp.Pages.Folders
 {
     public class IndexModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        private string folderUrl = "http://localhost:5149/api/Folders/";
+        private readonly string folderUrl = "http://localhost:5149/api/Folders/folders/";
 
-        public IndexModel(HttpClient httpClient)
+        public IndexModel()
         {
-            _httpClient = httpClient;
+            _httpClient = new HttpClient();
+            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
         }
 
         public List<FolderDTO> Folders { get; set; } = new List<FolderDTO>();
 
-        public async Task OnGetAsync(int folderId)
+        public async Task OnGetAsync(int userId)
         {
-            var apiUrl = $"http://localhost:5149/api/Courses/by-folder/{folderId}";
+            userId = 1;
+            string requestUrl = $"{folderUrl}{userId}";
 
-            // Call the API and deserialize the JSON response into the Courses list
-            var response = await _httpClient.GetAsync(apiUrl);
-            if (response.IsSuccessStatusCode)
+            HttpResponseMessage res = await _httpClient.GetAsync(requestUrl);
+            if (res.IsSuccessStatusCode)
             {
-                var json = await response.Content.ReadAsStringAsync();
-                Folders = JsonSerializer.Deserialize<List<FolderDTO>>(json);
+                string json = await res.Content.ReadAsStringAsync();
+                Folders = JsonConvert.DeserializeObject<List<FolderDTO>>(json);
             }
             else
             {
-                // Handle the error as needed (e.g., log or display a message)
-                Folders = new List<FolderDTO>();
+                ModelState.AddModelError(string.Empty, "Error loading folders from API.");
             }
         }
     }

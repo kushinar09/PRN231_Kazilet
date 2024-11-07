@@ -9,9 +9,9 @@ namespace PRN231_Kazilet_API.Controllers
     [ApiController]
     public class FoldersController : ControllerBase
     {
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
 
-        public FoldersController(PRN231_KaziletContext context)
+        public FoldersController(PRN231_Kazilet_v2Context context)
         {
             _context = context;
         }
@@ -20,7 +20,16 @@ namespace PRN231_Kazilet_API.Controllers
         [HttpGet("folders/{userid}")]
         public IActionResult GetFoldersByUser(int userid)
         {
-            var folders = _context.Folders.Include(f => f.CreatedByNavigation).Where(c => c.CreatedByNavigation.Id == userid).ToList();
+            var folders = _context.Folders.Include(f => f.CreatedByNavigation)
+                                        .Where(c => c.CreatedByNavigation.Id == userid)
+                                        .Select(f => new
+                                        {
+                                            Id = f.Id,
+                                            Name = f.Name,
+                                            Created_by = f.CreatedByNavigation,
+                                            Created_at = f.CreatedAt
+                                        })
+                                        .ToList();
             if (folders == null || folders.Count == 0)
             {
                 return NotFound("No folders found for user");

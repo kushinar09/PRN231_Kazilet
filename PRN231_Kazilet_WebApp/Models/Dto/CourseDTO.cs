@@ -1,4 +1,5 @@
-﻿using PRN231_Kazilet_API.Models.Entities;
+﻿using PRN231_Kazilet_API.Models;
+using PRN231_Kazilet_API.Models.Entities;
 
 namespace PRN231_Kazilet_API.Models.Dto
 {
