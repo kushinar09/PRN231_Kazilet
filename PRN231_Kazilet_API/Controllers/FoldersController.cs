@@ -20,7 +20,7 @@ namespace PRN231_Kazilet_API.Controllers
         [HttpGet("folders/{userid}")]
         public IActionResult GetFoldersByUser(int userid)
         {
-            var folders = _context.Folders.Include(f => f.FolderCourses).ThenInclude(fc => fc.Course).Where(f => f.CreatedByNavigation.Id == userid).ToList();
+            var folders = _context.Folders.Include(f => f.CreatedByNavigation).Where(c => c.CreatedByNavigation.Id == userid).ToList();
             if (folders == null || folders.Count == 0)
             {
                 return NotFound("No folders found for user");

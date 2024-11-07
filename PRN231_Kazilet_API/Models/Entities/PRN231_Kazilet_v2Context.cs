@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace PRN231_Kazilet_API.Models
+namespace PRN231_Kazilet_API.Models.Entities
 {
     public partial class PRN231_Kazilet_v2Context : DbContext
     {
@@ -30,11 +30,11 @@ namespace PRN231_Kazilet_API.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server =LAPTOP-APCKFGLN\\SQLEXPRESS; database = PRN231_Kazilet_v2;uid=trungnq;pwd=123;");
-            }
+            var builder = new ConfigurationBuilder()
+                               .SetBasePath(Directory.GetCurrentDirectory())
+                               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            IConfigurationRoot configuration = builder.Build();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyCnn"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

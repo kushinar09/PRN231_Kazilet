@@ -1,0 +1,85 @@
+﻿@page "{folderId:int}"
+@model PRN231_Kazilet_WebApp.Pages.Folders.IndexModel
+@{
+    ViewData["Title"] = "My Folders";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.FolderName</title>
+    <style>
+        /* (Styles remain unchanged) */
+    </style>
+</head>
+<body>
+    <h1>@Model.FolderName</h1>
+
+    <!-- Display courses -->
+    <div class="folders-container">
+        @if (Model.Courses.Any())
+        {
+            @foreach (var course in Model.Courses)
+            {
+                <div class="folder-card">
+                    <p class="folder-title">@course.Title</p>
+                    <p class="folder-details">@course.CreatedBy</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No courses found for this folder.</p>
+        }
+    </div>
+
+    <!-- Button to open dialog -->
+    <button id="openDialog">Create a New Folder</button>
+
+    <!-- Dialog box for creating a new folder -->
+    <div id="overlay" class="overlay"></div>
+    <div id="dialogBox" class="dialog">
+        <div class="dialog-header">
+            <span class="dialog-title">Create a new folder</span>
+            <button class="close-btn" onclick="closeDialog()">&times;</button>
+        </div>
+        <div class="dialog-content">
+            <label class="input-label" for="userInput">Folder Name</label>
+            <input type="text" id="userInput" placeholder="Enter folder name">
+            <button id="confirmBtn" onclick="confirmDialog()">Create Folder</button>
+        </div>
+    </div>
+
+    <script>
+        const dialog = document.getElementById('dialogBox');
+        const overlay = document.getElementById('overlay');
+        const openBtn = document.getElementById('openDialog');
+        const input = document.getElementById('userInput');
+
+        openBtn.addEventListener('click', () => {
+            dialog.style.display = 'block';
+            overlay.style.display = 'block';
+            input.focus();
+        });
+
+        function closeDialog() {
+            dialog.style.display = 'none';
+            overlay.style.display = 'none';
+            input.value = '';
+        }
+
+        function confirmDialog() {
+            const userInput = input.value;
+            if (userInput.trim()) {
+                alert('Folder created: ' + userInput);
+                closeDialog();
+            }
+        }
+
+        // Close dialog when clicking outside
+        overlay.addEventListener('click', closeDialog);
+    </script>
+</body>
+</html>

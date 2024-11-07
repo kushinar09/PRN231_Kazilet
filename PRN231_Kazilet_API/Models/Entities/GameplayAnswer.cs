@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PRN231_Kazilet_API.Models
+namespace PRN231_Kazilet_API.Models.Entities
 {
     public partial class GameplayAnswer
     {
