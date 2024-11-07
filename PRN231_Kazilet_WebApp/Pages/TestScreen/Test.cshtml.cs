@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PRN231_Kazilet_WebApp.Models.Dto;
 using System.Net.Http.Headers;
 
@@ -41,6 +41,90 @@ namespace PRN231_Kazilet_WebApp.Pages.Test
             var jsonStr = await _httpClient.GetStringAsync(url);
             JArray jsonArray = JArray.Parse(jsonStr);
             QuestionList = jsonArray.ToObject<List<QuestionDto>>();
+            TempData["QuestionList"] = JsonConvert.SerializeObject(QuestionList);
         }
+
+        public async Task<IActionResult> OnPostSubmitAsync()
+        {
+            if (TempData["QuestionList"] != null)
+            {
+                QuestionList = JsonConvert.DeserializeObject<List<QuestionDto>>(TempData["QuestionList"].ToString());
+            }
+
+            if (QuestionList == null || !QuestionList.Any())
+            {
+                return RedirectToPage("/Error");
+            }
+
+            var selectedAnswers = Request.Form
+                .Where(f => f.Key.StartsWith("question-"))
+                .ToDictionary(f => f.Key, f => f.Value.ToString().Split(',').Select(int.Parse).ToList());
+
+            int score = 0;
+            List<IncorrectAnswerDto> incorrectAnswers = new List<IncorrectAnswerDto>();
+
+            foreach (var question in QuestionList)
+            {
+                var correctAnswerIds = question.Answers
+                    .Where(a => a.IsCorrect == true)
+                    .Select(a => a.Id)
+                    .ToList();
+
+                List<int> userAnswerIds = null;
+
+                if (selectedAnswers.TryGetValue($"question-{question.Id}", out var userAnswers))
+                {
+                    userAnswerIds = userAnswers;
+                }
+
+                if (userAnswerIds == null || !userAnswerIds.Any())
+                {
+                    userAnswerIds = new List<int>(); 
+
+                    var availableAnswers = question.Answers.Select(a => a.Id).ToList();
+
+                    incorrectAnswers.Add(new IncorrectAnswerDto
+                    {
+                        QuestionId = question.Id,
+                        QuestionText = question.Content,
+                        UserAnswers = userAnswerIds, 
+                        CorrectAnswers = correctAnswerIds,
+                        AnswerDtos = question.Answers
+                    });
+                }
+                else
+                {
+                    bool isCorrect = correctAnswerIds.Count == userAnswerIds.Count &&
+                                     !correctAnswerIds.Except(userAnswerIds).Any();
+
+                    if (isCorrect)
+                    {
+                        score++;
+                    }
+                    else
+                    {
+                        incorrectAnswers.Add(new IncorrectAnswerDto
+                        {
+                            QuestionId = question.Id,
+                            QuestionText = question.Content,
+                            UserAnswers = userAnswerIds,
+                            CorrectAnswers = correctAnswerIds,
+                            AnswerDtos = question.Answers
+                        });
+                    }
+                }
+            }
+
+            int totalQuestions = QuestionList.Count;
+            int percentage = (int)Math.Round(((double)score / totalQuestions) * 100);
+
+            TempData["TotalQuestion"] = totalQuestions;
+            TempData["Score"] = score;
+            TempData["Percentage"] = percentage;
+            TempData["IncorrectAnswers"] = JsonConvert.SerializeObject(incorrectAnswers);
+
+            return RedirectToPage("/TestScreen/Result");
+        }
+
     }
 }

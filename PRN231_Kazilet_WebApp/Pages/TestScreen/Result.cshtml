@@ -1,0 +1,238 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.TestScreen.ResultModel
+@{
+    ViewData["Title"] = "Test Results";
+    int correctAnswers = Model.Score;
+    int totalQuestions = Model.IncorrectAnswers.Count + correctAnswers;
+    int incorrectAnswers = Model.IncorrectAnswers.Count;
+    int unansweredQuestions = totalQuestions - incorrectAnswers - correctAnswers;
+    int correctPercentage = Model.Percentage;
+    int incorrectPercentage = 100 - correctPercentage;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #471b43;
+            margin: 0;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #33333350;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .custom-checkbox {
+            display: none;
+        }
+
+        .custom-checkbox-label {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            border: 1px solid #33333350;
+            border-radius: 3px;
+            cursor: pointer;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .custom-checkbox:checked + .custom-checkbox-label {
+            background-color: #8854c0;
+            border-color: #8854c0;
+        }
+
+            .custom-checkbox:checked + .custom-checkbox-label::after {
+                content: "✔";
+                color: #fff;
+                font-size: 16px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+        .nextButton {
+            background-color: #8854c0;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+            .nextButton:hover {
+                background-color: #60255b;
+            }
+
+        [type=checkbox]:focus + .custom-checkbox-label, [type=radio]:focus + .custom-checkbox-label {
+            box-shadow: none;
+            outline: none;
+        }
+
+        #timer {
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="padding: 0 2%; margin: 0 auto">
+        <div style="padding: 20px; display: flex">
+            <div class="card" style="width:75%; margin-right:10px; height: min-content">
+                @if(Model.Percentage == 100)
+                {
+                    <div style="width:100%;text-align: center">
+                        <img style="width:40%; margin: 0 auto" src="../img/congrat.jpg" />
+                        <p style="font-size:50px">Congratulation!</p>
+                        <p style="font-size:20px">You have mastered the questions on the test</p>
+                    </div>
+                    
+                }
+                else
+                {
+                    <p style="font-size: 25px;margin-bottom:10px">Incorrect answers</p>
+                    <div>
+                        @if (Model.IncorrectAnswers.Any())
+                        {
+                            <ul>
+                                @foreach (var incorrectAnswer in Model.IncorrectAnswers)
+                                {
+                                    <li class="card">
+                                        <p>@incorrectAnswer.QuestionText</p>
+                                        @if (incorrectAnswer.AnswerDtos != null)
+                                        {
+                                            @foreach (var answer in incorrectAnswer.AnswerDtos)
+                                            {
+                                                @if (answer.IsCorrect == true)
+                                                {
+                                                    <p style="color:#6eff64">@answer.Content</p>
+                                                }
+                                                else
+                                                {
+                                                    @if (incorrectAnswer.UserAnswers != null)
+                                                    {
+                                                        bool flag = false;
+                                                        @foreach (var userSelectedAnswer in incorrectAnswer.UserAnswers)
+                                                        {
+                                                            @if (answer.Id == userSelectedAnswer)
+                                                            {
+                                                                flag = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                        @if (flag == true)
+                                                        {
+                                                            <p style="color:#ff6060">@answer.Content</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>@answer.Content</p>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>@answer.Content</p>
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                }
+                            
+            </div>
+
+            <div class="card" id="option-menu" style="position:sticky; top:20px; width: 25%; height: min-content">
+                <div>
+                    <div style="width: auto; height: auto;">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+                <div style="width: 100%;text-align:center">
+                    @if (Model.IncorrectAnswers.Count > 0)
+                    {
+                        <p style="margin-top: 10px;">You missed @Model.IncorrectAnswers.Count out of @Model.TotalQuestion questions</p>
+                    }              
+                </div>
+                <button id="submitBtn" class="nextButton" onclick="submitForm()" type="button" style="margin-top:20px;width:100%">Retake</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('pieChart').getContext('2d');
+        var correctAnswers = @correctAnswers;
+        var incorrectAnswers = @incorrectAnswers;
+        var totalQuestions = @totalQuestions;
+
+        var percentageCorrect = Math.round((correctAnswers / totalQuestions) * 100);
+
+        var myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [correctAnswers, incorrectAnswers],
+                    backgroundColor: ['#6eff64', '#ff6060'],
+                    borderColor: ['#6eff64', '#ff6060'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                cutoutPercentage: 80,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw + ' (' + Math.round(tooltipItem.raw / totalQuestions * 100) + '%)';
+                            }
+                        }
+                    },
+                    datalabels: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        Chart.register({
+            id: 'centerText',
+            beforeDraw: function (chart) {
+                var width = chart.width,
+                    height = chart.height,
+                    ctx = chart.ctx;
+
+                ctx.restore();
+                var fontSize = (height / 6).toFixed(2);
+                ctx.font = fontSize + "px sans-serif";
+                ctx.textBaseline = "middle";
+
+                var text = percentageCorrect + '%',
+                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                    textY = height / 1.9;
+
+                ctx.fillStyle = '#000';
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+            }
+        });
+    </script>
+</body>
+</html>

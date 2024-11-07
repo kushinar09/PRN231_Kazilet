@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "1mOEsFShkwcftRRkrCf+9we/DjJFYwLyDWq9i+rdJWE=",
+  "Hash": "uop1EvDI+6Gl8PgtqHFv6ovSw0FCz00+XB/FQp6IJnM=",
   "Source": "PRN231_Kazilet_WebApp",
   "BasePath": "_content/PRN231_Kazilet_WebApp",
   "Mode": "Default",
@@ -148,6 +148,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\img\\congrat.jpg",
+      "SourceId": "PRN231_Kazilet_WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\",
+      "BasePath": "_content/PRN231_Kazilet_WebApp",
+      "RelativePath": "img/congrat.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\congrat.jpg"
     },
     {
       "Identity": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\js\\site.js",

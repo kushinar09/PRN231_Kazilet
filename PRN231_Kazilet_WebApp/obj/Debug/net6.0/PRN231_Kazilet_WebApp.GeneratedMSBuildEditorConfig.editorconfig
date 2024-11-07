@@ -54,6 +54,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/HocTap/PRN231/Project/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/TestScreen/Result.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdFNjcmVlblxSZXN1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/HocTap/PRN231/Project/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/TestScreen/SelectQuestionsScreen.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdFNjcmVlblxTZWxlY3RRdWVzdGlvbnNTY3JlZW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

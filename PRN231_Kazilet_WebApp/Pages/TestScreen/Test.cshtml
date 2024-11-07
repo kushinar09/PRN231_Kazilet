@@ -46,15 +46,15 @@
             border-color: #8854c0;
         }
 
-        .custom-checkbox:checked + .custom-checkbox-label::after {
-            content: "✔";
-            color: #fff;
-            font-size: 16px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+            .custom-checkbox:checked + .custom-checkbox-label::after {
+                content: "✔";
+                color: #fff;
+                font-size: 16px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
 
         .nextButton {
             background-color: #8854c0;
@@ -65,9 +65,9 @@
             border-radius: 6px;
         }
 
-        .nextButton:hover {
-            background-color: #60255b;
-        }
+            .nextButton:hover {
+                background-color: #60255b;
+            }
 
         [type=checkbox]:focus + .custom-checkbox-label, [type=radio]:focus + .custom-checkbox-label {
             box-shadow: none;
@@ -83,7 +83,7 @@
         <div style="padding: 20px; display: flex">
             <div class="card" style="width:75%; margin-right:10px; height: min-content">
 
-                <form id="questionForm" method="post">
+                <form id="questionForm" method="post" asp-page-handler="Submit">
                     @{
                         int qIndex = 1;
                     }
@@ -94,7 +94,7 @@
                             @foreach (var answer in question.Answers)
                             {
                                 <div style="display:flex; margin-left:10px; margin-bottom: 5px">
-                                    <input id="checkbox-@answer.Id" class="custom-checkbox" type="checkbox" name="question-@question.Id" value="@answer.Id" data-question-id="@question.Id"/>
+                                    <input id="checkbox-@answer.Id" class="custom-checkbox" type="checkbox" name="question-@question.Id" value="@answer.Id" data-question-id="@question.Id" />
                                     <label for="checkbox-@answer.Id" class="custom-checkbox-label"></label>
                                     <p style="margin: auto 0 auto 10px">@answer.Content</p>
                                 </div>
@@ -110,19 +110,20 @@
             <div class="card" id="option-menu" style="position:sticky; top:20px; width: 25%; height: min-content">
                 <div>
                     <p style="margin-bottom: 0"><strong>Selected: </strong><span id="selected-count">0</span> of @Model.QuestionList.Count questions</p>
-                    <div style="display:flex"><p style="margin-right:5px"><strong>Time left: </strong></p><p id="timer"></p></div>
+                    <div style="display:flex"><p style="margin-right:5px"><strong>Time left: </strong></p><p id="timer">00:00</p></div>
                 </div>
-                
-                <button class="nextButton" type="submit" style="margin-top:20px;width:100%">Submit</button>
+
+                <button id="submitBtn" class="nextButton" onclick="submitForm()" type="button" style="margin-top:20px;width:100%">Submit</button>
             </div>
         </div>
 
-        
+
     </div>
 
     <script>
-        let timeLeft = @Model.Duration*60; 
-        let countdown = setInterval(function() {
+        let timeLeft = @Model.Duration* 60;
+        let form = document.getElementById('questionForm');
+        let countdown = setInterval(function () {
             let minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
             if (seconds < 10) {
@@ -136,31 +137,32 @@
             if (timeLeft <= 0) {
                 clearInterval(countdown);
                 alert("Time is up!");
+                submitForm();
             }
 
             timeLeft--;
         }, 1000);
 
-        // Function to count selected questions
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        
-        // Function to count the number of questions with at least one checkbox selected
+
         function updateSelectedCount() {
-            let selectedQuestions = new Set(); // To store unique question IDs with at least one checkbox checked
+            let selectedQuestions = new Set();
             checkboxes.forEach(checkbox => {
                 if (checkbox.checked) {
                     const questionId = checkbox.getAttribute('data-question-id');
-                    selectedQuestions.add(questionId); // Add the question ID to the set if any checkbox is checked
+                    selectedQuestions.add(questionId);
                 }
             });
-            // Update the display with the count of selected questions
             document.getElementById('selected-count').textContent = selectedQuestions.size;
         }
 
-        // Attach event listener to each checkbox
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', updateSelectedCount);
         });
+
+        function submitForm() {
+            form.submit();
+        }
     </script>
 </body>
 </html>

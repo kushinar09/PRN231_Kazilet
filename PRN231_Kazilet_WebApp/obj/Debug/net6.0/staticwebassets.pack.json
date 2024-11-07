@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\img\\congrat.jpg",
+      "PackagePath": "staticwebassets\\img\\congrat.jpg"
+    },
+    {
       "Id": "D:\\HocTap\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
