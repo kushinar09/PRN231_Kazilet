@@ -7,5 +7,6 @@ namespace PRN231_Kazilet_API.Services
         public bool AddCourse(CourseDto courseDto);
         public CourseDto GetCourse(int courseId);
         public bool UpdateCourse(CourseDto courseDto);
+        public bool DeleteCourse(int courseId);
     }
 }

@@ -28,10 +28,10 @@ namespace PRN231_Kazilet_API.Controllers
         //public IActionResult GetCourseByFolder(int folderid)
         //{
         //    var courses = _context.FolderCourses
-        //        .Where(fc => fc.FolderId == folderid)    
-        //        .Include(fc => fc.Course)               
-        //        .ThenInclude(c => c.CreatedByNavigation) 
-        //        .Select(fc => fc.Course)                 
+        //        .Where(fc => fc.FolderId == folderid)
+        //        .Include(fc => fc.Course)
+        //        .ThenInclude(c => c.CreatedByNavigation)
+        //        .Select(fc => fc.Course)
         //        .ToList();
 
 
@@ -159,6 +159,21 @@ namespace PRN231_Kazilet_API.Controllers
             else
             {
                 return StatusCode(500, "An error occurred while updating the course.");
+            }
+        }
+
+        [HttpDelete("{courseId}")]
+        public IActionResult DeleteCourse(int courseId)
+        {
+            bool result = _courseService.DeleteCourse(courseId);
+
+            if (result)
+            {
+                return Ok("Course deleted successfully.");
+            }
+            else
+            {
+                return NotFound("Course not found or could not be deleted.");
             }
         }
     }

@@ -18,6 +18,7 @@ namespace PRN231_Kazilet_API.Models.Dto
         public virtual ICollection<GameplaySetting> GameplaySettings { get; set; }
         public virtual ICollection<LearningHistory> LearningHistories { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Folder> Folders { get; set; }
     }
 }

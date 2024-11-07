@@ -28,7 +28,7 @@ namespace PRN231_Kazilet_API.Controllers
         public IActionResult AddFolder([FromQuery] string folderName)
         {
             FolderDto folderDto = new FolderDto();
-            folderDto.CreatedBy = 1;
+            folderDto.CreatedBy = 1;//TODO: Get current UserId
             folderDto.Name = folderName;
             _folderService.AddFolder(folderDto);
             return Ok(folderDto);
@@ -44,6 +44,15 @@ namespace PRN231_Kazilet_API.Controllers
         //    }
         //    return Ok(folders);
         //}
+
+        [HttpGet("GetCourse/{folderId}")]
+        public IActionResult AddCourseToFolder(int folderId)
+        {
+
+            var courses = _folderService.GetCoursesByFolder(folderId);
+            
+                return Ok(courses);
+        }
 
         [HttpPost("AddCourse")]
         public IActionResult AddCourseToFolder([FromBody] FolderCourseDto folderCourseDto)

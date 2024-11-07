@@ -41,6 +41,25 @@ namespace PRN231_Kazilet_API.Services.Impl
             return _context.SaveChanges() > 0;
         }
 
+        public List<CourseDto> GetCoursesByFolder(int folderId)
+        {
+            // Lấy folder cùng với các courses liên quan
+            var folder = _context.Folders
+                .Include(f => f.Courses)  // Đưa các courses vào khi lấy Folder
+                .FirstOrDefault(f => f.Id == folderId);
+
+            // Nếu không tìm thấy folder, trả về danh sách rỗng
+            if (folder == null)
+            {
+                return new List<CourseDto>();
+            }
+
+            // Map các đối tượng Course từ entity sang DTO và trả về danh sách
+            var courseDtos = _mapper.Map<List<CourseDto>>(folder.Courses);
+
+            return courseDtos;
+        }
+
         public bool RemoveCourseInFolder(int courseId, int folderId)
         {
             var course = _context.Courses.Include(c => c.Folders).FirstOrDefault(c => c.Id == courseId);

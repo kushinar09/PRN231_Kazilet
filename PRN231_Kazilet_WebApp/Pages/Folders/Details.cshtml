@@ -1,5 +1,5 @@
 ﻿@page
-@model PRN231_Kazilet_WebApp.Pages.Folders.TestFolderModel
+@model PRN231_Kazilet_WebApp.Pages.Folders.DetailsModel
 @{
 }
 <!DOCTYPE html>
@@ -7,12 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dialog Example</title>
-
+    
 </head>
 <body>
     <button id="redirect-button" onclick="FolderDetails(2)">Edit Course</button>
 
-
+   
 
     <script>
         function FolderDetails(folderId) {
@@ -22,12 +22,12 @@
                 .then(data => {
                     if (data) {
                         // Lưu trữ dữ liệu khóa học vào localStorage (hoặc sessionStorage)
-                        localStorage.setItem('folderData', JSON.stringify(data));
+                        localStorage.setItem('courseData', JSON.stringify(data));
 
                         // Chuyển hướng đến trang EditCourse
-                        window.location.href = '/Folders/Details';
+                        window.location.href = '/Courses/EditCourse';
                     } else {
-                        alert('Failed to fetch folder details');
+                        alert('Failed to fetch course details');
                     }
                 })
                 .catch(error => {

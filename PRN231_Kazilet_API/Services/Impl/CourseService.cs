@@ -146,5 +146,18 @@ namespace PRN231_Kazilet_API.Services.Impl
 
             return _mapper.Map<CourseDto>(course);
         }
+
+        public bool DeleteCourse(int courseId)
+        {
+            var course = _context.Courses.Find(courseId);
+
+            if (course == null)
+            {
+                return false;
+            }
+            course.Status = 0;
+
+            return _context.SaveChanges() > 0;
+        }
     }
 }
