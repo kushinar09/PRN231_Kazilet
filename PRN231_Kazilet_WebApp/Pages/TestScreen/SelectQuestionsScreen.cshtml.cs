@@ -37,11 +37,19 @@ namespace PRN231_Kazilet_WebApp.Pages.TestScreen
         }
         public IActionResult OnPost()
         {
+            if (SelectedQuestions.Count == 0)
+            {
+                return Page();
+            }
+
             return RedirectToPage("/TestScreen/Test", new
             {
                 id = Id,
                 duration = Duration,
-                selectedQuestions = string.Join(",", SelectedQuestions)
+                selectedQuestions = string.Join(",", SelectedQuestions),
+                isRetake = 1,
+                numOfQues = SelectedQuestions.Count,
+                random = false
             });
         }
     }

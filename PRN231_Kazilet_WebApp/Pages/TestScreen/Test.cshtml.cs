@@ -16,13 +16,13 @@ namespace PRN231_Kazilet_WebApp.Pages.Test
         public List<QuestionDto> QuestionList { get; set; }
         public static List<QuestionDto> SelectedQuestionList { get; set; }
         public static int SelectedDuration { get; set; }
-        public static int SelectedNumOfQues { get; set; }
+        //public static int SelectedNumOfQues { get; set; }
         public static int SelectedCourseId { get; set; }
         [BindProperty]
         public int Duration { get; set; }
 
-        [BindProperty]
-        public int NumOfQues { get; set; }
+        //[BindProperty]
+        //public int NumOfQues { get; set; }
         [BindProperty]
         public int IsRetake { get; set; }
 
@@ -38,31 +38,47 @@ namespace PRN231_Kazilet_WebApp.Pages.Test
         {
             
             IsRetake = isRetake;
+            
             if(isRetake==1)
             {
                 Duration = duration;
                 SelectedDuration = duration;
-                NumOfQues = numOfQues;
-                SelectedNumOfQues = numOfQues;
+                //NumOfQues = numOfQues;
+                //SelectedNumOfQues = numOfQues;
                 SelectedCourseId = id;
-
+                List<int> listId = selectedQuestions.Split(',')
+                                     .Select(int.Parse)
+                                     .ToList();
+                string url2 = "";
+                if (random == false)
+                {
+                    for (int i = 0; i < listId.Count; i++)
+                    {
+                        url2 += "ids=" + listId[i];
+                        if (i < listId.Count - 1)
+                        {
+                            url2 += "&";
+                        }
+                    }
+                }           
                 var url = random
                 ? $"{questionUrl}/GetRandom/{SelectedCourseId}/{numOfQues}"
-                : $"{questionUrl}/GetQuestionsByIds?ids={string.Join(",", selectedQuestions.Split(','))}";
-
+                : $"{questionUrl}/GetQuestionsByIds?"+url2;
+                Console.WriteLine(url);
                 var jsonStr = await _httpClient.GetStringAsync(url);
                 JArray jsonArray = JArray.Parse(jsonStr);
                 QuestionList = jsonArray.ToObject<List<QuestionDto>>();
                 if (SelectedQuestionList != null)
                 {
                     SelectedQuestionList.Clear();
-                }            
+                }
+                
                 SelectedQuestionList = QuestionList;
             }
             else
             {
                 Duration = SelectedDuration;
-                NumOfQues = SelectedNumOfQues;
+                //NumOfQues = SelectedNumOfQues;
                 QuestionList = SelectedQuestionList;
             }          
             TempData["QuestionList"] = JsonConvert.SerializeObject(QuestionList);
