@@ -25,6 +25,14 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\course.jpg",
+      "PackagePath": "staticwebassets\\imgs\\course.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\learning.png",
+      "PackagePath": "staticwebassets\\imgs\\learning.png"
+    },
+    {
       "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
