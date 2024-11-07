@@ -39,7 +39,8 @@ namespace PRN231_Kazilet_WebApp.Pages.TestScreen
                     id = Id,
                     duration = duration,
                     numOfQues = numOfQues,
-                    random = true
+                    random = true,
+                    isRetake = 1
                 });
             }
             else

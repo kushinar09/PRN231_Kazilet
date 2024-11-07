@@ -20,9 +20,11 @@ namespace PRN231_Kazilet_WebApp.Pages.TestScreen
         public List<QuestionDto> UnansweredQuestions { get; set; } = new List<QuestionDto>();
         [BindProperty]
         public int TotalQuestion { get; set; }
-
-        public void OnGet()
+        [BindProperty]
+        public int Id { get; set; }
+        public void OnGet(int id)
         {
+            Id= id;
             if (TempData["TotalQuestion"] != null)
             {
                 TotalQuestion = (int)TempData["TotalQuestion"];
@@ -53,14 +55,6 @@ namespace PRN231_Kazilet_WebApp.Pages.TestScreen
             else
             {
                 UnansweredQuestions = new List<QuestionDto>();
-            }
-            foreach(var a in IncorrectAnswers)
-            {
-                Console.WriteLine(a.QuestionId);
-                foreach(var b in a.AnswerDtos)
-                {
-                    Console.WriteLine(b.Content);
-                }
             }
         }
     }

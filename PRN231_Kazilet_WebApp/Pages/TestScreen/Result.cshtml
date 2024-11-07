@@ -168,12 +168,15 @@
                         <p style="margin-top: 10px;">You missed @Model.IncorrectAnswers.Count out of @Model.TotalQuestion questions</p>
                     }              
                 </div>
-                <button id="submitBtn" class="nextButton" onclick="submitForm()" type="button" style="margin-top:20px;width:100%">Retake</button>
+                <button class="nextButton" onclick="window.location.href='/TestScreen/Test?isRetake=0';" type="button" style="margin-top:20px;width:100%">Retake</button>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        let newUrl = `/TestScreen/TestOptions?id=${@Model.Id}`;
+        history.replaceState(null, '', newUrl);
+
         var ctx = document.getElementById('pieChart').getContext('2d');
         var correctAnswers = @correctAnswers;
         var incorrectAnswers = @incorrectAnswers;
@@ -233,6 +236,7 @@
                 ctx.save();
             }
         });
+
     </script>
 </body>
 </html>

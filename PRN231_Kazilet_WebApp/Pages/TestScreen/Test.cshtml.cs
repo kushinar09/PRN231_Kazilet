@@ -14,12 +14,17 @@ namespace PRN231_Kazilet_WebApp.Pages.Test
 
         [BindProperty]
         public List<QuestionDto> QuestionList { get; set; }
-
+        public static List<QuestionDto> SelectedQuestionList { get; set; }
+        public static int SelectedDuration { get; set; }
+        public static int SelectedNumOfQues { get; set; }
+        public static int SelectedCourseId { get; set; }
         [BindProperty]
         public int Duration { get; set; }
 
         [BindProperty]
         public int NumOfQues { get; set; }
+        [BindProperty]
+        public int IsRetake { get; set; }
 
         public TestModel()
         {
@@ -29,18 +34,37 @@ namespace PRN231_Kazilet_WebApp.Pages.Test
             };
         }
 
-        public async Task OnGet(int id, bool random, int duration, string selectedQuestions, int numOfQues)
+        public async Task OnGet(int id, bool random, int duration, string selectedQuestions, int numOfQues, int isRetake)
         {
-            Duration = duration;
-            NumOfQues = numOfQues;
+            
+            IsRetake = isRetake;
+            if(isRetake==1)
+            {
+                Duration = duration;
+                SelectedDuration = duration;
+                NumOfQues = numOfQues;
+                SelectedNumOfQues = numOfQues;
+                SelectedCourseId = id;
 
-            var url = random
-                ? $"{questionUrl}/GetRandom/{id}/{numOfQues}"
+                var url = random
+                ? $"{questionUrl}/GetRandom/{SelectedCourseId}/{numOfQues}"
                 : $"{questionUrl}/GetQuestionsByIds?ids={string.Join(",", selectedQuestions.Split(','))}";
 
-            var jsonStr = await _httpClient.GetStringAsync(url);
-            JArray jsonArray = JArray.Parse(jsonStr);
-            QuestionList = jsonArray.ToObject<List<QuestionDto>>();
+                var jsonStr = await _httpClient.GetStringAsync(url);
+                JArray jsonArray = JArray.Parse(jsonStr);
+                QuestionList = jsonArray.ToObject<List<QuestionDto>>();
+                if (SelectedQuestionList != null)
+                {
+                    SelectedQuestionList.Clear();
+                }            
+                SelectedQuestionList = QuestionList;
+            }
+            else
+            {
+                Duration = SelectedDuration;
+                NumOfQues = SelectedNumOfQues;
+                QuestionList = SelectedQuestionList;
+            }          
             TempData["QuestionList"] = JsonConvert.SerializeObject(QuestionList);
         }
 
@@ -123,7 +147,10 @@ namespace PRN231_Kazilet_WebApp.Pages.Test
             TempData["Percentage"] = percentage;
             TempData["IncorrectAnswers"] = JsonConvert.SerializeObject(incorrectAnswers);
 
-            return RedirectToPage("/TestScreen/Result");
+            return RedirectToPage("/TestScreen/Result", new
+            {
+                id = SelectedCourseId
+            });
         }
 
     }
