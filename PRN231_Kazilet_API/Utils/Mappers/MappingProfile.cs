@@ -7,7 +7,7 @@ namespace PRN231_Kazilet_API.Utils.Mappers
 {
     public class MappingProfile : Profile
     {
-        PRN231_KaziletContext _context = new PRN231_KaziletContext();
+        PRN231_Kazilet_v2Context _context = new PRN231_Kazilet_v2Context();
         public MappingProfile() {
             CreateMap<Question, QuestionDto>()
                 .ForMember(dest => dest.Answers, opt => opt.MapFrom(src => src.Answers));

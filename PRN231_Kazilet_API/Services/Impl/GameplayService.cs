@@ -8,13 +8,13 @@ namespace PRN231_Kazilet_API.Services.Impl
 {
     public class GameplayService : IGameplayService
     {
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
 
         private readonly IAuthService _authService;
 
         private readonly IQuestionService _questionService;
 
-        public GameplayService(PRN231_KaziletContext context, IAuthService authService, IQuestionService questionService)
+        public GameplayService(PRN231_Kazilet_v2Context context, IAuthService authService, IQuestionService questionService)
         {
             _context = context;
             _authService = authService;

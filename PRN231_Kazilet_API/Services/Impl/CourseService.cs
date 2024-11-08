@@ -8,8 +8,8 @@ namespace PRN231_Kazilet_API.Services.Impl
 {
     public class CourseService : ICourseService
     {
-        private readonly PRN231_KaziletContext _context;
-        public CourseService(PRN231_KaziletContext context)
+        private readonly PRN231_Kazilet_v2Context _context;
+        public CourseService(PRN231_Kazilet_v2Context context)
         {
             _context = context;
         }

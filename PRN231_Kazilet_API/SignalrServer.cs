@@ -10,7 +10,7 @@ namespace PRN231_Kazilet_API
     public class SignalrServer : Hub
     {
 
-        private readonly PRN231_KaziletContext _context;
+        private readonly PRN231_Kazilet_v2Context _context;
 
         private readonly IHttpContextAccessor _contextAccessor;
 
@@ -20,7 +20,7 @@ namespace PRN231_Kazilet_API
 
         private readonly IGameplayService _gameplayService;
 
-        public SignalrServer(PRN231_KaziletContext context, IHttpContextAccessor contextAccessor, IAuthService authService, IQuestionService questionService, IGameplayService gameplayService)
+        public SignalrServer(PRN231_Kazilet_v2Context context, IHttpContextAccessor contextAccessor, IAuthService authService, IQuestionService questionService, IGameplayService gameplayService)
         {
             _context = context;
             _contextAccessor = contextAccessor;

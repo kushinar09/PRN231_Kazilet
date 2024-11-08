@@ -33,7 +33,7 @@ namespace PRN231_Kazilet_API
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                     options.JsonSerializerOptions.WriteIndented = true;
                 }); 
-            builder.Services.AddDbContext<PRN231_KaziletContext>(
+            builder.Services.AddDbContext<PRN231_Kazilet_v2Context>(
                     options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")
                     )
                 );
