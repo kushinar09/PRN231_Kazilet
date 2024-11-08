@@ -5,6 +5,26 @@ var turn;
 var playerAnswer;
 var createdAt;
 
+var audioCorrect = new Audio();
+audioCorrect.src = "/music/success.mp3";
+audioCorrect.preload = 'auto';
+
+var audioIncorrect = new Audio();
+audioIncorrect.src = "/music/error.mp3";
+audioIncorrect.preload = 'auto';
+
+var audioSubmitted = new Audio();
+audioSubmitted.src = "/music/new_answer.mp3";
+audioSubmitted.preload = 'auto';
+
+var audioApplause = new Audio();
+audioApplause.src = "/music/applause.mp3";
+audioApplause.preload = 'auto';
+
+var audioCoinIncrease = new Audio();
+audioCoinIncrease.src = "/music/coin_spill.mp3";
+audioCoinIncrease.preload = 'auto';
+
 
 async function getQuestion() {
     try {
@@ -78,7 +98,7 @@ function connect(token) {
 
     connection.start().then(function () {
         connection.on("UserJoined", function (username) {
-            console.log(username);
+            getAvatars();
             try {
                 var playerDiv = document.getElementById("playerDiv");
                 if (playerDiv) {
@@ -89,7 +109,7 @@ function connect(token) {
                         .addClass("flex mr-4 items-center flex-row p-3  text-center animate-pulse")
                     let player = $(`
     <div class="relative mr-2 w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-        <img id="playerLobbyAvatar" class="h-12 w-12 rounded-full" src=${username.avatar} />
+        <img id=${myUsername == username.username ? `playerLobbyAvatar` : username.username + "avatar"} class="h-12 w-12 rounded-full" src=${username.avatar} />
     </div>
     <div class="text-lg mt-2">
         ${myUsername == username.username ? `${username.username} (You)` : username.username}
@@ -117,17 +137,16 @@ function connect(token) {
             if (isStart == true) {
                 count = 4;
                 countDisplay.textContent = "Are you ready?";
+                audio.play();
             }
             else {
                 count = 3;
                 countDisplay.textContent = "3";
             }
             isRunning = false;
-            
+
             createdAt = new Date().toISOString();
-            console.log(question);
             var json = JSON.parse(question);
-            console.log(json);
             questionId = json.QuestionDto.Id;
             document.getElementById("gQuestion").innerHTML = json.QuestionDto.Content;
             for (var i = 0; i < json.gameplayAdds.length; i++) {
@@ -139,7 +158,6 @@ function connect(token) {
                     else {
                         document.getElementById("pointStreak").style.width = (json.gameplayAdds[i].AnswerStreak / 10 * 100) + "%";
                     }
-                    console.log(json.gameplayAdds[i].TimeLimit);
                     countdownValue = json.gameplayAdds[i].TimeLimit;
                     totalTime = json.gameplayAdds[i].TimeLimit;
                     progressBar.innerHTML = countdownValue + 's';
@@ -207,7 +225,7 @@ function connect(token) {
         });
 
         connection.on("Submitted", function (result) {
-            console.log("Submitted: " + result);
+            audioSubmitted.play();
             var s = (result < 10 ? "0" + result + " Answers" : result + " Answers");
             document.getElementById("numberSubmitted").innerHTML = s;
         });
@@ -218,6 +236,7 @@ function connect(token) {
                 if (result[i].Username == getCookie("kazilet_gameplay_username")) {
                     document.getElementById("waitresult").style.display = "none";
                     if (result[i].IsCorrect == true) {
+                        audioCorrect.play();
                         document.getElementById("background").style.backgroundColor = "#66BE39"
                         document.getElementById("correctresult").style.display = "flex";
                         document.getElementById("resultStreak").innerHTML = result[i].Streak;
@@ -230,6 +249,7 @@ function connect(token) {
                         }
                     }
                     else {
+                        audioIncorrect.play();
                         document.getElementById("background").style.backgroundColor = "#FD3355"
                         document.getElementById("incorrectresult").style.display = "flex";
                         if (result[i].Place == 1) {
@@ -239,13 +259,12 @@ function connect(token) {
                             document.getElementById("resultPlaceI").innerHTML = "You're in " + result[i].Place + "th place";
                         }
                     }
-                    
+
                 }
             }
         });
 
         connection.on("GetReport", function (resultJson) {
-            console.log("GetReport: " + resultJson);
             document.getElementById("background").style.backgroundColor = "#471b43"
 
             var result = JSON.parse(resultJson);
@@ -263,7 +282,7 @@ function connect(token) {
                     html = `
                     <div class="flex flex-col items-center">
                 <span class="mt-2 text-sm font-semibold">${result[i].No + " (" + (percent * 100).toFixed(1) + "%)"}</span>
-                <div class="bg-blue-500 w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
+                <div style="background:#ff3131" class=" w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
                 <div class="mt-2 text-sm font-semibold flex items-center">
                     <div class="mr-2">${str[i]}</div>
                     <div>
@@ -276,7 +295,7 @@ function connect(token) {
                     html = `
                     <div class="flex flex-col items-center">
                 <span class="mt-2 text-sm font-semibold">${result[i].No + " (" + (percent * 100).toFixed(1) + "%)"}</span>
-                <div class="bg-red-500 w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
+                <div style="background:#01e32a" class="w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
                 <div class="mt-2 text-sm font-semibold flex items-center">
                     <div class="mr-2">${str[i]}</div>
                     <div>
@@ -291,7 +310,7 @@ function connect(token) {
                     html = `
                     <div class="flex flex-col items-center">
                 <span class="mt-2 text-sm font-semibold">${result[i].No + " (" + (percent * 100).toFixed(1) + "%)"}</span>
-                <div class="bg-green-500 w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
+                <div style="background:#5271ff" class="w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
                 <div class="mt-2 text-sm font-semibold flex items-center">
                     <div class="mr-2">${str[i]}</div>
                     <div>
@@ -305,7 +324,7 @@ function connect(token) {
                     html = `
                     <div class="flex flex-col items-center">
                 <span class="mt-2 text-sm font-semibold">${result[i].No + " (" + (percent * 100).toFixed(1) + "%)"}</span>
-                <div class="bg-yellow-500 w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
+                <div style="background:#fe7f00" class=" w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
                 <div class="mt-2 text-sm font-semibold flex items-center">
                     <div class="mr-2">${str[i]}</div>
                     <div>
@@ -337,19 +356,20 @@ function connect(token) {
         });
 
         connection.on("GetRanking", function (resultJson) {
-            console.log("GetRanking: " + resultJson);
-            
+
             oldArr = [];
             newArr = [];
             var result = JSON.parse(resultJson);
             for (var i = 0; i < result.oldRank.length; i++) {
                 oldArr.push({
+                    avatar: result.oldRank[i].Avatar,
                     username: result.oldRank[i].Username,
                     point: result.oldRank[i].Score
                 })
             }
             for (var i = 0; i < result.newRank.length; i++) {
                 newArr.push({
+                    avatar: result.newRank[i].Avatar,
                     username: result.newRank[i].Username,
                     point: result.newRank[i].Score
                 })
@@ -364,7 +384,17 @@ function connect(token) {
             }, 500);
         });
 
+        connection.on("ChangeAvatar", async function (data) {
+            console.log(data);
+            if (document.getElementById(data.username + "avatar") != null) {
+                document.getElementById(data.username + "avatar").src = data.avatar;
+            }
+            getAvatars();
+        });
+
         connection.on("GetFinalReport", async function (result) {
+            audio.src = "";
+            audioApplause.play();
             const apiUrl = "http://localhost:7024/api/Gameplay/final-report?code=" + result + "&username=" + getCookie("kazilet_gameplay_username");
             try {
                 const response = await fetch(apiUrl, {
@@ -373,7 +403,7 @@ function connect(token) {
                 if (response.ok) {
 
                     const data = await response.json();
-                    console.log(data);
+                    document.getElementById("finalPlayerAvatar").src = data.avatar;
                     document.getElementById("gUsername").innerHTML = data.username;
                     document.getElementById("finalResultPoint").innerHTML = data.score;
                     var percentCorrect = data.correctAnswer / data.totalQuestion * 100;
@@ -392,7 +422,7 @@ function connect(token) {
                             ${data.playerResponses[i].questionDto.content}
                         </div><div class="flex flex-col">`;
                         var end = `</div></div></div>`;
-                       
+
                         for (var j = 0; j < data.playerResponses[i].questionDto.answers.length; j++) {
                             if (data.playerResponses[i].questionDto.answers[j].isCorrect == true) {
                                 html += `<div style="color: #66BE39">
@@ -414,6 +444,47 @@ function connect(token) {
                             }
                         }
                         document.getElementById("detailReport").innerHTML += (start + html + end);
+                    }
+                    document.getElementById("finalRankingTbody").innerHTML = "";
+                    for (var i = 0; i < data.finalRanking.length; i++) {
+                        var image = "";
+                        if (i == 0) {
+                            image = "/images/first.png";
+                        }
+                        else if (i == 1) {
+                            image = "/images/second.png";
+                        }
+                        else if (i == 2) {
+                            image = "/images/third.png";
+                        }
+                        var html = `<tr>
+                                <td width="100px">${i + 1}</td>
+                                <td width="400px">
+                                    <div class="flex items-center flex-row text-center animate-pulse">
+                                        <div class="relative mr-2 w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                            <img class="h-12 w-12 rounded-full" src=${data.finalRanking[i].avatar} />
+
+                                        </div>
+                                        <div class="text-lg text-left mr-4">
+                                            ${data.finalRanking[i].username}
+                                        </div>
+                                        <div class="mt-2">
+                                            <img src=${image} class="h-8 w-8" />
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="200px">
+                                    <div class="flex items-center justify-start rounded-full">
+                                        <div class="h-6 w-6 mr-2">
+                                            <img src="/images/coin.png" />
+                                        </div>
+                                        <div style="color: yellow" class="font-bold" >
+                                            ${data.finalRanking[i].score} points
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>`;
+                        document.getElementById("finalRankingTbody").innerHTML += html;
                     }
                     document.getElementById("ranking").style.display = "none";
                     document.getElementById("background").style.height = "";

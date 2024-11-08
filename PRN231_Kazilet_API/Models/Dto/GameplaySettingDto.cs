@@ -13,5 +13,9 @@
         public int? CreatedBy { get; set; }
         public bool? IsHostPlay { get; set; }
         public bool? IsCompleted { get; set; }
+
+        public string? CourseName { get; set; }
+
+        public int? NoPlayers { get;set; }  
     }
 }

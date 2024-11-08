@@ -97,12 +97,40 @@
       "PackagePath": "staticwebassets\\images\\fire.png"
     },
     {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\first.png",
+      "PackagePath": "staticwebassets\\images\\first.png"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\host.png",
+      "PackagePath": "staticwebassets\\images\\host.png"
+    },
+    {
       "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\hourglass.png",
       "PackagePath": "staticwebassets\\images\\hourglass.png"
     },
     {
       "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\incorrect.png",
       "PackagePath": "staticwebassets\\images\\incorrect.png"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\medal.png",
+      "PackagePath": "staticwebassets\\images\\medal.png"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\podium.png",
+      "PackagePath": "staticwebassets\\images\\podium.png"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\report.png",
+      "PackagePath": "staticwebassets\\images\\report.png"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\second.png",
+      "PackagePath": "staticwebassets\\images\\second.png"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\third.png",
+      "PackagePath": "staticwebassets\\images\\third.png"
     },
     {
       "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\js\\site.js",
@@ -343,6 +371,34 @@
     {
       "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.min.js",
       "PackagePath": "staticwebassets\\microsoft\\signalr\\dist\\browser\\signalr.min.js"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\applause.mp3",
+      "PackagePath": "staticwebassets\\music\\applause.mp3"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\bg_sound.mp3",
+      "PackagePath": "staticwebassets\\music\\bg_sound.mp3"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\coin_spill.mp3",
+      "PackagePath": "staticwebassets\\music\\coin_spill.mp3"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\error.mp3",
+      "PackagePath": "staticwebassets\\music\\error.mp3"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\new_answer.mp3",
+      "PackagePath": "staticwebassets\\music\\new_answer.mp3"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\success.mp3",
+      "PackagePath": "staticwebassets\\music\\success.mp3"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\tic_tac.mp3",
+      "PackagePath": "staticwebassets\\music\\tic_tac.mp3"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.PRN231_Kazilet_WebApp.Microsoft.AspNetCore.StaticWebAssets.props",

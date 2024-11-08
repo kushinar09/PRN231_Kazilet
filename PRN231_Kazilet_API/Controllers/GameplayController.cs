@@ -22,6 +22,13 @@ namespace PRN231_Kazilet_API.Controllers
             _questionService = questionService;
         }
 
+        [HttpGet]
+        [Route("get-all")]
+        public IActionResult GetAllGameplayCompleted()
+        {
+            return Ok(_gameplayService.GetAllGameplayCompleted());
+        }
+
         [HttpPost]
         [Route("host")]
         public IActionResult HostGame([FromQuery] int courseId, [FromQuery] string username)
@@ -87,7 +94,7 @@ namespace PRN231_Kazilet_API.Controllers
 
         [HttpPost]
         [Route("update-avatar")]
-        public IActionResult UpdatePlayerAvatar([FromQuery] string code, [FromQuery] string username, [FromQuery] string avatar)
+        public async Task<IActionResult> UpdatePlayerAvatar([FromQuery] string code, [FromQuery] string username, [FromQuery] string avatar)
         {
             return Ok(_gameplayService.UpdatePlayerAvatar(code, username, avatar));
         }

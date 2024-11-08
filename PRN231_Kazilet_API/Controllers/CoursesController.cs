@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 //using OfficeOpenXml;
 using PRN231_Kazilet_API.Models.Entities;
+using PRN231_Kazilet_API.Services;
+using PRN231_Kazilet_API.Services.Impl;
 
 namespace PRN231_Kazilet_API.Controllers
 {
@@ -12,9 +14,19 @@ namespace PRN231_Kazilet_API.Controllers
     {
         private readonly PRN231_Kazilet_v2Context _context;
 
-        public CoursesController(PRN231_Kazilet_v2Context context)
+        private readonly ICourseService _courseService;
+
+        public CoursesController(PRN231_Kazilet_v2Context context, ICourseService courseService)
         {
             _context = context;
+            _courseService = courseService;
+        }
+
+        [HttpGet]
+        [Route("Details/{courseId}")]
+        public IActionResult GetCourseDetails(int courseId)
+        {
+            return Ok(_courseService.GetCourse(courseId));
         }
 
 

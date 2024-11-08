@@ -16,6 +16,7 @@ namespace PRN231_Kazilet_API.Services.Impl
             _mapper = mapper;
         }
 
+
         public bool AddCourse(CourseDto courseDto)
         {
             if (courseDto == null)

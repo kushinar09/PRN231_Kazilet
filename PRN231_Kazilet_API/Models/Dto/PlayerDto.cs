@@ -2,12 +2,14 @@
 {
     public class PlayerDto
     {
+        public string Avatar { get; set; }  
         public string Username { get; set; }
 
         public int Score { get; set; }
 
-        public PlayerDto(string username, int score)
+        public PlayerDto(string avatar, string username, int score)
         {
+            Avatar = avatar;
             Username = username;
             Score = score;
         }

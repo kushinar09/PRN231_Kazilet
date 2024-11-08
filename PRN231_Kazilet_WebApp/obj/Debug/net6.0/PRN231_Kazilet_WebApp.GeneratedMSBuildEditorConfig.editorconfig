@@ -32,8 +32,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZXBsYXlcSm9pbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZXBsYXlcTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/Lobby.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZXBsYXlcTG9iYnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Gameplay/Report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZXBsYXlcUmVwb3J0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Index.cshtml]

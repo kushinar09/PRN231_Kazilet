@@ -23,7 +23,7 @@ namespace PRN231_Kazilet_API.Services
 
         public int[] GetQuestionAlreadyAnswer(string code);
 
-        public bool UpdatePlayerAvatar(string code, string username, string avatar);
+        public Task<bool> UpdatePlayerAvatar(string code, string username, string avatar);
 
         public int AddPlayerAnswer(string code, string username, PlayerAnswerDto playerAnswerDto, HttpContext httpContext);
 
@@ -58,5 +58,9 @@ namespace PRN231_Kazilet_API.Services
         public string GetPlayerAvatar(string code, string username);
 
         public PlayerAnswerDto CheckSubmittedLatest(string code, string username);
+
+        public List<GameplaySettingDto> GetAllGameplayCompleted();
+
+        public ReportGameplayDto GetReportGameplay(string code);
     }
 }

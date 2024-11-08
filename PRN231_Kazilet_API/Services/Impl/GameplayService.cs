@@ -7,9 +7,11 @@ using Newtonsoft.Json;
 using PRN231_Kazilet_API.Models.Dto;
 using PRN231_Kazilet_API.Models.Entities;
 using PRN231_Kazilet_API.Utils;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text.Json.Serialization;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 using static System.Net.WebRequestMethods;
 
 namespace PRN231_Kazilet_API.Services.Impl
@@ -275,7 +277,7 @@ namespace PRN231_Kazilet_API.Services.Impl
             GameplaySetting gameplaySetting = _context.GameplaySettings.FirstOrDefault(gs => gs.Code == code);
             Gameplay gameplay = new Gameplay();
             GameplayAnswer gameplayAnswer = new GameplayAnswer();
-
+            gameplay.Avatar = GetPlayerAvatar(code, username);
             gameplay.Code = code;
             gameplay.Username = username;
             gameplayAnswer.QuestionId = playerAnswerDto.QuestionId;
@@ -450,6 +452,29 @@ namespace PRN231_Kazilet_API.Services.Impl
             return gameplayReportDtos;
         }
 
+        public List<PlayerDto> GetFinalRanking(string code)
+        {
+            var ranking = _context.Gameplays.Where(g => g.Code == code && g.Turn != 0)
+                .GroupBy(g => g.Username)
+                .Select(gm => new
+                {
+                    Username = gm.Key,
+                    Duration = gm.Average(gm => gm.Duration),
+                    Score = gm.Sum(gm => gm.Score)
+                })
+                .OrderByDescending(gm => gm.Score)
+                .ThenBy(gm => gm.Duration)
+                .ThenBy(gm => gm.Username)
+                .ToList();
+            List<PlayerDto> playerDtos = new List<PlayerDto>();
+            for(int i = 0; i < ranking.Count; i++)
+            {
+                string avatar = GetPlayerAvatar(code, ranking[i].Username);
+                playerDtos.Add(new PlayerDto(avatar, ranking[i].Username, ranking[i].Score.GetValueOrDefault(0)));
+            }
+            return playerDtos;
+        }
+
         public GameplayRankingDto GetGameplayRankingForTurn(string code, int turn)
         {
             var lastTurn = _context.Gameplays.Where(g => g.Code == code && g.Turn < turn)
@@ -467,13 +492,15 @@ namespace PRN231_Kazilet_API.Services.Impl
             List<PlayerDto> oldRank = new List<PlayerDto>();
             for (int i = 0; i < lastTurn.Count; i++)
             {
-                oldRank.Add(new PlayerDto(lastTurn[i].Username, (int)lastTurn[i].Score));
+                string avatar = GetPlayerAvatar(code, lastTurn[i].Username);
+                oldRank.Add(new PlayerDto(avatar, lastTurn[i].Username, (int)lastTurn[i].Score));
             }
 
             List<PlayerDto> newRank = new List<PlayerDto>();
             for (int i = 0; i < oldRank.Count; i++)
             {
-                newRank.Add(new PlayerDto(oldRank[i].Username, oldRank[i].Score + (int)_context.Gameplays.FirstOrDefault(g => g.Username == oldRank[i].Username && g.Code == code && g.Turn == turn).Score));
+                string avatar = GetPlayerAvatar(code, lastTurn[i].Username);
+                newRank.Add(new PlayerDto(avatar, oldRank[i].Username, oldRank[i].Score + (int)_context.Gameplays.FirstOrDefault(g => g.Username == oldRank[i].Username && g.Code == code && g.Turn == turn).Score));
             }
             GameplayRankingDto gameplayRankingDto = new GameplayRankingDto(oldRank, newRank);
             return gameplayRankingDto;
@@ -558,30 +585,39 @@ namespace PRN231_Kazilet_API.Services.Impl
 
         public GameplayFinalReportDto GetGameplayFinalReport(string code, string username)
         {
-            GameplayFinalReportDto gameplayFinalReportDto = new GameplayFinalReportDto();
-            gameplayFinalReportDto.Code = code;
-            gameplayFinalReportDto.Username = username;
-            gameplayFinalReportDto.Place = GetPlace(code, username);
-            gameplayFinalReportDto.TotalPlayers = GetTotalPlayers(code);
-            gameplayFinalReportDto.CorrectAnswer = GetNumberCorrectAnswer(code, username);
-            gameplayFinalReportDto.TotalQuestion = (int)_context.GameplaySettings.FirstOrDefault(gs => gs.Code == code).NoQuestion;
-            gameplayFinalReportDto.Duration = GetAvgDuration(code, username);
-            gameplayFinalReportDto.Score = GetTotalScore(code, username);
-            gameplayFinalReportDto.HighestStreak = GetHighestStreak(code, username);
-            List<PlayerResponseDtocs> playerResponseDtocs = new List<PlayerResponseDtocs>();
-            List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code && g.Username == username && g.Turn != 0).ToList();
-            for (int i = 0; i < gameplays.Count; i++)
+            GameplaySetting gameplaySetting = _context.GameplaySettings.FirstOrDefault(gs => gs.Code == code);
+            if (gameplaySetting != null)
             {
-                GameplayAnswer gameplayAnswer = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplays[i].Id);
-                PlayerResponseDtocs playerResponse = new PlayerResponseDtocs();
-                playerResponse.PlayerAnswer = (int)gameplayAnswer.PlayerAnswer.GetValueOrDefault(0);
-                playerResponse.QuestionDto = _mapper.Map<QuestionDto>(_context.Questions
-                    .Include(q => q.Answers)
-                    .FirstOrDefault(q => q.Id == gameplayAnswer.QuestionId));
-                playerResponseDtocs.Add(playerResponse);
+                gameplaySetting.IsCompleted = true;
+                _context.SaveChanges();
+                GameplayFinalReportDto gameplayFinalReportDto = new GameplayFinalReportDto();
+                gameplayFinalReportDto.Code = code;
+                gameplayFinalReportDto.Avatar = GetPlayerAvatar(code, username);
+                gameplayFinalReportDto.Username = username;
+                gameplayFinalReportDto.FinalRanking = GetFinalRanking(code);
+                gameplayFinalReportDto.Place = GetPlace(code, username);
+                gameplayFinalReportDto.TotalPlayers = GetTotalPlayers(code);
+                gameplayFinalReportDto.CorrectAnswer = GetNumberCorrectAnswer(code, username);
+                gameplayFinalReportDto.TotalQuestion = (int)_context.GameplaySettings.FirstOrDefault(gs => gs.Code == code).NoQuestion;
+                gameplayFinalReportDto.Duration = GetAvgDuration(code, username);
+                gameplayFinalReportDto.Score = GetTotalScore(code, username);
+                gameplayFinalReportDto.HighestStreak = GetHighestStreak(code, username);
+                List<PlayerResponseDtocs> playerResponseDtocs = new List<PlayerResponseDtocs>();
+                List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code && g.Username == username && g.Turn != 0).ToList();
+                for (int i = 0; i < gameplays.Count; i++)
+                {
+                    GameplayAnswer gameplayAnswer = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplays[i].Id);
+                    PlayerResponseDtocs playerResponse = new PlayerResponseDtocs();
+                    playerResponse.PlayerAnswer = (int)gameplayAnswer.PlayerAnswer.GetValueOrDefault(0);
+                    playerResponse.QuestionDto = _mapper.Map<QuestionDto>(_context.Questions
+                        .Include(q => q.Answers)
+                        .FirstOrDefault(q => q.Id == gameplayAnswer.QuestionId));
+                    playerResponseDtocs.Add(playerResponse);
+                }
+                gameplayFinalReportDto.PlayerResponses = playerResponseDtocs;
+                return gameplayFinalReportDto;
             }
-            gameplayFinalReportDto.PlayerResponses = playerResponseDtocs;
-            return gameplayFinalReportDto;
+            return null;
         }
 
         public int GetLatestTurn(string code)
@@ -648,7 +684,7 @@ namespace PRN231_Kazilet_API.Services.Impl
             return playerAvatarDto;
         }
 
-        public bool UpdatePlayerAvatar(string code, string username, string avatar)
+        public async Task<bool> UpdatePlayerAvatar(string code, string username, string avatar)
         {
             Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == 0 && g.Username == username);
             if(gameplay != null)
@@ -658,10 +694,45 @@ namespace PRN231_Kazilet_API.Services.Impl
                 {
                     gameplay.Avatar = avatar;
                     _context.SaveChanges();
+                    await _signalRHub.Clients.Group(code).SendAsync("ChangeAvatar", new
+                    {
+                        Username = username,
+                        Avatar = avatar
+                    });
                     return true;
                 }
             }
             return false;
+        }
+
+
+
+        public List<GameplaySettingDto> GetAllGameplayCompleted()
+        {
+            int userId = 1;
+            List<GameplaySetting> list = _context.GameplaySettings
+                .Include(gs => gs.Course)
+                .Where(gs => gs.CreatedBy == userId && gs.IsCompleted == true).ToList();
+            List<GameplaySettingDto> gameplaySettingDtos = _mapper.Map<List<GameplaySettingDto>>(list);
+            for(int i = 0; i < gameplaySettingDtos.Count; i++)
+            {
+                gameplaySettingDtos[i].CourseName = list[i].Course.Name;
+                gameplaySettingDtos[i].NoPlayers = GetTotalPlayers(gameplaySettingDtos[i].Code);
+            }
+            return gameplaySettingDtos;
+        }
+
+        public float CalculateCorrectPercent(string code)
+        {
+            List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code).ToList();
+            return 0;
+        }
+
+        public ReportGameplayDto GetReportGameplay(string code)
+        {
+            ReportGameplayDto reportGameplayDto = new ReportGameplayDto();
+            reportGameplayDto.Code = code;
+            return reportGameplayDto;
         }
     }
   
