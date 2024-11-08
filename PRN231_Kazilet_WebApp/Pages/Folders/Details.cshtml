@@ -191,13 +191,16 @@
         const flashcardList = document.getElementById('flashcardList');
         let existingCourseIds = [];
 
-        window.onload = function () {
+        // Hàm để tải và hiển thị danh sách các course trong folder
+        function loadCourses() {
             const folderId = localStorage.getItem("folderId");
             const apiUrl = `http://localhost:7024/api/Folders/GetCourse/${folderId}`;
 
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
                     flashcardList.innerHTML = '';
                     existingCourseIds = data.map(course => course.id);
 
@@ -221,35 +224,32 @@
                         flashcardDetails.classList.add('flashcard-details');
                         flashcardDetails.textContent = `Course`;
 
-                        // const button = document.createElement('button');
-                        // button.classList.add('btn');
-                        // button.innerHTML = '<i class="fas fa-ellipsis-h"></i>';
-                        // button.onclick = (e) => {
-                        //     e.stopPropagation();
-                        //     // Add your menu logic here
-                        // };
-
                         flashcardInfo.appendChild(flashcardTitle);
                         flashcardInfo.appendChild(flashcardDetails);
                         flashcardItem.appendChild(flashcardIcon);
                         flashcardItem.appendChild(flashcardInfo);
-                        // flashcardItem.appendChild(button);
 
                         flashcardList.appendChild(flashcardItem);
                     });
-                })
-                .catch(error => {
+                },
+                error: function (error) {
                     console.error('Error fetching courses:', error);
-                });
-        };
+                }
+            });
+        }
+
+        // Tải danh sách courses khi trang tải
+        window.onload = loadCourses;
 
         function openLearningHistoryDialog() {
             const userId = 1;
             const apiUrl = `http://localhost:7024/api/LearningHistory/${userId}`;
 
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
                     const contentDiv = document.getElementById('learningHistoryContent');
                     contentDiv.innerHTML = '';
 
@@ -257,17 +257,17 @@
                         const courseDiv = document.createElement('div');
                         courseDiv.classList.add('flashcard-item');
                         courseDiv.innerHTML = `
-                                    <div class="flashcard-icon">
-                                        <i class="fas fa-book-open"></i>
+                                <div class="flashcard-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="flashcard-info">
+                                    <div class="flashcard-title">${item.courseName}</div>
+                                    <div class="flashcard-details">
+                                        Flashcard set • ${item.numOfQues} terms • by ${item.creator}<br>
+                                        <strong>Date:</strong> ${new Date(item.learningDate).toLocaleDateString()}
                                     </div>
-                                    <div class="flashcard-info">
-                                        <div class="flashcard-title">${item.courseName}</div>
-                                        <div class="flashcard-details">
-                                            Flashcard set • ${item.numOfQues} terms • by ${item.creator}<br>
-                                            <strong>Date:</strong> ${new Date(item.learningDate).toLocaleDateString()}
-                                        </div>
-                                    </div>
-                                `;
+                                </div>
+                            `;
 
                         if (existingCourseIds.includes(item.courseId)) {
                             const removeButton = document.createElement('button');
@@ -275,7 +275,7 @@
                             removeButton.textContent = '-';
                             removeButton.onclick = (e) => {
                                 e.stopPropagation();
-                                RemoveCourse(item.courseId);
+                                removeCourse(item.courseId);
                             };
                             courseDiv.appendChild(removeButton);
                         } else {
@@ -293,10 +293,11 @@
                     });
 
                     document.getElementById('learningHistoryDialog').style.display = 'block';
-                })
-                .catch(error => {
+                },
+                error: function (error) {
                     console.error('Error fetching learning history:', error);
-                });
+                }
+            });
         }
 
         function closeDialog() {
@@ -307,71 +308,65 @@
             const folderId = localStorage.getItem("folderId");
             const apiUrl = `http://localhost:7024/api/Folders/AddCourse`;
 
-            fetch(apiUrl, {
+            $.ajax({
+                url: apiUrl,
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+                contentType: 'application/json',
+                data: JSON.stringify({ courseId, folderId }),
+                success: function () {
+                    console.log('Course added to folder successfully.');
+                    loadCourses();
+                    openLearningHistoryDialog();
                 },
-                body: JSON.stringify({ courseId, folderId })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Course added to folder successfully.');
-                        window.location.reload();
-                    } else {
-                        console.error('Failed to add course to folder.');
-                    }
-                })
-                .catch(error => {
+                error: function (error) {
                     console.error('Error adding course to folder:', error);
-                });
+                }
+            });
         }
 
-        function RemoveCourse(courseId) {
+        function removeCourse(courseId) {
             const folderId = localStorage.getItem("folderId");
             const apiUrl = `http://localhost:7024/api/Folders/RemoveCourse`;
 
-            fetch(apiUrl, {
+            $.ajax({
+                url: apiUrl,
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+                contentType: 'application/json',
+                data: JSON.stringify({ courseId, folderId }),
+                success: function () {
+                    console.log('Course removed from folder successfully.');
+                    loadCourses();
+                    openLearningHistoryDialog();
                 },
-                body: JSON.stringify({ courseId, folderId })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Course removed from folder successfully.');
-                        window.location.reload();
-                    } else {
-                        console.error('Failed to remove course from folder.');
-                    }
-                })
-                .catch(error => {
+                error: function (error) {
                     console.error('Error removing course from folder:', error);
-                });
+                }
+            });
         }
 
         function viewCourseDetail(courseId) {
             const apiUrl = `http://localhost:7024/odata/Question/${courseId}`;
 
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function () {
                     window.location.href = `/Questions?courseId=${courseId}`;
-                })
-                .catch(error => {
+                },
+                error: function (error) {
                     console.error('Error fetching course details:', error);
-                });
+                }
+            });
         }
 
         document.getElementById('addCourseBtn').onclick = openLearningHistoryDialog;
 
-        // Close the modal when clicking outside of it
+        // Đóng modal khi nhấn bên ngoài modal
         window.onclick = function (event) {
             if (event.target == document.getElementById('learningHistoryDialog')) {
                 closeDialog();
             }
-        }
+        };
     </script>
 
 </body>
