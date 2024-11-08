@@ -9,7 +9,7 @@ namespace PRN231_Kazilet_WebApp.Pages.Gameplay
     public class WaitScreenModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        private readonly string GameplayUrl = "https://localhost:7024/api/Gameplay";
+        private readonly string GameplayUrl = "http://localhost:7024/api/Gameplay";
 
         public WaitScreenModel()
         {

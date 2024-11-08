@@ -1,4 +1,5 @@
 ﻿using PRN231_Kazilet_API.Models.Entities;
+using System.Text.Json.Serialization;
 
 namespace PRN231_Kazilet_API.Models.Dto
 {
@@ -10,5 +11,10 @@ namespace PRN231_Kazilet_API.Models.Dto
         public bool? IsMarked { get; set; }
         public int? Status { get; set; }
         public virtual ICollection<AnswerDto> Answers { get; set; }
+
+        public override string? ToString()
+        {
+            return Id + " " + CourseId + " " + Content;
+        }
     }
 }

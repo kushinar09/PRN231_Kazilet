@@ -176,7 +176,7 @@
 <script>
     async function find(event) {
         event.preventDefault();
-        const apiUrl = "https://localhost:7024/api/Gameplay/find?code=" + document.getElementById("code").value;
+        const apiUrl = "http://localhost:7024/api/Gameplay/find?code=" + document.getElementById("code").value;
         try {
             const response = await fetch(apiUrl, {
                 method: 'GET'
@@ -202,7 +202,7 @@
     async function join(event) {
         event.preventDefault();
         console.log(document.getElementById("code").value + " " + document.getElementById("username").value);
-        window.location.href = "https://localhost:7081/Gameplay/WaitScreen?code=" + document.getElementById("code").value + "&username=" + document.getElementById("username").value;
+        window.location.href = "http://localhost:7081/Gameplay/WaitScreen?code=" + document.getElementById("code").value + "&username=" + document.getElementById("username").value;
 
        
     }

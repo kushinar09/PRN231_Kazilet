@@ -1,0 +1,261 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.Folders.IndexModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Folders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #471b43;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .folders-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .folder-card {
+            width: 220px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: transform 0.1s ease-in-out;
+        }
+
+            .folder-card:hover {
+                transform: translateY(-3px);
+            }
+
+        .folder-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1d28;
+        }
+
+        .folder-details {
+            font-size: 14px;
+            color: #586380;
+            margin-top: 8px;
+        }
+
+        .create-folder-btn {
+            background-color: #8854c0;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-top: 20px;
+            width: 20%;
+        }
+
+            .create-folder-btn:hover {
+                background-color: #60255b;
+            }
+
+        .dialog, .overlay {
+            display: none;
+        }
+
+        .dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            width: 500px;
+            border-radius: 8px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .dialog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        .dialog-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1d28;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #586380;
+            cursor: pointer;
+        }
+
+        .dialog-content {
+            padding: 24px;
+            position: relative;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 14px;
+            color: #1a1d28;
+            margin-bottom: 8px;
+        }
+
+        #folderInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #e6e6e6;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+            #folderInput:focus {
+                outline: none;
+                border-color: #4255ff;
+            }
+
+        #confirmBtn {
+            margin-top: 16px;
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #4255ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <h1>My Folders</h1>
+            <button class="create-folder-btn" id="openDialog">Create a New Folder</button>
+        </div>
+
+        <!-- Display folders -->
+        <div class="folders-container">
+            @if (Model.Folders != null && Model.Folders.Count > 0)
+            {
+                @foreach (var folder in Model.Folders)
+                {
+                    <div class="folder-card" onclick="FolderDetails(@folder.Id)">
+                        <p class="folder-title">@folder.Name</p>
+                        <!-- Optional: display more folder details -->
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No folders found.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Dialog box for creating a new folder -->
+    <div id="overlay" class="overlay"></div>
+    <div id="dialogBox" class="dialog">
+        <div class="dialog-header">
+            <span class="dialog-title">Create a new folder</span>
+            <button class="close-btn" onclick="closeDialog()">&times;</button>
+        </div>
+        <div class="dialog-content">
+            <label class="input-label" for="folderInput">Folder Name</label>
+            <input type="text" id="folderInput" placeholder="Enter folder name">
+            <button id="confirmBtn" onclick="confirmDialog()">Create Folder</button>
+        </div>
+    </div>
+
+    <script>
+        const dialog = document.getElementById('dialogBox');
+        const overlay = document.getElementById('overlay');
+        const openBtn = document.getElementById('openDialog');
+        const input = document.getElementById('folderInput');
+
+        openBtn.addEventListener('click', () => {
+            dialog.style.display = 'block';
+            overlay.style.display = 'block';
+            input.focus();
+        });
+
+        function closeDialog() {
+            dialog.style.display = 'none';
+            overlay.style.display = 'none';
+            input.value = '';
+        }
+
+        function confirmDialog() {
+            const folderName = input.value;
+            if (folderName.trim()) {
+                alert('Folder created: ' + folderName);
+                closeDialog();
+            }
+        }
+
+        // Close dialog when clicking outside
+        overlay.addEventListener('click', closeDialog);
+
+        function FolderDetails(folderId) {
+            // Fetch API để lấy thông tin khóa học
+            fetch(`http://localhost:7024/api/Folders/GetCourse/${folderId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        // Lưu trữ dữ liệu khóa học vào localStorage (hoặc sessionStorage)
+                        localStorage.setItem('folderData', JSON.stringify(data));
+
+                        // Chuyển hướng đến trang EditCourse
+                        window.location.href = '/Folders/Details';
+                    } else {
+                        alert('Failed to fetch folder details');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching course data:', error);
+                    alert('Error fetching course details');
+                });
+        }
+    </script>
+</body>
+</html>
