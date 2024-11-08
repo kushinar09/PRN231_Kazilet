@@ -658,7 +658,8 @@ namespace PRN231_Kazilet_API.Services.Impl
                 Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn && g.Username == username);
                 GameplayAnswer gameplayAnswer = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplay.Id);
                 PlayerAnswerDto playerAnswerDto = new PlayerAnswerDto();
-                playerAnswerDto.PlayerAnswer = gameplayAnswer.PlayerAnswer;
+                if(gameplayAnswer != null)
+                    playerAnswerDto.PlayerAnswer = gameplayAnswer.PlayerAnswer;
                 playerAnswerDto.Turn = (int)gameplay.Turn;
                 return playerAnswerDto;
             }
