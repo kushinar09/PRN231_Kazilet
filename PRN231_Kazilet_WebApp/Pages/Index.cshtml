@@ -71,14 +71,12 @@
                         <span class="menuItemText ml-2 truncate">My Courses</span>
                     </button>
                 </li>
-                @* <li class="py-2 pl-4 hover:bg-gray-100 cursor-pointer">
+                <li class="py-2 pl-4 hover:bg-gray-100 cursor-pointer">
                     <button class="text-left text-primary rounded-md flex items-center focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                        </svg>
-                        <span class="menuItemText ml-2 truncate">Notifications</span>
+                        <svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <rect x="2" y="6" width="20" height="12" rx="2" />  <path d="M6 12h4m-2 -2v4" />  <line x1="15" y1="11" x2="15" y2="11.01" />  <line x1="18" y1="13" x2="18" y2="13.01" /></svg>
+                        <span class="menuItemText ml-2 truncate">My Games</span>
                     </button>
-                </li> *@
+                </li>
             </ul>
         </nav>
     </aside>
@@ -122,7 +120,7 @@
                         </div>
                     </div>
                     @* <button onclick="logout()" class="logout-btn bg-secondary hover:bg-primary text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" style="display: none;">
-                        Logout
+                    Logout
                     </button> *@
                 </div>
             </div>
@@ -138,13 +136,13 @@
             <div id="history" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-4 mb-12">
                 <a href="#" class="flex flex-col items-center group">
                     <div class="w-16 h-16 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center text-2xl mb-2 group-hover:bg-secondary-dark group-hover:bg-opacity-20 transition-colors">
-                        <img class="h-10 w-10" src="~/imgs/learning.png"/>
+                        <img class="h-10 w-10" src="~/imgs/learning.png" />
                     </div>
                     <span class="text-sm text-center text-primary">PRN221</span>
                 </a>
                 <a href="#" class="flex flex-col items-center group">
                     <div class="w-16 h-16 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center text-2xl mb-2 group-hover:bg-secondary-dark group-hover:bg-opacity-20 transition-colors">
-                        <img class="h-10 w-10" src="~/imgs/learning.png"/>
+                        <img class="h-10 w-10" src="~/imgs/learning.png" />
                     </div>
                     <span class="text-sm text-center text-primary">MAE910</span>
                 </a>
@@ -176,7 +174,7 @@
 </div>
 
 <script>
-    function logout(){
+    function logout() {
         deleteCookie("accessToken");
         handleAuthUI();
     }
@@ -217,11 +215,11 @@
                 categoryItem.className = "flex flex-col items-center group";
 
                 categoryItem.innerHTML = `
-                    <div class="w-16 h-16 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center text-2xl mb-2 group-hover:bg-secondary-dark group-hover:bg-opacity-20 transition-colors">
-                    <img class="h-10 w-10" src="~/imgs/learning.png" alt="${course.name}">
-                    </div>
-                    <span class="text-sm text-center text-primary">${course.name}</span>
-                `;
+                        <div class="w-16 h-16 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center text-2xl mb-2 group-hover:bg-secondary-dark group-hover:bg-opacity-20 transition-colors">
+                        <img class="h-10 w-10" src="~/imgs/learning.png" alt="${course.name}">
+                        </div>
+                        <span class="text-sm text-center text-primary">${course.name}</span>
+                    `;
 
                 categoryContainer.appendChild(categoryItem);
             });
@@ -246,15 +244,15 @@
                 courseCard.className = "block";
 
                 courseCard.innerHTML = `
-                    <div class="border border-gray-200 rounded-lg overflow-hidden transition-shadow hover:shadow-lg">
-                        <img src="~/imgs/course.jpg" alt="${course.name}" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <div class="text-sm text-gray-600 mb-2">${course.name}</div>
-                            <h3 class="text-lg font-semibold mb-2">${course.description}</h3>
-                            <div class="text-sm text-gray-600">${course.numOfQues} Câu hỏi</div>
+                        <div class="border border-gray-200 rounded-lg overflow-hidden transition-shadow hover:shadow-lg">
+                            <img src="~/imgs/course.jpg" alt="${course.name}" class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <div class="text-sm text-gray-600 mb-2">${course.name}</div>
+                                <h3 class="text-lg font-semibold mb-2">${course.description}</h3>
+                                <div class="text-sm text-gray-600">${course.numOfQues} Câu hỏi</div>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
 
                 coursesContainer.appendChild(courseCard);
             });
@@ -323,7 +321,7 @@
         let isSidebarCollapsed = false;
         let isSidebarOpen = window.innerWidth > 768;
 
-        if(window.innerWidth <= 768) {
+        if (window.innerWidth <= 768) {
             sidebar.classList.toggle('-translate-x-full', !isSidebarOpen);
             sidebar.classList.toggle('translate-x-0', isSidebarOpen);
             mainContent.classList.remove('md:ml-64', 'md:ml-16');
