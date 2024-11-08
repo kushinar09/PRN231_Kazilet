@@ -513,7 +513,7 @@ function connect(token) {
                     document.getElementById("ranking").style.display = "none";
                     document.getElementById("background").style.height = "";
                     document.getElementById("final").style.display = "flex";
-
+                    document.getElementById("header").style.display = "block";
                 }
             } catch (error) {
                 console.log(error);
