@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PRN231_Kazilet_API.Models.Dto;
 using PRN231_Kazilet_API.Models.Entities;
 
@@ -7,7 +8,6 @@ namespace PRN231_Kazilet_API.Services.Impl
     public class FolderService : IFolderService
     {
         private readonly PRN231_Kazilet_v2Context _context;
-
         private readonly IMapper _mapper;
 
         public FolderService(PRN231_Kazilet_v2Context context, IMapper mapper)
@@ -16,19 +16,16 @@ namespace PRN231_Kazilet_API.Services.Impl
             _mapper = mapper;
         }
 
-        public bool AddCourseToFolder(int courseId, int folderId)
+        public bool AddCourseToFolder(FolderCourseDto folderCourseDto)
         {
-            /*
-            Folder f = _context.Folders.FirstOrDefault(f => f.Id == folderId);
-            _context.FolderCourses.Add(new FolderCourse()
-            {
-                FolderId = folderId,
-                CourseId = courseId
-            });
+            var course = _context.Courses.Find(folderCourseDto.CourseId);
+            var folder = _context.Folders.Find(folderCourseDto.FolderId);
 
+            if (course == null || folder == null)
+                return false;
+
+            course.Folders.Add(folder); // Thêm folder vào collection Folders của course
             return _context.SaveChanges() > 0;
-            */
-            return true;
         }
 
         public bool AddFolder(FolderDto folderDto)
@@ -44,42 +41,55 @@ namespace PRN231_Kazilet_API.Services.Impl
             return _context.SaveChanges() > 0;
         }
 
-        public bool RemoveCourseInFolder(int courseId, int folderId)
+        public List<CourseDto> GetCoursesByFolder(int folderId)
         {
-            /*
-            FolderCourse folderCourse = _context.FolderCourses.FirstOrDefault(c => c.CourseId == courseId && c.FolderId == folderId);
-            if (folderCourse != null)
+            // Lấy folder cùng với các courses liên quan
+            var folder = _context.Folders
+                .Include(f => f.Courses)  // Đưa các courses vào khi lấy Folder
+                .FirstOrDefault(f => f.Id == folderId);
+
+            // Nếu không tìm thấy folder, trả về danh sách rỗng
+            if (folder == null)
             {
-                _context.FolderCourses.Remove(folderCourse);
+                return new List<CourseDto>();
+            }
+
+            // Map các đối tượng Course từ entity sang DTO và trả về danh sách
+            var courseDtos = _mapper.Map<List<CourseDto>>(folder.Courses);
+
+            return courseDtos;
+        }
+
+        public bool RemoveCourseInFolder(FolderCourseDto folderCourseDto)
+        {
+            var course = _context.Courses.Include(c => c.Folders).FirstOrDefault(c => c.Id == folderCourseDto.CourseId);
+            var folder = _context.Folders.Find(folderCourseDto.FolderId);
+
+            if (course == null || folder == null)
+                return false;
+
+            if (course.Folders.Contains(folder))
+            {
+                course.Folders.Remove(folder);
                 return _context.SaveChanges() > 0;
             }
-            */
+
             return false;
         }
 
         public bool RemoveFolder(int folderId)
         {
-            /*
-            Folder folder = _context.Folders.FirstOrDefault(f => f.Id == folderId);
+            var folder = _context.Folders.Include(f => f.Courses).FirstOrDefault(f => f.Id == folderId);
             if (folder == null)
             {
                 return false;
             }
 
-            List<FolderCourse> folderCourses = _context.FolderCourses.Where(c => c.FolderId == folderId).ToList();
-            if (folderCourses.Count > 0)
-            {
-                foreach (FolderCourse c in folderCourses)
-                {
-                    _context.FolderCourses.Remove(c);
-                }
-            }
-
+            // Xóa tất cả các quan hệ với các khóa học trước khi xóa Folder
+            folder.Courses.Clear();
             _context.Folders.Remove(folder);
-            return _context.SaveChanges() > 0;
-            */
-            return true;
-        }
 
+            return _context.SaveChanges() > 0;
+        }
     }
 }

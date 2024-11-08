@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MailKit;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using PRN231_Kazilet_API.Models.Dto;
 //using OfficeOpenXml;
 using PRN231_Kazilet_API.Models.Entities;
 using PRN231_Kazilet_API.Services;
@@ -10,47 +15,35 @@ namespace PRN231_Kazilet_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoursesController : ControllerBase
+    public class CoursesController : ODataController
     {
         private readonly PRN231_Kazilet_v2Context _context;
-
         private readonly ICourseService _courseService;
-
         public CoursesController(PRN231_Kazilet_v2Context context, ICourseService courseService)
         {
             _context = context;
             _courseService = courseService;
         }
 
-        [HttpGet]
-        [Route("Details/{courseId}")]
-        public IActionResult GetCourseDetails(int courseId)
-        {
-            return Ok(_courseService.GetCourse(courseId));
-        }
 
-
-        [HttpGet("by-folder/{folderid}")]
-        public IActionResult GetCourseByFolder(int folderid)
-        {
-            /*
-            var courses = _context.
-                .Where(fc => fc.FolderId == folderid)    
-                .Include(fc => fc.Course)               
-                .ThenInclude(c => c.CreatedByNavigation) 
-                .Select(fc => fc.Course)                 
-                .ToList();
+        //[HttpGet("by-folder/{folderid}")]
+        //public IActionResult GetCourseByFolder(int folderid)
+        //{
+        //    var courses = _context.FolderCourses
+        //        .Where(fc => fc.FolderId == folderid)
+        //        .Include(fc => fc.Course)
+        //        .ThenInclude(c => c.CreatedByNavigation)
+        //        .Select(fc => fc.Course)
+        //        .ToList();
 
 
 
-            if (courses == null || courses.Count == 0)
-            {
-                return NotFound("This folder hasn't have any course");
-            }
-            return Ok(courses);
-            */
-            return Ok();
-        }
+        //    if (courses == null || courses.Count == 0)
+        //    {
+        //        return NotFound("This folder hasn't have any course");
+        //    }
+        //    return Ok(courses);
+        //}
 
         [HttpPost("import")]
         public IActionResult ImportFromExcel(IFormFile file)
@@ -85,7 +78,6 @@ namespace PRN231_Kazilet_API.Controllers
                 }
                 */
             }
-
             return Ok("Courses imported successfully from Excel.");
         }
 
@@ -124,63 +116,76 @@ namespace PRN231_Kazilet_API.Controllers
         }
 
         [HttpGet]
-        [Route("Recent/{userId}")]
-        public IActionResult GetCourseRecent(int userId)
+        [Route("{userId}")]
+        public IActionResult GetOwnedCourses(int userId)
         {
-            var courses = _context.LearningHistories
-                .Where(fc => fc.UserId == userId)
-                .Include(fc => fc.Course)
-                .ThenInclude(c => c.CreatedByNavigation)
-                .Select(fc => fc.Course)
-                .ToList();
-
-            return Ok(courses);
+            return Ok(_courseService.GetOwnedCourses(userId));
         }
 
+        [EnableQuery]
         [HttpGet]
-        [Route("Popular")]
-        public IActionResult GetCoursePopular()
+        [Route("Details/{courseId}")]
+        public IActionResult GetCourseDetails(int courseId)
         {
-            var courses = _context.Courses
-                .Include(c => c.CreatedByNavigation)
-                .Include(fc => fc.Questions)
-                .Where(fc => fc.Questions.Count > 0)
-                .OrderByDescending(fc => fc.Questions.Count)
-                .Take(5)
-                .ToList();
-
-            foreach (var item in courses)
-            {
-                item.Questions = new List<Question>();
-            }
-
-            return Ok(courses);
+            var rs = _courseService.GetCourse(courseId);
+            return Ok(rs);
         }
 
-        [HttpGet]
-        [Route("Users/Popular")]
-        public IActionResult GetUserCoursePopular()
+        //[Authorize(Roles = "user,admin")]
+        [HttpPost("Add")]
+        public async Task<IActionResult> AddCourse([FromBody] CourseDto courseDto)
         {
-            /*
-            var users = _context.Users
-                .Include(u => u.RoleNavigation)
-                .ToList();
-
-            foreach (var item in users)
+            if (courseDto == null)
             {
-                item.numOfCourse = _context.Courses.Count(c => c.CreatedBy == item.Id);
-                item.roleName = item.RoleNavigation.Role;
+                return BadRequest("Question list cannot be null or empty.");
             }
 
-            var popularUsers = users
-                .Where(u => u.numOfCourse > 0)
-                .OrderByDescending(u => u.numOfCourse)
-                .Take(5)
-                .ToList();
+            bool result = _courseService.AddCourse(courseDto);
 
-            return Ok(popularUsers);
-            */
-            return Ok();
+            if (result)
+            {
+                return Ok("Questions added successfully.");
+            }
+            else
+            {
+                return StatusCode(500, "An error occurred while adding questions.");
+            }
+        }
+
+        //[Authorize(Roles = "user,admin")]
+        [HttpPost("Update")]
+        public IActionResult UpdateCourse([FromBody] CourseDto courseDto)
+        {
+            if (courseDto == null)
+            {
+                return BadRequest("Course data cannot be null.");
+            }
+
+            bool result = _courseService.UpdateCourse(courseDto);
+
+            if (result)
+            {
+                return Ok("Course updated successfully.");
+            }
+            else
+            {
+                return StatusCode(500, "An error occurred while updating the course.");
+            }
+        }
+
+        [HttpDelete("{courseId}")]
+        public IActionResult DeleteCourse(int courseId)
+        {
+            bool result = _courseService.DeleteCourse(courseId);
+
+            if (result)
+            {
+                return Ok("Course deleted successfully.");
+            }
+            else
+            {
+                return NotFound("Course not found or could not be deleted.");
+            }
         }
     }
 }

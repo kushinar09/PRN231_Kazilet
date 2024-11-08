@@ -16,7 +16,6 @@ namespace PRN231_Kazilet_API.Services.Impl
             _mapper = mapper;
         }
 
-
         public bool AddCourse(CourseDto courseDto)
         {
             if (courseDto == null)
@@ -49,7 +48,7 @@ namespace PRN231_Kazilet_API.Services.Impl
                     {
                         CourseId = courseId,
                         Content = questionDto.Content,
-                        IsMarked = questionDto.IsMarked
+                        IsMarked = questionDto.IsMarked,
                     };
 
                     _context.Questions.Add(questionEntity);
@@ -81,12 +80,12 @@ namespace PRN231_Kazilet_API.Services.Impl
             return _context.SaveChanges() > 0;
         }
 
-        public bool UpdateCourse(int courseId, CourseDto courseDto)
+        public bool UpdateCourse(CourseDto courseDto)
         {
             var existingCourse = _context.Courses
                 .Include(c => c.Questions)
                 .ThenInclude(q => q.Answers)
-                .FirstOrDefault(c => c.Id == courseId);
+                .FirstOrDefault(c => c.Id == courseDto.Id);
 
             if (existingCourse == null || courseDto == null)
             {
@@ -110,9 +109,9 @@ namespace PRN231_Kazilet_API.Services.Impl
             {
                 var newQuestion = new Question
                 {
-                    CourseId = courseId,
+                    CourseId = courseDto.Id,
                     Content = questionDto.Content,
-                    IsMarked = questionDto.IsMarked
+                    IsMarked = questionDto.IsMarked,
                 };
                 _context.Questions.Add(newQuestion);
                 _context.SaveChanges(); // Save to generate Question ID
@@ -141,11 +140,33 @@ namespace PRN231_Kazilet_API.Services.Impl
         public CourseDto GetCourse(int courseId)
         {
             var course = _context.Courses
-    .Include(c => c.Questions) // Bao gồm danh sách Questions
-    .ThenInclude(q => q.Answers) // Bao gồm cả danh sách Answers trong mỗi Question
-    .FirstOrDefault(c => c.Id == courseId);
-
+                .Include(c => c.Questions)
+                .ThenInclude(q => q.Answers) 
+                .FirstOrDefault(c => c.Id == courseId);
             return _mapper.Map<CourseDto>(course);
+        }
+
+        public bool DeleteCourse(int courseId)
+        {
+            var course = _context.Courses.Find(courseId);
+
+            if (course == null)
+            {
+                return false;
+            }
+            course.Status = 0;
+
+            return _context.SaveChanges() > 0;
+        }
+
+        public List<CourseDto> GetOwnedCourses(int userId)
+        {
+            var courses = _context.Courses
+                .Where(c => c.CreatedBy == userId)
+                .Include(c => c.Questions)
+                .ToList();
+
+            return _mapper.Map<List<CourseDto>>(courses);
         }
     }
 }

@@ -23,12 +23,12 @@ namespace PRN231_Kazilet_API.Controllers
             _context = context;
 
         }
-        //TODO: Sửa created By đổi qua getUser
+
         [HttpPost("Add")]
         public IActionResult AddFolder([FromQuery] string folderName)
         {
             FolderDto folderDto = new FolderDto();
-            folderDto.CreatedBy = 1;
+            folderDto.CreatedBy = 1;//TODO: Get current UserId
             folderDto.Name = folderName;
             _folderService.AddFolder(folderDto);
             return Ok(folderDto);
@@ -37,22 +37,37 @@ namespace PRN231_Kazilet_API.Controllers
         [HttpGet("folders/{userid}")]
         public IActionResult GetFoldersByUser(int userid)
         {
-            /*
-            var folders = _context.Folders.Include(f => f.FolderCourses).ThenInclude(fc => fc.Course).Where(f => f.CreatedByNavigation.Id == userid).ToList();
+            var folders = _context.Folders.Include(f => f.CreatedByNavigation)
+                                        .Where(c => c.CreatedByNavigation.Id == userid)
+                                        .Select(f => new
+                                        {
+                                            Id = f.Id,
+                                            Name = f.Name,
+                                            Created_by = f.CreatedByNavigation,
+                                            Created_at = f.CreatedAt
+                                        })
+                                        .ToList();
             if (folders == null || folders.Count == 0)
             {
                 return NotFound("No folders found for user");
             }
             return Ok(folders);
-            */
-            return Ok();
+        }
+
+        [HttpGet("GetCourse/{folderId}")]
+        public IActionResult AddCourseToFolder(int folderId)
+        {
+
+            var courses = _folderService.GetCoursesByFolder(folderId);
+            
+                return Ok(courses);
         }
 
         [HttpPost("AddCourse")]
-        public IActionResult AddCourseToFolder([FromQuery] int folderId, [FromQuery] int courseId)
+        public IActionResult AddCourseToFolder([FromBody] FolderCourseDto folderCourseDto)
         {
            
-            if(_folderService.AddCourseToFolder(courseId, folderId))
+            if(_folderService.AddCourseToFolder(folderCourseDto))
             {
                 return Ok();
             }
@@ -63,10 +78,10 @@ namespace PRN231_Kazilet_API.Controllers
         }
 
         [HttpPost("RemoveCourse")]
-        public IActionResult RemoveCourseToFolder([FromQuery] int folderId, [FromQuery] int courseId)
+        public IActionResult RemoveCourseToFolder([FromBody] FolderCourseDto folderCourseDto)
         {
 
-            if (_folderService.RemoveCourseInFolder(courseId, folderId))
+            if (_folderService.RemoveCourseInFolder(folderCourseDto))
             {
                 return Ok();
             }

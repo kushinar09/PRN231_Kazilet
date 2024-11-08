@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace PRN231_Kazilet_API.Models.Entities
 {
@@ -10,7 +11,7 @@ namespace PRN231_Kazilet_API.Models.Entities
         public int? UserId { get; set; }
         public string? Link { get; set; }
         public DateTime? Date { get; set; }
-
+        [JsonIgnore]
         public virtual User? User { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace PRN231_Kazilet_API.Models.Entities
 {
@@ -23,10 +24,12 @@ namespace PRN231_Kazilet_API.Models.Entities
         public int? Status { get; set; }
 
         public virtual User? CreatedByNavigation { get; set; }
+        [JsonIgnore]
         public virtual ICollection<GameplaySetting> GameplaySettings { get; set; }
+        [JsonIgnore]
         public virtual ICollection<LearningHistory> LearningHistories { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Folder> Folders { get; set; }
     }
 }

@@ -187,6 +187,18 @@
                     </div>
                 </button>
             </div>
+            <div class="mt-4">
+                <button id="hostBtn" onclick="editCourse()" style="background:#8854c0" class="py-4 w-full cursor-pointer text-base font-semibold text-white rounded-lg px-8 shadow-xl">
+                    <div class="flex justify-center items-center">
+                        <div class="mr-2">
+                            <svg class="h-8 w-8 text-white" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />  <line x1="16" y1="5" x2="19" y2="8" /></svg>
+                        </div>
+                        <div>
+                            Edit Course
+                        </div>
+                    </div>
+                </button>
+            </div>
         </div>
         <div id="remain" style="width: 750px">
             <div style="width: 100%" class="text-lg  font-semibold mt-4">
@@ -246,6 +258,26 @@
 
 <script>
     getCourseDetail();
+    function editCourse() {
+        // Fetch API để lấy thông tin khóa học
+        fetch(`http://localhost:7024/api/Courses/Details/` + Number(document.getElementById("courseId").innerHTML))
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    // Lưu trữ dữ liệu khóa học vào localStorage (hoặc sessionStorage)
+                    localStorage.setItem('courseData', JSON.stringify(data));
+
+                    // Chuyển hướng đến trang EditCourse
+                    window.location.href = '/Courses/EditCourse';
+                } else {
+                    alert('Failed to fetch course details');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching course data:', error);
+                alert('Error fetching course details');
+            });
+    }
     async function getCourseDetail() {
         const apiUrl = "http://localhost:7024/api/Courses/Details/" + Number(document.getElementById("courseId").innerHTML) ;
         try {

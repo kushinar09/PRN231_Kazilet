@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "XyyU19QSFjb5f8X0tEuJD+YS7SjzG/p+L7eHfM+26Mg=",
+  "Hash": "+IPJ1OogzHilehQ8UhyoePb+ZhoIJuTGS720j3CTiN0=",
   "Source": "PRN231_Kazilet_WebApp",
   "BasePath": "_content/PRN231_Kazilet_WebApp",
   "Mode": "Default",
@@ -593,6 +593,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\third.png"
+    },
+    {
+      "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\course.jpg",
+      "SourceId": "PRN231_Kazilet_WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\",
+      "BasePath": "_content/PRN231_Kazilet_WebApp",
+      "RelativePath": "imgs/course.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imgs\\course.jpg"
+    },
+    {
+      "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\learning.png",
+      "SourceId": "PRN231_Kazilet_WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\",
+      "BasePath": "_content/PRN231_Kazilet_WebApp",
+      "RelativePath": "imgs/learning.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\imgs\\learning.png"
     },
     {
       "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\js\\site.js",

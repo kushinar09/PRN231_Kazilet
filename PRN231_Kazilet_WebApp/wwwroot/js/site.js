@@ -52,6 +52,29 @@ function getStreakView(streak) {
     }
 }
 
+function setCookie(name, value, seconds) {
+    const date = new Date();
+    date.setTime(date.getTime() + (seconds * 1000));
+    const expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${name}=${value}; ${expires}; path=/`;
+}
+
+function getCookie(key) {
+    const value = document.cookie;
+
+    const cookies = value.split('; ').reduce((acc, cookie) => {
+        const [k, v] = cookie.split('=');
+        acc[k] = decodeURIComponent(v);
+        return acc;
+    }, {});
+
+    return cookies[key];
+}
+
+function deleteCookie(name) {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+
 function sendAnswer(answer) {
     var AnswerDto = {
         QuestionId: questionId,
@@ -98,6 +121,7 @@ function connect(token) {
 
     connection.start().then(function () {
         connection.on("UserJoined", function (username) {
+            console.log(username);
             getAvatars();
             try {
                 var playerDiv = document.getElementById("playerDiv");
@@ -282,7 +306,7 @@ function connect(token) {
                     html = `
                     <div class="flex flex-col items-center">
                 <span class="mt-2 text-sm font-semibold">${result[i].No + " (" + (percent * 100).toFixed(1) + "%)"}</span>
-                <div style="background:#ff3131" class=" w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
+                <div  class=" w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;background:#ff3131"></div>
                 <div class="mt-2 text-sm font-semibold flex items-center">
                     <div class="mr-2">${str[i]}</div>
                     <div>
@@ -295,7 +319,7 @@ function connect(token) {
                     html = `
                     <div class="flex flex-col items-center">
                 <span class="mt-2 text-sm font-semibold">${result[i].No + " (" + (percent * 100).toFixed(1) + "%)"}</span>
-                <div style="background:#01e32a" class="w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
+                <div class="w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;background:#01e32a"></div>
                 <div class="mt-2 text-sm font-semibold flex items-center">
                     <div class="mr-2">${str[i]}</div>
                     <div>
@@ -310,7 +334,7 @@ function connect(token) {
                     html = `
                     <div class="flex flex-col items-center">
                 <span class="mt-2 text-sm font-semibold">${result[i].No + " (" + (percent * 100).toFixed(1) + "%)"}</span>
-                <div style="background:#5271ff" class="w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
+                <div  class="w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;background:#5271ff"></div>
                 <div class="mt-2 text-sm font-semibold flex items-center">
                     <div class="mr-2">${str[i]}</div>
                     <div>
@@ -324,7 +348,7 @@ function connect(token) {
                     html = `
                     <div class="flex flex-col items-center">
                 <span class="mt-2 text-sm font-semibold">${result[i].No + " (" + (percent * 100).toFixed(1) + "%)"}</span>
-                <div style="background:#fe7f00" class=" w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;"></div>
+                <div class=" w-16 rounded-t-lg animate-height" style="--target-height: ${300 * percent}px; animation-delay: 0.1s;background:#fe7f00"></div>
                 <div class="mt-2 text-sm font-semibold flex items-center">
                     <div class="mr-2">${str[i]}</div>
                     <div>

@@ -44,14 +44,14 @@ namespace PRN231_Kazilet_API.Controllers
         }
 
         [HttpPost("Update/{courseId}")]
-        public IActionResult UpdateCourse(int courseId, [FromBody] CourseDto courseDto)
+        public IActionResult UpdateCourse([FromBody] CourseDto courseDto)
         {
             if (courseDto == null)
             {
                 return BadRequest("Course data cannot be null.");
             }
 
-            bool result = _courseService.UpdateCourse(courseId, courseDto);
+            bool result = _courseService.UpdateCourse(courseDto);
 
             if (result)
             {

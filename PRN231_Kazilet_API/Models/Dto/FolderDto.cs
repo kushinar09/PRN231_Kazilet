@@ -9,7 +9,5 @@ namespace PRN231_Kazilet_API.Models.Dto
         public string? Name { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<FolderCourse> FolderCourses { get; set; }
     }
 }
