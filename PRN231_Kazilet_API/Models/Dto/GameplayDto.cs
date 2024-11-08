@@ -15,5 +15,6 @@ namespace PRN231_Kazilet_API.Models.Dto
         public int? Score { get; set; }
         public double? Duration { get; set; }
 
+        public string? Avatar { get; set; }
     }
 }

@@ -7,6 +7,11 @@ module.exports = {
     ],
     theme: {
         extend: {
+            colors: {
+                primary: '#471b43',
+                secondary: '#8854c0',
+                'secondary-dark': '#60255b',
+            },
             keyframes: {
                 "pop": {
                     "0%": {

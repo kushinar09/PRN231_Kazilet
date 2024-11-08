@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
 using PRN231_Kazilet_API.Models.Dto;
@@ -10,6 +11,7 @@ using PRN231_Kazilet_API.Services.Impl;
 using PRN231_Kazilet_API.Utils.Mappers;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace PRN231_Kazilet_API
@@ -32,14 +34,19 @@ namespace PRN231_Kazilet_API
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                     options.JsonSerializerOptions.WriteIndented = true;
                 }); 
-            builder.Services.AddDbContext<PRN231_KaziletContext>(
+            builder.Services.AddDbContext<PRN231_Kazilet_v2Context>(
                     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
                     )
                 );
+
+
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ILearningHistory, LearningHistoryService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddSignalR();
+
             builder.Services.AddHttpContextAccessor();
 
             var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -60,6 +67,7 @@ namespace PRN231_Kazilet_API
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = "Cookies";
             }).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = true;
@@ -88,8 +96,14 @@ namespace PRN231_Kazilet_API
                         return Task.CompletedTask;
                     }
                 };
+            })
+            .AddCookie("Cookies")
+            .AddGoogle(options =>
+            {
+                options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+                options.CallbackPath = builder.Configuration["Authentication:Google:CallbackPath"];
             });
-
 
             //builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -97,6 +111,9 @@ namespace PRN231_Kazilet_API
             builder.Services.AddTransient<IQuestionService, QuestionService>();
             builder.Services.AddTransient<IGameplayService, GameplayService>();
             builder.Services.AddTransient<IAuthService, AuthService>();
+            builder.Services.AddTransient<ICourseService, CourseService>();
+            builder.Services.AddTransient<IFolderService, FolderService>();
+
             var app = builder.Build();
             app.UseCors(MyAllowSpecificOrigins);
 
@@ -110,7 +127,6 @@ namespace PRN231_Kazilet_API
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
-
             app.UseAuthorization();
 
             app.MapHub<SignalrServer>("/signalrServer");

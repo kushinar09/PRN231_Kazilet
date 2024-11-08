@@ -1,0 +1,394 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.Courses.EditCourseModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Course</title>
+    <style>
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            border-radius: 3px;
+            border: 1px solid #33333350;
+        }
+
+            .custom-checkbox:checked {
+                background-color: #8854c0;
+            }
+
+        [type=checkbox]:focus, [type=radio]:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #471b43;
+        }
+
+        .container {
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 98%;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #33333350;
+            margin-bottom: 15px;
+            background-color: #ffffff;
+            color: #471b43;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #33333350;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .card-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .term, .definition {
+            flex: 1 1 45%;
+            min-width: 200px;
+        }
+
+        .language-select {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        button {
+            background-color: #8854c0;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+            button:hover {
+                background-color: #60255b;
+            }
+
+        .add-card {
+            width: 70%;
+            margin-left: 15%;
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 16px;
+        }
+
+        .add-definition {
+            background-color: #ffffff;
+            border: 1px dashed #333;
+            width: 100%;
+            margin-top: 10px;
+            color: #471b43;
+        }
+
+            .add-definition:hover {
+                background-color: #60255b1f;
+            }
+
+        .definition-container {
+            position: relative;
+            width: 98%;
+        }
+
+        .remove-definition {
+            position: absolute;
+            right: -25px;
+            top: 25%;
+            transform: translateY(-50%);
+            background-color: transparent;
+            color: #888;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+            .remove-definition:hover {
+                color: #fff;
+            }
+    </style>
+</head>
+<body>
+    <div class="container" style="padding: 0 5%">
+        <div style="display:flex; justify-content: space-between; margin-bottom: 20px">
+            <h1>Edit Course</h1>
+            <button onclick="submitForm()">Save Changes</button>
+        </div>
+        <input type="text" id="title" placeholder="Enter a title" style="width:100%">
+        <input type="text" id="courseId" style="display:none">
+        <textarea id="description" placeholder="Add a description..." style="width:100%"></textarea>
+        <div style="display: flex; justify-content:space-between">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center">
+                    <label for="publicCheckbox">Private Course</label>
+                    <input style="position:relative;top:8px;left:3px" class="custom-checkbox" type="checkbox" id="publicCheckbox" onchange="togglePasswordField()">
+                </div>
+                <div id="passwordContainer" style="display: none; margin-left: 10px;">
+                    <input type="password" id="password" placeholder="Enter password" style="width: 100%">
+                </div>
+            </div>
+            <div>
+                <button class="" style="background:none;color: #471b43;border:1px solid #33333350;">Export Questions</button>
+            </div>
+        </div>
+        <div id="flashcards"></div>
+        <button class="add-card" onclick="addCard()">Add a question</button>
+    </div>
+
+    <script>
+        // Lấy dữ liệu khóa học từ localStorage (hoặc sessionStorage)
+        const courseData = JSON.parse(localStorage.getItem('courseData'));
+
+        if (courseData) {
+            document.getElementById('courseId').value = courseData.id;
+            document.getElementById('title').value = courseData.name;
+            document.getElementById('description').value = courseData.description;
+            document.getElementById('publicCheckbox').checked = !courseData.isPublic;
+
+            // Hiển thị/ẩn trường mật khẩu dựa vào trạng thái khóa học
+            togglePasswordField();
+
+            // Thêm flashcards vào form
+            courseData.questions.forEach((question, index) => {
+                addCard(question.content, question.answers);
+            });
+        }
+
+        
+
+        function validateForm(title, isPublic, password) {
+            if (!title) {
+                alert('Title cannot be empty!');
+                return false;
+            }
+
+            const terms = document.querySelectorAll('.question-content');
+            const definitions = document.querySelectorAll('.definition-container input[type="text"]');
+
+            for (let i = 0; i < terms.length; i++) {
+                if (!terms[i].value.trim()) {
+                    alert(`Question ${i + 1} cannot be empty!`);
+                    return false;
+                }
+            }
+
+            for (let i = 0; i < definitions.length; i++) {
+                if (!definitions[i].value.trim()) {
+                    alert(`Answer for Question ${Math.floor(i / 4) + 1} cannot be empty!`);
+                    return false;
+                }
+            }
+
+            // Nếu khóa học công khai mà không có mật khẩu, yêu cầu nhập mật khẩu
+            if (isPublic && !password) {
+                alert('Password cannot be empty for private courses!');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Hàm thêm flashcard
+        function addCard(questionContent = '', answers = []) {
+            const flashcardsContainer = document.getElementById('flashcards');
+            const cardCount = flashcardsContainer.children.length + 1;
+            const newCard = document.createElement('div');
+            newCard.className = 'card';
+            newCard.innerHTML = `
+                                        <div class="card-header">
+                                            <span class="card-number">${cardCount}</span>
+                                            <div>
+                                                <button onclick="removeCard(this)">×</button>
+                                            </div>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="term">
+                                                <input type="text" value="${questionContent}" class="question-content">
+                                            </div>
+                                            <div class="definition">
+                                                ${answers.map(answer => `
+                                                            <div class="definition-container" style="display: flex; align-items: center; gap: 10px;">
+                                                                            <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;" ${answer.isCorrect ? 'checked' : ''}>
+                                                        <input type="text" value="${answer.content}">
+
+                                                        <button class="remove-definition" onclick="removeDefinition(this)">×</button>
+                                                    </div>
+                                                `).join('')}
+                                                <button class="add-definition" onclick="addDefinition(this)">+ Add another answer</button>
+                                            </div>
+                                        </div>
+                                    `;
+            flashcardsContainer.appendChild(newCard);
+        }
+
+        // Hàm thêm một answer mới
+        function addDefinition(button) {
+            const definitionContainer = button.parentElement;
+            const newDefinition = document.createElement('div');
+            newDefinition.className = 'definition-container';
+            newDefinition.innerHTML = `
+                                                <div style="display: flex; align-items: center; gap: 10px;">
+                                                                                                            <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;">
+
+                                            <input type="text" placeholder="Enter answer">
+                                            <button class="remove-definition" onclick="removeDefinition(this)">×</button>
+                                        </div>
+                                    `;
+            definitionContainer.insertBefore(newDefinition, button);
+        }
+
+        // Hàm xoá một answer
+        function removeDefinition(button) {
+            button.closest('.definition-container').remove();
+        }
+
+        // Hàm xoá một flashcard
+        function removeCard(button) {
+            button.closest('.card').remove();
+        }
+
+        // Hàm submit form và gửi dữ liệu
+        function submitForm() {
+            const courseId = document.getElementById('courseId').value.trim();
+            const title = document.getElementById('title').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const isPublic = document.getElementById('publicCheckbox').checked;
+            const password = isPublic ? document.getElementById('password').value.trim() : null;
+
+
+            if (!validateForm(title, isPublic, password)) {
+                return; // Dừng nếu có lỗi validation
+            }
+
+            // Xử lý lưu thay đổi khóa học vào API
+            const questions = [];
+            const terms = document.querySelectorAll('.question-content');
+            const allDefinitions = document.querySelectorAll('.definition');
+
+            terms.forEach((term, i) => {
+                const questionContent = term.value.trim();
+                const answers = [];
+                const definitions = allDefinitions[i].querySelectorAll('.definition-container input[type="text"]');
+                const checkboxes = allDefinitions[i].querySelectorAll('.definition-container input[type="checkbox"]');
+
+                definitions.forEach((definition, j) => {
+                    const definitionContent = definition.value.trim();
+                    const isCorrect = checkboxes[j].checked;
+                    if (definitionContent) {
+                        answers.push({
+                            content: definitionContent,
+                            isCorrect: isCorrect
+                        });
+                    }
+                });
+
+                questions.push({
+                    content: questionContent,
+                    answers: answers
+                });
+            });
+
+            const updatedCourseData = {
+                id: courseId,
+                name: title,
+                description: description,
+                coursePassword: password,
+                isPublic: !isPublic,
+                questions: questions,
+                folders: [],
+                gameplaySettings: [],
+                learningHistories: []
+            };
+
+            // Gửi API để cập nhật dữ liệu khóa học
+            fetch('http://localhost:7024/api/Courses/Update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedCourseData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Course updated successfully!');
+                    } else {
+                        alert('Failed to update course!');
+                    }
+                })
+                .catch(error => {
+                    const apiUrl = `http://localhost:7024/odata/Question/${courseId}`;
+
+                    $.ajax({
+                        url: apiUrl,
+                        method: 'GET',
+                        success: function () {
+                            window.location.href = `/Questions?courseId=${courseId}`;
+                        },
+                        error: function (error) {
+                            console.error('Error fetching course details:', error);
+                        }
+                    });
+                });
+        }
+
+        // Hàm toggle hiển thị trường mật khẩu khi checkbox "Private Course" thay đổi
+        function togglePasswordField() {
+            const passwordContainer = document.getElementById('passwordContainer');
+            const publicCheckbox = document.getElementById('publicCheckbox');
+            if (publicCheckbox.checked) {
+                document.getElementById('password').value = courseData.coursePassword;
+                passwordContainer.style.display = 'block'; // Hiển thị mật khẩu
+            } else {
+                passwordContainer.style.display = 'none'; // Ẩn mật khẩu
+            }
+        }
+
+    </script>
+</body>
+</html>
