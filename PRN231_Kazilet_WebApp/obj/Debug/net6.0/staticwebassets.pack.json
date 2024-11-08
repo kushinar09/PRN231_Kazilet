@@ -1,415 +1,415 @@
 {
   "Files": [
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\PRN231_Kazilet_WebApp.bundle.scp.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\PRN231_Kazilet_WebApp.bundle.scp.css",
       "PackagePath": "staticwebassets\\PRN231_Kazilet_WebApp.bundle.scp.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\css\\app.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\css\\output.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\css\\output.css",
       "PackagePath": "staticwebassets\\css\\output.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\css\\site.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\css\\styles.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\css\\styles.css",
       "PackagePath": "staticwebassets\\css\\styles.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\favicon.ico",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar1.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar1.jpg",
       "PackagePath": "staticwebassets\\images\\avatar1.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar10.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar10.jpg",
       "PackagePath": "staticwebassets\\images\\avatar10.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar11.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar11.jpg",
       "PackagePath": "staticwebassets\\images\\avatar11.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar12.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar12.jpg",
       "PackagePath": "staticwebassets\\images\\avatar12.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar13.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar13.jpg",
       "PackagePath": "staticwebassets\\images\\avatar13.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar14.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar14.jpg",
       "PackagePath": "staticwebassets\\images\\avatar14.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar15.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar15.jpg",
       "PackagePath": "staticwebassets\\images\\avatar15.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar2.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar2.jpg",
       "PackagePath": "staticwebassets\\images\\avatar2.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar3.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar3.jpg",
       "PackagePath": "staticwebassets\\images\\avatar3.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar4.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar4.jpg",
       "PackagePath": "staticwebassets\\images\\avatar4.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar5.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar5.jpg",
       "PackagePath": "staticwebassets\\images\\avatar5.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar6.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar6.jpg",
       "PackagePath": "staticwebassets\\images\\avatar6.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar7.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar7.jpg",
       "PackagePath": "staticwebassets\\images\\avatar7.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar8.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar8.jpg",
       "PackagePath": "staticwebassets\\images\\avatar8.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar9.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar9.jpg",
       "PackagePath": "staticwebassets\\images\\avatar9.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\coin.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\coin.png",
       "PackagePath": "staticwebassets\\images\\coin.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\correct.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\correct.png",
       "PackagePath": "staticwebassets\\images\\correct.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\fire.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\fire.png",
       "PackagePath": "staticwebassets\\images\\fire.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\first.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\first.png",
       "PackagePath": "staticwebassets\\images\\first.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\host.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\host.png",
       "PackagePath": "staticwebassets\\images\\host.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\hourglass.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\hourglass.png",
       "PackagePath": "staticwebassets\\images\\hourglass.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\incorrect.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\incorrect.png",
       "PackagePath": "staticwebassets\\images\\incorrect.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\medal.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\medal.png",
       "PackagePath": "staticwebassets\\images\\medal.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\podium.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\podium.png",
       "PackagePath": "staticwebassets\\images\\podium.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\report.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\report.png",
       "PackagePath": "staticwebassets\\images\\report.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\second.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\second.png",
       "PackagePath": "staticwebassets\\images\\second.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\third.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\third.png",
       "PackagePath": "staticwebassets\\images\\third.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\img\\congrat.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\img\\congrat.jpg",
       "PackagePath": "staticwebassets\\img\\congrat.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\course.jpg",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\course.jpg",
       "PackagePath": "staticwebassets\\imgs\\course.jpg"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\learning.png",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\learning.png",
       "PackagePath": "staticwebassets\\imgs\\learning.png"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\js\\site.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.js",
       "PackagePath": "staticwebassets\\microsoft\\signalr\\dist\\browser\\signalr.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.min.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.min.js",
       "PackagePath": "staticwebassets\\microsoft\\signalr\\dist\\browser\\signalr.min.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\applause.mp3",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\applause.mp3",
       "PackagePath": "staticwebassets\\music\\applause.mp3"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\bg_sound.mp3",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\bg_sound.mp3",
       "PackagePath": "staticwebassets\\music\\bg_sound.mp3"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\coin_spill.mp3",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\coin_spill.mp3",
       "PackagePath": "staticwebassets\\music\\coin_spill.mp3"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\error.mp3",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\error.mp3",
       "PackagePath": "staticwebassets\\music\\error.mp3"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\new_answer.mp3",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\new_answer.mp3",
       "PackagePath": "staticwebassets\\music\\new_answer.mp3"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\success.mp3",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\success.mp3",
       "PackagePath": "staticwebassets\\music\\success.mp3"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\tic_tac.mp3",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\tic_tac.mp3",
       "PackagePath": "staticwebassets\\music\\tic_tac.mp3"
     },
     {

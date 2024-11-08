@@ -1,23 +1,23 @@
 {
   "Files": [
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\OTP.html",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\OTP.html",
       "PackagePath": "staticwebassets\\email_template\\OTP.html"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\changePwdSuccess.html",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\changePwdSuccess.html",
       "PackagePath": "staticwebassets\\email_template\\changePwdSuccess.html"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\forgotPassword.html",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\email_template\\forgotPassword.html",
       "PackagePath": "staticwebassets\\email_template\\forgotPassword.html"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.js",
       "PackagePath": "staticwebassets\\microsoft\\signalr\\dist\\browser\\signalr.js"
     },
     {
-      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.min.js",
+      "Id": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_API\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.min.js",
       "PackagePath": "staticwebassets\\microsoft\\signalr\\dist\\browser\\signalr.min.js"
     },
     {

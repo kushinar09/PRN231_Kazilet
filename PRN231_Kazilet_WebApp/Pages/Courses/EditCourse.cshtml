@@ -173,7 +173,7 @@
                 </div>
             </div>
             <div>
-                <button class="" style="background:none;color: #471b43;border:1px solid #33333350;">Export Questions</button>
+                <button class="" style="background:none;color: #471b43;border:1px solid #33333350;" id="exportQuestionsBtn">Export Questions</button>
             </div>
         </div>
         <div id="flashcards"></div>
@@ -199,6 +199,22 @@
             });
         }
 
+        // Hàm export
+        document.getElementById('exportQuestionsBtn').addEventListener('click', function () {
+            const courseId = document.getElementById('courseId').value.trim();
+            if (!courseId) {
+                alert('Course ID is missing.');
+                return;
+            }
+            const apiUrl = `http://localhost:7024/api/Courses/export?courseId=${courseId}`;
+            // Tạo một thẻ <a> ẩn và kích hoạt click để tải xuống file
+            const a = document.createElement('a');
+            a.href = apiUrl;
+            a.download = `Questions_${courseId}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
         
 
         function validateForm(title, isPublic, password) {
