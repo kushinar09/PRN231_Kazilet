@@ -94,20 +94,7 @@ function sendAnswer(answer) {
 
 }
 
-function getCookie(key) {
-    const name = key + "=";
-    const decodedCookie = document.cookie;
-    const cookiesArray = decodedCookie.split(';');
 
-    for (let i = 0; i < cookiesArray.length; i++) {
-        let cookie = cookiesArray[i].trim();
-        if (cookie.indexOf(name) === 0) {
-            return cookie.substring(name.length, cookie.length);
-        }
-    }
-
-    return null;
-}
 
 
 function connect(token) {
@@ -126,7 +113,7 @@ function connect(token) {
             try {
                 var playerDiv = document.getElementById("playerDiv");
                 if (playerDiv) {
-                    var myUsername = document.getElementById("username").innerHTML;
+                    var myUsername = document.getElementById("usernameInputText").innerHTML;
                     var totalPlayers = Number(document.getElementById("no-players").innerHTML);
 
                     let parentDiv = $("<div></div>")

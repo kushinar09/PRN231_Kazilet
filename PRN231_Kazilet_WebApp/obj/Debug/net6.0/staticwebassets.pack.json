@@ -93,6 +93,10 @@
       "PackagePath": "staticwebassets\\images\\correct.png"
     },
     {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\export.png",
+      "PackagePath": "staticwebassets\\images\\export.png"
+    },
+    {
       "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\fire.png",
       "PackagePath": "staticwebassets\\images\\fire.png"
     },
@@ -107,6 +111,10 @@
     {
       "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\hourglass.png",
       "PackagePath": "staticwebassets\\images\\hourglass.png"
+    },
+    {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\import.png",
+      "PackagePath": "staticwebassets\\images\\import.png"
     },
     {
       "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\incorrect.png",

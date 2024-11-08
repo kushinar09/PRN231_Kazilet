@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "d/KNCwalbontDLfUByYrL3hTuNyw8AAUwhjbWP8uvq4=",
+  "Hash": "2f3fTFYBwJIpGEzCPS3Ud78tO8z9Bh2bb9GI+boN4Js=",
   "Source": "PRN231_Kazilet_WebApp",
   "BasePath": "_content/PRN231_Kazilet_WebApp",
   "Mode": "Default",
@@ -425,6 +425,23 @@
       "OriginalItemSpec": "wwwroot\\images\\correct.png"
     },
     {
+      "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\export.png",
+      "SourceId": "PRN231_Kazilet_WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\",
+      "BasePath": "_content/PRN231_Kazilet_WebApp",
+      "RelativePath": "images/export.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\export.png"
+    },
+    {
       "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\fire.png",
       "SourceId": "PRN231_Kazilet_WebApp",
       "SourceType": "Discovered",
@@ -491,6 +508,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\hourglass.png"
+    },
+    {
+      "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\import.png",
+      "SourceId": "PRN231_Kazilet_WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\",
+      "BasePath": "_content/PRN231_Kazilet_WebApp",
+      "RelativePath": "images/import.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\import.png"
     },
     {
       "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\incorrect.png",

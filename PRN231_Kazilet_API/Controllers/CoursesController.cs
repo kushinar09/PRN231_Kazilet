@@ -222,8 +222,8 @@ namespace PRN231_Kazilet_API.Controllers
             return isPublic ? Ok("Course is public.") : NotFound("Course is private.");
         }
 
-        [HttpPost("Courses/VerifyPassword/{courseId}")]
-        public IActionResult VerifyPassword(int courseId, [FromBody] string password)
+        [HttpPost("VerifyPassword/{courseId}")]
+        public IActionResult VerifyPassword(int courseId, [FromQuery] string password)
         {
             if (_courseService.VerifyPassword(courseId, password))
             {

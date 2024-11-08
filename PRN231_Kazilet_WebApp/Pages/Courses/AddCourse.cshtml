@@ -362,7 +362,7 @@
             body: JSON.stringify(courseData),
         }).then(data => {
             if (data.ok) {
-                alert('Course created successfully!');
+                window.location.href = `/Courses/MyCourse`;
             } else {
                 alert('Failed to create course!');
             }

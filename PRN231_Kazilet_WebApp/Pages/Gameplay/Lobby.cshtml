@@ -178,7 +178,7 @@
                     <p class="text-xl text-white mb-8">Waiting for players to join...</p>
                 </div>
                 <div id="token" style="display:none">@Model.Token</div>
-                <div id="username" style="display:none">@Model.Username</div>
+                <div id="usernameInputText" style="display:none">@Model.Username</div>
                 <div class="p-6 bg-gray-100 rounded-lg">
                     <h2 class="text-2xl bg-white font-bold text-purple-800 mb-4">Players Joined: <span id="no-players">@Model.Players.Count</span></h2>
 
@@ -720,6 +720,7 @@
         </div>
     </div>
 </div>
+<script src="~/js/site.js" asp-append-version="true"></script>
 
 <script>
     document.cookie = `kazilet_gameplay_username=${document.getElementById("username").innerHTML}`;
