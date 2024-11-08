@@ -169,4 +169,15 @@ namespace PRN231_Kazilet_API.Services.Impl
             return _mapper.Map<List<CourseDto>>(courses);
         }
     }
+    public class CourseCount
+    {
+        public int CourseId { get; set; }
+        public int Count { get; set; }
+        public CourseCount(int courseId, int count)
+        {
+            CourseId = courseId;
+            Count = count;
+        }
+
+    }
 }

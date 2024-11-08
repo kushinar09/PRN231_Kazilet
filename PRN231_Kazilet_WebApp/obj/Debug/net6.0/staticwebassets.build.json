@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+IPJ1OogzHilehQ8UhyoePb+ZhoIJuTGS720j3CTiN0=",
+  "Hash": "d/KNCwalbontDLfUByYrL3hTuNyw8AAUwhjbWP8uvq4=",
   "Source": "PRN231_Kazilet_WebApp",
   "BasePath": "_content/PRN231_Kazilet_WebApp",
   "Mode": "Default",
@@ -593,6 +593,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\third.png"
+    },
+    {
+      "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\img\\congrat.jpg",
+      "SourceId": "PRN231_Kazilet_WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\",
+      "BasePath": "_content/PRN231_Kazilet_WebApp",
+      "RelativePath": "img/congrat.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\congrat.jpg"
     },
     {
       "Identity": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\course.jpg",

@@ -133,6 +133,10 @@
       "PackagePath": "staticwebassets\\images\\third.png"
     },
     {
+      "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\img\\congrat.jpg",
+      "PackagePath": "staticwebassets\\img\\congrat.jpg"
+    },
+    {
       "Id": "D:\\CSharpAPI\\PRN231_Kazilet\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\course.jpg",
       "PackagePath": "staticwebassets\\imgs\\course.jpg"
     },

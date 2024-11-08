@@ -37,5 +37,36 @@ namespace PRN231_Kazilet_API.Controllers
                 return Ok(questionDto);
             }
         }
+
+        [EnableQuery]
+        [HttpGet]
+        [Route("odata/Question/GetRandom/{id:int}/{numOfQues:int}")]
+        public IActionResult GetRandomQuestion(int id, int numOfQues)
+        {
+            List<QuestionDto> list = _questionService.GetRandom(id, numOfQues);
+            if (list == null)
+            {
+                return NotFound(ModelState);
+            }
+            else
+            {
+                return Ok(list);
+            }
+        }
+        [EnableQuery]
+        [HttpGet]
+        [Route("odata/Question/GetQuestionsByIds")]
+        public IActionResult GetQuestionsByIds([FromQuery] List<int> ids)
+        {
+            List<QuestionDto> list = _questionService.GetQuestionsByIds(ids);
+            if (list == null)
+            {
+                return NotFound(ModelState);
+            }
+            else
+            {
+                return Ok(list);
+            }
+        }
     }
 }

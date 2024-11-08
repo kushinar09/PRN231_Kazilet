@@ -76,6 +76,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/LearningHistory/History.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGVhcm5pbmdIaXN0b3J5XEhpc3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -86,6 +90,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/TestScreen/Result.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdFNjcmVlblxSZXN1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/TestScreen/SelectQuestionsScreen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdFNjcmVlblxTZWxlY3RRdWVzdGlvbnNTY3JlZW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/TestScreen/Test.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdFNjcmVlblxUZXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/TestScreen/TestOptions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdFNjcmVlblxUZXN0T3B0aW9ucy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CSharpAPI/PRN231_Kazilet/PRN231_Kazilet/PRN231_Kazilet_WebApp/Pages/_ViewImports.cshtml]

@@ -60,5 +60,21 @@ namespace PRN231_Kazilet_API.Services.Impl
                 .ToList();
             return question.Count;
         }
+
+        public List<QuestionDto> GetQuestionsByIds(List<int> ids)
+        {
+            var selectedQuestions = _context.Questions.Include(q => q.Answers).ToList()
+                    .Where(q => ids.Contains(q.Id))
+                    .ToList();
+            return _mapper.Map<List<QuestionDto>>(selectedQuestions);
+        }
+
+        public List<QuestionDto> GetRandom(int courseId, int numOfQues)
+        {
+            var questions = _context.Questions.Include(q => q.Answers).Where(q => q.CourseId == courseId).ToList();
+            var randomQuestions = questions.OrderBy(q => Guid.NewGuid()).Take(numOfQues).ToList();
+
+            return _mapper.Map<List<QuestionDto>>(randomQuestions);
+        }
     }
 }

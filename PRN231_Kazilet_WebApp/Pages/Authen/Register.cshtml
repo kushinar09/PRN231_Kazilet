@@ -92,10 +92,10 @@
                 });
 
                 if (!response.ok) {
-                    errorMessage.textContent = response.text;
+                    errorMessage.textContent = response.text();
                     errorMessage.classList.remove('hidden');
                 } else {
-                    const result = await response.json();
+                    const result = await response.text();
                     console.log('Success:', result);
                     errorMessage.textContent = '';
                     errorMessage.classList.add('hidden');
