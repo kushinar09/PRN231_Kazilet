@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj": {}
+    "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj": {
+    "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj",
+        "projectUniqueName": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj",
         "projectName": "PRN231_Kazilet_WebApp",
-        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\obj\\",
+        "projectPath": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj",
+        "packagesPath": "C:\\Users\\Nguyen Quoc Trumg\\.nuget\\packages\\",
+        "outputPath": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nguyen Quoc Trumg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -68,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }

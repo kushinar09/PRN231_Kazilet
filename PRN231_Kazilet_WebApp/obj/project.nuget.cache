@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "F3S9i/57BiSO5eV0fLswbhRFqGEDq1reBZWfLn2+TASChnEWGV7KDjid+C4cwI2fxdwadQLV/Y+CBYsnXsfBrg==",
+  "dgSpecHash": "+1IkEoptaObSYP9+jE0AiUBT36y5MxZK7gCY211BOpzx72KmwfyZ16+eW1aQWw12j7NbO0lnIY9/Yz/MSfyqLA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\Documents\\GitHub\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj",
+  "projectFilePath": "D:\\PRN231\\Project\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\PRN231_Kazilet_WebApp.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\6.0.33\\microsoft.aspnetcore.authentication.google.6.0.33.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+    "C:\\Users\\Nguyen Quoc Trumg\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\6.0.33\\microsoft.aspnetcore.authentication.google.6.0.33.nupkg.sha512",
+    "C:\\Users\\Nguyen Quoc Trumg\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
   "logs": []
 }
