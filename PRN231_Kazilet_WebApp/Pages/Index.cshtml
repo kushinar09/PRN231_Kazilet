@@ -21,7 +21,7 @@
                        class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-secondary">
             </div>
             <div id="changeErrorMessage" class="mb-4 text-red-500 text-sm hidden"></div>
-            <button type="submit" id="changePasswordBtn" disabled
+            <button type="button" id="changePasswordBtn" disabled
                     class="w-full bg-secondary text-white py-2 px-4 rounded-md hover:bg-secondary-dark transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                 Change Password
             </button>
@@ -404,7 +404,7 @@
             changePasswordDialog.classList.remove('hidden');
         };
 
-        changePasswordBtn.addEventListener('click', function () {
+        changePasswordBtn.addEventListener('click', async function () {
             const oldPassword = oldPwd.value;
             const newPassword = newPwd.value;
             const confirmPassword = cfPwd.value;
@@ -415,8 +415,38 @@
                 return;
             }
 
-            alert('Password changed successfully');
-            changePasswordDialog.classList.add('hidden');
+            const apiUrl = 'https://localhost:7024/api/Authentication/change';
+
+            try {
+                const token = getCookie('accessToken');
+                if (!token) {
+                    deleteCookie("accessToken");
+                    handleAuthUI();
+                }
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(newPassword)
+                });
+
+                if (!response.ok) {
+                    changeErrorMessage.textContent = response.text;
+                    changeErrorMessage.classList.remove('hidden');
+                } else {
+                    changeErrorMessage.textContent = '';
+                    changeErrorMessage.classList.add('hidden');
+                    changePasswordDialog.classList.add('hidden');
+                    alert("Change password successfully");
+                    deleteCookie("accessToken");
+                    window.location.href = '/authen/login';
+                }
+            } catch (error) {
+                changeErrorMessage.textContent = error;
+                changeErrorMessage.classList.remove('hidden');
+            }
         });
 
         changePasswordDialog.addEventListener('click', function (event) {

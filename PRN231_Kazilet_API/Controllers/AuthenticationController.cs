@@ -58,6 +58,44 @@ namespace PRN231_Kazilet_API.Controllers
             }
         }
 
+        [HttpPost("change")]
+        public async Task<IActionResult> ChangePassword([FromBody] string newpassword)
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized(new { isValid = false, message = "No token provided." });
+            }
+
+            try
+            {
+                User? u = _authService.GetUserFromJwtToken(token);
+                if (u == null)
+                {
+                    return Unauthorized(new { isValid = false, message = "Not found user." });
+                }
+                else
+                {
+                    bool rs = _userService.ChangePassword(u.Id, utils.HashPassword(newpassword));
+
+                    if (!rs) return BadRequest();
+
+                    var filePath = Path.Combine(_env.WebRootPath, "email_template", "changePwdSuccess.html");
+                    var htmlContent = await System.IO.File.ReadAllTextAsync(filePath);
+                    htmlContent = htmlContent.Replace("{Ent3r@Usernam3!Her3}", u.Username);
+                    htmlContent = htmlContent.Replace("{Tim3C4an9ePa$$word}", DateTime.Now.ToString("HH:mm - dd/MM/yyyy"));
+
+                    _emailService.SendEmailAsync(u.Email, "Kazilet", "Change password successfully", htmlContent);
+                    return Ok();
+                }
+            }
+            catch (Exception)
+            {
+                return Unauthorized(new { isValid = false, message = "Invalid token." });
+            }
+        }
+
         [HttpGet("forgot")]
         public async Task<IActionResult> CheckEmail(string email)
         {

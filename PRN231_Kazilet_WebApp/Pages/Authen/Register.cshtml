@@ -70,9 +70,6 @@
         if (password !== confirmPassword) {
             errorMessage.textContent = 'Mật khẩu và xác nhận mật khẩu không khớp.';
             errorMessage.classList.remove('hidden');
-        } else if (password.length < 8) {
-            errorMessage.textContent = 'Mật khẩu phải có ít nhất 8 ký tự.';
-            errorMessage.classList.remove('hidden');
         } else {
             errorMessage.textContent = '';
             errorMessage.classList.add('hidden');
