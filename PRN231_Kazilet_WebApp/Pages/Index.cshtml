@@ -71,14 +71,14 @@
                         <span class="menuItemText ml-2 truncate">My Courses</span>
                     </button>
                 </li>
-                <li class="py-2 pl-4 hover:bg-gray-100 cursor-pointer">
+                @* <li class="py-2 pl-4 hover:bg-gray-100 cursor-pointer">
                     <button class="text-left text-primary rounded-md flex items-center focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
                         <span class="menuItemText ml-2 truncate">Notifications</span>
                     </button>
-                </li>
+                </li> *@
             </ul>
         </nav>
     </aside>
@@ -101,7 +101,7 @@
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" placeholder="Tìm kiếm khóa học..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+                    <input type="text" id="searchInput" placeholder="Search course..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
                 </div>
                 <div class="flex items-center ml-2">
                     <button onclick="window.location.href='/gameplay/join'" class="text-gray-700 bg-gray-100 hover:text-gray-900 hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium">
@@ -131,7 +131,7 @@
         <main class="container mx-auto px-4 py-8">
             <!-- Welcome Section -->
             <h1 id="history-header" class="text-3xl font-bold text-primary mb-8">
-                Bạn đã học gì hôm qua?
+                What did you learn?
             </h1>
 
             <!-- Categories -->
@@ -154,8 +154,8 @@
             <!-- Courses Section -->
             <div class="mb-12">
                 <div class="flex items-center mb-6 space-x-3">
-                    <h2 class="text-2xl font-bold text-primary">Khóa học nổi bật</h2>
-                    <a href="#" class="text-secondary hover:text-secondary-dark">Xem thêm</a>
+                    <h2 class="text-2xl font-bold text-primary">Popular courses</h2>
+                    <a href="#" class="text-secondary hover:text-secondary-dark">See more</a>
                 </div>
                 <div id="courses" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <a href="#" class="block">
@@ -182,29 +182,25 @@
     }
 
     async function loadCoursesHistory() {
-        const courseHistory = getCookie("courseHistory");
+        const token = getCookie("accessToken");
         const categoryContainer = document.getElementById('history');
         const categoryHeader = document.getElementById('history-header');
 
         // Check if the cookie exists and has a value
-        if (!courseHistory) {
-            console.log("No course history found in cookies.");
+        if (!token) {
+            console.log("No token found in cookies.");
             categoryContainer.style.display = 'none';
             categoryHeader.style.display = 'none';
             return;
         }
 
-        // Split the courseHistory string to get an array of course IDs
-        const courseIds = courseHistory.split("||").map(id => id.trim());
-
         try {
-            // Send the course IDs in a single POST request to fetch course data
             const response = await fetch('api call get course history', {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ ids: courseIds })
+                    'Authorization': `Bearer ${token}`,
+                }
             });
 
             if (!response.ok) {
@@ -251,11 +247,11 @@
 
                 courseCard.innerHTML = `
                     <div class="border border-gray-200 rounded-lg overflow-hidden transition-shadow hover:shadow-lg">
-                            <img src="~/imgs/course.jpg" alt="${course.name}" class="w-full h-48 object-cover">
+                        <img src="~/imgs/course.jpg" alt="${course.name}" class="w-full h-48 object-cover">
                         <div class="p-4">
                             <div class="text-sm text-gray-600 mb-2">${course.name}</div>
                             <h3 class="text-lg font-semibold mb-2">${course.description}</h3>
-                            <div class="text-sm text-gray-600">${course.questionCount} Câu hỏi</div>
+                            <div class="text-sm text-gray-600">${course.numOfQues} Câu hỏi</div>
                         </div>
                     </div>
                 `;
@@ -378,6 +374,18 @@
         const newPwd = document.getElementById('newPwd');
         const cfPwd = document.getElementById('cfPwd');
 
+        //User dropdown
+        userMenuButton.addEventListener('click', function () {
+            userDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!userMenu.contains(event.target)) {
+                userDropdown.classList.add('hidden');
+            }
+        });
+
+        //Change password handle
         oldPwd.addEventListener('input', () => {
             changePasswordBtn.disabled = (!oldPwd.value || !newPwd.value || !cfPwd.value);
         });
@@ -388,16 +396,6 @@
 
         cfPwd.addEventListener('input', () => {
             changePasswordBtn.disabled = (!oldPwd.value || !newPwd.value || !cfPwd.value);
-        });
-
-        userMenuButton.addEventListener('click', function () {
-            userDropdown.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', function (event) {
-            if (!userMenu.contains(event.target)) {
-                userDropdown.classList.add('hidden');
-            }
         });
 
         window.showChangePasswordDialog = function () {
@@ -452,6 +450,17 @@
         changePasswordDialog.addEventListener('click', function (event) {
             if (event.target === changePasswordDialog) {
                 changePasswordDialog.classList.add('hidden');
+            }
+        });
+
+        //Search input handle
+        const input = document.getElementById("searchInput");
+        input.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                if (input.value != '') {
+                    window.location.href = '/courses?search=' + input.value;
+                }
             }
         });
 
