@@ -67,7 +67,7 @@
     </div>
 </header>
 <div class="flex flex-col items-center">
-    <div style="width: 750px">
+    <div style="width: 750px" class="bg-white px-8 py-4">
         <div class="mt-6 flex items-center">
             <div class="mr-2">
                 <svg class="h-8 w-8 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,7 +81,7 @@
 
         </div>
         <div id="overall" class="mt-6 flex flex-col w-full">
-            <div class="text-xl">Summary</div>
+            <div class="text-xl font-semibold">Summary</div>
             <div class="flex items-center">
                 <div class="py-6 flex justify-start" style="width: 60%" id="pie-chart"></div>
                 <div class="ml-2 flex flex-col" style="width: 40%">
@@ -569,34 +569,34 @@
                 document.getElementById("overviewTbody").innerHTML = "";
                 for (var i = 0; i < data.overview.length; i++) {
                     var html = `<tr class="border-b border-gray-200 text-lg dark:border-gray-700">
-                                                            <th scope="row" width="100px" class="px-6 py-4 text-black whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                                                ${data.overview[i].rank}
-                                                            </th>
-                                                            <td class="px-6 py-4">
-                                                                <div class="flex items-center flex-row text-center">
-                                                                    <div class="relative mr-2 w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                                                        <img class="h-12 w-12 rounded-full" src=${data.overview[i].avatar} />
+                                                                <th scope="row" width="100px" class="px-6 py-4 text-black whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                                                                    ${data.overview[i].rank}
+                                                                </th>
+                                                                <td class="px-6 py-4">
+                                                                    <div class="flex items-center flex-row text-center">
+                                                                        <div class="relative mr-2 w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                                                            <img class="h-12 w-12 rounded-full" src=${data.overview[i].avatar} />
 
+                                                                        </div>
+                                                                        <div class="text-lg text-left text-black mr-4">
+                                                                            ${data.overview[i].username}
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="text-lg text-left text-black mr-4">
-                                                                        ${data.overview[i].username}
+                                                                </td>
+                                                                <td class="px-6 py-4 bg-gray-50 text-black dark:bg-gray-800">
+                                                                    ${data.overview[i].duration}s
+                                                                </td>
+                                                                <td class="px-6 py-4">
+                                                                    <div class="flex items-center justify-start rounded-full">
+                                                                        <div class="h-6 w-6 mr-2">
+                                                                            <img src="/images/coin.png" />
+                                                                        </div>
+                                                                        <div class="font-bold text-yellow-300">
+                                                                            ${data.overview[i].score} points
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="px-6 py-4 bg-gray-50 text-black dark:bg-gray-800">
-                                                                ${data.overview[i].duration}s
-                                                            </td>
-                                                            <td class="px-6 py-4">
-                                                                <div class="flex items-center justify-start rounded-full">
-                                                                    <div class="h-6 w-6 mr-2">
-                                                                        <img src="/images/coin.png" />
-                                                                    </div>
-                                                                    <div class="font-bold text-yellow-300">
-                                                                        ${data.overview[i].score} points
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>`;
+                                                                </td>
+                                                            </tr>`;
                     document.getElementById("overviewTbody").innerHTML += html;
                 }
                 document.getElementById("questionTbody").innerHTML = "";
@@ -604,16 +604,16 @@
                 for (var i = 0; i < data.question.length; i++) {
 
                     var html = `<tr id="${"questionR" + i}" onclick="openModal(${data.question[i].no})" data-modal-target="default-modal" data-modal-toggle="default-modal" class="cursor-pointer border-b border-gray-200 text-lg dark:border-gray-700">
-                                                <th scope="row" width="100px" class="px-6 py-4 text-black whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                                    ${data.question[i].no}
-                                                </th>
-                                                <td class="px-6 py-4 text-black">
-                                                    ${data.question[i].content}
-                                                </td>
-                                                <td style="color: #66BE39" class="px-6 py-4 bg-gray-50 text-black dark:bg-gray-800">
-                                                    ${data.question[i].correctPercent}%
-                                                </td>
-                                            </tr>`;
+                                                    <th scope="row" width="100px" class="px-6 py-4 text-black whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                                                        ${data.question[i].no}
+                                                    </th>
+                                                    <td class="px-6 py-4 text-black">
+                                                        ${data.question[i].content}
+                                                    </td>
+                                                    <td style="color: #66BE39" class="px-6 py-4 bg-gray-50 text-black dark:bg-gray-800">
+                                                        ${data.question[i].correctPercent}%
+                                                    </td>
+                                                </tr>`;
                     document.getElementById("questionTbody").innerHTML += html;
                 }
 
@@ -678,17 +678,17 @@
                     var html = ``;
                     if (data.questionDto.answers[i].isCorrect) {
                         html = `
-                                                            <div style="color: #66BE39"><strong>${str[i]}.&nbsp;</strong>
-                                                                                    <span>${data.questionDto.answers[i].content}</span>
-                                                                                </div>`;
+                                                                <div style="color: #66BE39"><strong>${str[i]}.&nbsp;</strong>
+                                                                                        <span>${data.questionDto.answers[i].content}</span>
+                                                                                    </div>`;
                     }
                     else {
                         html = `
-                                                    <div><strong>${str[i]}.&nbsp;</strong>
-                                                                                <span>${data.questionDto.answers[i].content}</span>
-                                                                            </div>`;
+                                                        <div><strong>${str[i]}.&nbsp;</strong>
+                                                                                    <span>${data.questionDto.answers[i].content}</span>
+                                                                                </div>`;
                     }
-                    
+
                     document.getElementById("answerReport").innerHTML += html;
                 }
                 document.getElementById("correctPercentReport").innerHTML = data.correctPercent + "%";
@@ -696,41 +696,41 @@
                 document.getElementById("detailReport").innerHTML = "";
                 for (var i = 0; i < data.details.length; i++) {
                     var html = `
-                                            <tr class="cursor-pointer border-b border-gray-200 text-lg dark:border-gray-700">
-                                                                        <th scope="row" width="300px" class="px-6 py-4 text-black whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                                                            <div class="flex items-center flex-row text-center">
-                                                                                <div class="relative mr-2 w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                                                                    <img class="h-12 w-12 rounded-full" src=${data.details[i].avatar} />
+                                                <tr class="cursor-pointer border-b border-gray-200 text-lg dark:border-gray-700">
+                                                                            <th scope="row" width="300px" class="px-6 py-4 text-black whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                                                                                <div class="flex items-center flex-row text-center">
+                                                                                    <div class="relative mr-2 w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                                                                        <img class="h-12 w-12 rounded-full" src=${data.details[i].avatar} />
 
+                                                                                    </div>
+                                                                                    <div class="text-lg text-left text-black mr-4">
+                                                                                            ${data.details[i].username}
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="text-lg text-left text-black mr-4">
-                                                                                        ${data.details[i].username}
-                                                                                </div>
-                                                                            </div>
-                                                                        </th>
-                                                                        <td class="px-6 py-4 text-black">
-                                                                            ${data.details[i].playerAnswer}
-                                                                        </td>
-                                                                        <td style="color: #66BE39" class="px-6 py-4 bg-gray-50 text-black dark:bg-gray-800">
-        ${data.details[i].isCorrect
+                                                                            </th>
+                                                                            <td class="px-6 py-4 text-black">
+                                                                                ${data.details[i].playerAnswer}
+                                                                            </td>
+                                                                            <td style="color: #66BE39" class="px-6 py-4 bg-gray-50 text-black dark:bg-gray-800">
+            ${data.details[i].isCorrect
                             ? `<img class="h-8 w-8 filter-green" src="/images/correct.png" />`
                             : `<img class="h-8 w-8 filter-red" src="/images/incorrect.png" />`
-                        }                
-                                                                        </td>
-                                                                        <td class="px-6 py-4 text-black">
-                                                                            ${data.details[i].duration + "s"}
-                                                                        </td>
-                                                                        <td class="px-6 py-4 text-black">
-                                                                            <div class="flex items-center justify-start rounded-full">
-                                                                                <div class="h-6 w-6 mr-2">
-                                                                                    <img src="/images/coin.png" />
+                        }
+                                                                            </td>
+                                                                            <td class="px-6 py-4 text-black">
+                                                                                ${data.details[i].duration + "s"}
+                                                                            </td>
+                                                                            <td class="px-6 py-4 text-black">
+                                                                                <div class="flex items-center justify-start rounded-full">
+                                                                                    <div class="h-6 w-6 mr-2">
+                                                                                        <img src="/images/coin.png" />
+                                                                                    </div>
+                                                                                    <div class="font-bold text-yellow-300">
+                                                                                            ${data.details[i].score}
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="font-bold text-yellow-300">
-                                                                                        ${data.details[i].score}
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>`;
+                                                                            </td>
+                                                                        </tr>`;
                     document.getElementById("detailReport").innerHTML += html;
                 }
             }

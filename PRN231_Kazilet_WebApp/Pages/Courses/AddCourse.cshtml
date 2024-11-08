@@ -227,13 +227,13 @@
         <input type="text" id="title" class="inputField" placeholder="Enter a title">
         <textarea style="width:100%" id="description" class="textAreaField" placeholder="Add a description..."></textarea>
         <div style="display: flex; justify-content:space-between">
-            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <div style="display: flex; align-items: center">
                 <div style="display: flex; align-items: center">
                     <label for="publicCheckbox">Private Course</label>
-                    <input class="custom-checkbox" type="checkbox" id="publicCheckbox" onchange="togglePasswordField()">
-                </div>
-                <div id="passwordContainer" style="display: none; margin-left: 10px;">
-                    <input type="password" id="password" class="inputField" placeholder="Enter password">
+                    <input class="custom-checkbox mb-0 ml-2" type="checkbox" id="publicCheckbox" onchange="togglePasswordField()">
+                    <div id="passwordContainer" style="display: none; margin-left: 10px;">
+                        <input class="mb-0" type="password" id="password" placeholder="Enter password" style="width: 100%">
+                    </div>
                 </div>
             </div>
             <div>
@@ -254,25 +254,25 @@
         const newCard = document.createElement('div');
         newCard.className = 'card';
         newCard.innerHTML = `
-                    <div class="card-header">
-                        <span class="card-number">${cardCount}</span>
-                        <div>
-                            <button class="btn" onclick="removeCard(this)">×</button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div class="term">
-                            <input type="text" class="inputField question-content" placeholder="Enter question">
-                        </div>
-                        <div class="definition">
-                            <div class="definition-container" style="display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;">
-                                <input type="text" class="inputField" placeholder="Enter answer">
+                        <div class="card-header">
+                            <span class="card-number">${cardCount}</span>
+                            <div>
+                                <button class="btn" onclick="removeCard(this)">×</button>
                             </div>
-                            <button class="btn add-definition" onclick="addDefinition(this)">+ Add another answer</button>
                         </div>
-                    </div>
-                `;
+                        <div class="card-content">
+                            <div class="term">
+                                <input type="text" class="inputField question-content" placeholder="Enter question">
+                            </div>
+                            <div class="definition">
+                                <div class="definition-container" style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;">
+                                    <input type="text" class="inputField" placeholder="Enter answer">
+                                </div>
+                                <button class="btn add-definition" onclick="addDefinition(this)">+ Add another answer</button>
+                            </div>
+                        </div>
+                    `;
         flashcardsContainer.appendChild(newCard);
     }
 
@@ -281,12 +281,12 @@
         const newDefinition = document.createElement('div');
         newDefinition.className = 'definition-container';
         newDefinition.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;">
-                        <input type="text" class="inputField" placeholder="Enter answer">
-                        <button class="btn remove-definition" onclick="removeDefinition(this)">×</button>
-                    </div>
-                `;
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;">
+                            <input type="text" class="inputField" placeholder="Enter answer">
+                            <button class="btn remove-definition" onclick="removeDefinition(this)">×</button>
+                        </div>
+                    `;
         definitionContainer.insertBefore(newDefinition, button);
     }
 

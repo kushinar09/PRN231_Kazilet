@@ -201,47 +201,47 @@
         }
 
         try {
-            const response = await fetch('api call get course history', {
+            const response = await fetch('http://localhost:7024/api/LearningHistory', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': Bearer ${ token },
                 }
             });
 
-            if (!response.ok) {
-                console.error("Failed to fetch courses:", response.statusText);
-                return;
-            }
+    if (!response.ok) {
+        console.error("Failed to fetch courses:", response.statusText);
+        return;
+    }
 
-            const courses = await response.json();
+    const courses = await response.json();
 
-            // Loop through each course and create a category item
-            courses.forEach(course => {
-                const categoryItem = document.createElement("a");
-                categoryItem.href = "/questions?courseId=" + course.id;
-                categoryItem.className = "flex flex-col items-center group";
+    // Loop through each course and create a category item
+    courses.forEach(course => {
+        const categoryItem = document.createElement("a");
+        categoryItem.href = "/questions?courseId=" + course.courseId;
+        categoryItem.className = "flex flex-col items-center group";
 
-                categoryItem.innerHTML = `
+        categoryItem.innerHTML = `
                         <div class="w-16 h-16 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center text-2xl mb-2 group-hover:bg-secondary-dark group-hover:bg-opacity-20 transition-colors">
-                        <img class="h-10 w-10" src="~/imgs/learning.png" alt="${course.name}">
+                            <img class="h-10 w-10" src="~/imgs/learning.png" alt="${course.courseName}">
                         </div>
-                        <span class="text-sm text-center text-primary">${course.name}</span>
+                            <span class="text-sm text-center text-primary">${course.courseName}</span>
                     `;
 
-                categoryContainer.appendChild(categoryItem);
-            });
+        categoryContainer.appendChild(categoryItem);
+    });
         } catch (error) {
-            console.error("Error loading courses:", error);
-            categoryContainer.style.display = 'none';
-            categoryHeader.style.display = 'none';
-        }
+        console.error("Error loading courses:", error);
+        categoryContainer.style.display = 'none';
+        categoryHeader.style.display = 'none';
+    }
     }
 
     async function loadCourses() {
         try {
             // Fetch data from the API
-            const response = await fetch('api call get course');
+            const response = await fetch('http://localhost:7024/api/LearningHistory/courseGetTopCourse');
             const courses = await response.json();
 
             const coursesContainer = document.getElementById('courses');
@@ -256,8 +256,8 @@
                             <img src="~/imgs/course.jpg" alt="${course.name}" class="w-full h-48 object-cover">
                             <div class="p-4">
                                 <div class="text-sm text-gray-600 mb-2">${course.name}</div>
-                                <h3 class="text-lg font-semibold mb-2">${course.description}</h3>
-                                <div class="text-sm text-gray-600">${course.numOfQues} Câu hỏi</div>
+                                <h3 class="text-lg font-semibold mb-2">${course.descript}</h3>
+                                <div class="text-sm text-gray-600">${course.numOfQue} Câu hỏi</div>
                             </div>
                         </div>
                     `;
