@@ -11,23 +11,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: #f0f2f5;
+            color: #333;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
+            color: #471b43;
         }
 
         .modified-date {
@@ -41,12 +47,18 @@
         }
 
         .btn {
-            padding: 8px 16px;
-            border: 1px solid #ccc;
-            background-color: #fff;
+            padding: 10px 20px;
+            border: none;
+            background-color: #8854c0;
+            color: #fff;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
+
+            .btn:hover {
+                background-color: #60255b;
+            }
 
         .modal {
             display: none;
@@ -56,49 +68,62 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1;
+            z-index: 1000;
             overflow: auto;
         }
 
         .modal-content {
             position: relative;
             margin: 5% auto;
-            padding: 20px;
+            padding: 30px;
             width: 90%;
-            max-width: 600px;
+            max-width: 800px;
             background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .close {
             position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 24px;
+            top: 20px;
+            right: 30px;
+            font-size: 28px;
             font-weight: bold;
-            color: #333;
+            color: #666;
             cursor: pointer;
+            transition: color 0.3s;
         }
 
+            .close:hover {
+                color: #333;
+            }
+
         .flashcard-list {
-            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
         }
 
         .flashcard-item {
             display: flex;
             align-items: center;
-            padding: 10px;
-            background-color: #f9f9f9;
+            padding: 20px;
+            background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
+
+            .flashcard-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            }
 
         .flashcard-icon {
             font-size: 24px;
-            color: #1a73e8;
-            margin-right: 15px;
+            color: #471b43;
+            margin-right: 20px;
         }
 
         .flashcard-info {
@@ -106,14 +131,37 @@
         }
 
         .flashcard-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             color: #333;
+            margin-bottom: 5px;
         }
 
         .flashcard-details {
             font-size: 14px;
             color: #666;
+        }
+
+        .add-course-btn, .remove-course-btn {
+            padding: 5px 10px;
+            border: none;
+            background-color: #34a853;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .remove-course-btn {
+            background-color: #ea4335;
+        }
+
+        .add-course-btn:hover {
+            background-color: #2d8e47;
+        }
+
+        .remove-course-btn:hover {
+            background-color: #d33426;
         }
     </style>
 </head>
@@ -123,11 +171,10 @@
             <div class="title">Courses</div>
         </div>
         <div class="buttons">
-            <button class="btn"><i class="fas fa-plus"></i></button>
+            <button class="btn" id="addCourseBtn"><i class="fas fa-plus"></i></button>
         </div>
     </div>
 
-    <!-- Dialog for displaying learning history data -->
     <div id="learningHistoryDialog" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeDialog()">&times;</span>
@@ -142,7 +189,7 @@
 
     <script>
         const flashcardList = document.getElementById('flashcardList');
-        let existingCourseIds = []; // Lưu trữ các courseId đã tồn tại trong folder
+        let existingCourseIds = [];
 
         window.onload = function () {
             const folderId = localStorage.getItem("folderId");
@@ -165,20 +212,28 @@
 
                         const flashcardInfo = document.createElement('div');
                         flashcardInfo.classList.add('flashcard-info');
-                        flashcardInfo.onclick = () => viewCourseDetail(course.id);
 
                         const flashcardTitle = document.createElement('div');
                         flashcardTitle.classList.add('flashcard-title');
                         flashcardTitle.textContent = course.name;
 
-                        const button = document.createElement('button');
-                        button.classList.add('btn');
-                        button.innerHTML = '<i class="fas fa-ellipsis-h"></i>';
+                        const flashcardDetails = document.createElement('div');
+                        flashcardDetails.classList.add('flashcard-details');
+                        flashcardDetails.textContent = `Course`;
+
+                        // const button = document.createElement('button');
+                        // button.classList.add('btn');
+                        // button.innerHTML = '<i class="fas fa-ellipsis-h"></i>';
+                        // button.onclick = (e) => {
+                        //     e.stopPropagation();
+                        //     // Add your menu logic here
+                        // };
 
                         flashcardInfo.appendChild(flashcardTitle);
+                        flashcardInfo.appendChild(flashcardDetails);
                         flashcardItem.appendChild(flashcardIcon);
                         flashcardItem.appendChild(flashcardInfo);
-                        flashcardItem.appendChild(button);
+                        // flashcardItem.appendChild(button);
 
                         flashcardList.appendChild(flashcardItem);
                     });
@@ -202,32 +257,35 @@
                         const courseDiv = document.createElement('div');
                         courseDiv.classList.add('flashcard-item');
                         courseDiv.innerHTML = `
-                                <div class="flashcard-icon">
-                                    <i class="fas fa-book-open"></i>
-                                </div>
-                                <div class="flashcard-info">
-                                    <div class="flashcard-title">${item.courseName}</div>
-                                    <div class="flashcard-details">
-                                        Flashcard set • ${item.numOfQues} terms • by ${item.creator}<br>
-                                        <strong>Date:</strong> ${new Date(item.learningDate).toLocaleDateString()}
+                                    <div class="flashcard-icon">
+                                        <i class="fas fa-book-open"></i>
                                     </div>
-                                </div>
-                            `;
+                                    <div class="flashcard-info">
+                                        <div class="flashcard-title">${item.courseName}</div>
+                                        <div class="flashcard-details">
+                                            Flashcard set • ${item.numOfQues} terms • by ${item.creator}<br>
+                                            <strong>Date:</strong> ${new Date(item.learningDate).toLocaleDateString()}
+                                        </div>
+                                    </div>
+                                `;
 
-                        // Kiểm tra xem courseId đã có trong folder chưa
                         if (existingCourseIds.includes(item.courseId)) {
-                            // Nếu đã có, hiển thị nút "-"
                             const removeButton = document.createElement('button');
                             removeButton.classList.add('remove-course-btn');
                             removeButton.textContent = '-';
-                            removeButton.onclick = () => RemoveCourse(item.courseId);
+                            removeButton.onclick = (e) => {
+                                e.stopPropagation();
+                                RemoveCourse(item.courseId);
+                            };
                             courseDiv.appendChild(removeButton);
                         } else {
-                            // Nếu chưa có, hiển thị nút "+"
                             const addButton = document.createElement('button');
                             addButton.classList.add('add-course-btn');
                             addButton.textContent = '+';
-                            addButton.onclick = () => addCourseToFolder(item.courseId);
+                            addButton.onclick = (e) => {
+                                e.stopPropagation();
+                                addCourseToFolder(item.courseId);
+                            };
                             courseDiv.appendChild(addButton);
                         }
 
@@ -260,7 +318,6 @@
                     if (response.ok) {
                         console.log('Course added to folder successfully.');
                         window.location.reload();
-                        openLearningHistoryDialog();
                     } else {
                         console.error('Failed to add course to folder.');
                     }
@@ -285,7 +342,6 @@
                     if (response.ok) {
                         console.log('Course removed from folder successfully.');
                         window.location.reload();
-                        openLearningHistoryDialog();
                     } else {
                         console.error('Failed to remove course from folder.');
                     }
@@ -308,10 +364,15 @@
                 });
         }
 
-        document.querySelector('.btn i.fa-plus').parentNode.onclick = openLearningHistoryDialog;
+        document.getElementById('addCourseBtn').onclick = openLearningHistoryDialog;
+
+        // Close the modal when clicking outside of it
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('learningHistoryDialog')) {
+                closeDialog();
+            }
+        }
     </script>
 
 </body>
 </html>
-
-
