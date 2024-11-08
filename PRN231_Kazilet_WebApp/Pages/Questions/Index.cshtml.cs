@@ -11,7 +11,7 @@ namespace PRN231_Kazilet_WebApp.Pages.Questions
     public class IndexModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        private readonly string QuestionUrl = "https://localhost:7024/odata/Question";
+        private readonly string QuestionUrl = "http://localhost:7024/odata/Question";
 
         [BindProperty]
         public List<QuestionDto> QuestionDtos { get; set; }
@@ -27,6 +27,7 @@ namespace PRN231_Kazilet_WebApp.Pages.Questions
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
+            QuestionDtos = new List<QuestionDto>();
         }
 
         public async Task OnGetAsync(int courseId)

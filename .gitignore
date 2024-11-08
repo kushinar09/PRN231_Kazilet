@@ -395,4 +395,14 @@ FodyWeavers.xsd
 *.msp
 
 # JetBrains Rider
+<<<<<<< HEAD
 *.sln.iml
+=======
+*.sln.iml
+PRN231_Kazilet_API/appsettings.json
+/PRN231_Kazilet_API/bin
+/PRN231_Kazilet_API/obj
+PRN231_Kazilet_API/appsettings.json
+PRN231_Kazilet_API/bin/Debug/net6.0/appsettings.json
+PRN231_Kazilet_API/appsettings.json
+>>>>>>> origin/Thai-1

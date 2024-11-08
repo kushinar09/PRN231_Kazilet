@@ -1,0 +1,373 @@
+﻿@page
+@model PRN231_Kazilet_WebApp.Pages.Folders.DetailsModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #471b43;
+        }
+
+        .modified-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            background-color: #8854c0;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .btn:hover {
+                background-color: #60255b;
+            }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 5% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+            .close:hover {
+                color: #333;
+            }
+
+        .flashcard-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .flashcard-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+            .flashcard-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            }
+
+        .flashcard-icon {
+            font-size: 24px;
+            color: #471b43;
+            margin-right: 20px;
+        }
+
+        .flashcard-info {
+            flex-grow: 1;
+        }
+
+        .flashcard-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .flashcard-details {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .add-course-btn, .remove-course-btn {
+            padding: 5px 10px;
+            border: none;
+            background-color: #34a853;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .remove-course-btn {
+            background-color: #ea4335;
+        }
+
+        .add-course-btn:hover {
+            background-color: #2d8e47;
+        }
+
+        .remove-course-btn:hover {
+            background-color: #d33426;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <div class="title">Courses</div>
+        </div>
+        <div class="buttons">
+            <button class="btn" id="addCourseBtn"><i class="fas fa-plus"></i></button>
+        </div>
+    </div>
+
+    <div id="learningHistoryDialog" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDialog()">&times;</span>
+            <h2>Learning History</h2>
+            <div id="learningHistoryContent" class="flashcard-list">
+                <!-- Fetched data will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="flashcard-list" id="flashcardList"></div>
+
+    <script>
+        const flashcardList = document.getElementById('flashcardList');
+        let existingCourseIds = [];
+
+        // Hàm để tải và hiển thị danh sách các course trong folder
+        function loadCourses() {
+            const folderId = localStorage.getItem("folderId");
+            const apiUrl = `http://localhost:7024/api/Folders/GetCourse/${folderId}`;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    flashcardList.innerHTML = '';
+                    existingCourseIds = data.map(course => course.id);
+
+                    data.forEach(course => {
+                        const flashcardItem = document.createElement('div');
+                        flashcardItem.classList.add('flashcard-item');
+                        flashcardItem.onclick = () => viewCourseDetail(course.id);
+
+                        const flashcardIcon = document.createElement('div');
+                        flashcardIcon.classList.add('flashcard-icon');
+                        flashcardIcon.innerHTML = '<i class="fas fa-book-open"></i>';
+
+                        const flashcardInfo = document.createElement('div');
+                        flashcardInfo.classList.add('flashcard-info');
+
+                        const flashcardTitle = document.createElement('div');
+                        flashcardTitle.classList.add('flashcard-title');
+                        flashcardTitle.textContent = course.name;
+
+                        const flashcardDetails = document.createElement('div');
+                        flashcardDetails.classList.add('flashcard-details');
+                        flashcardDetails.textContent = `Course`;
+
+                        flashcardInfo.appendChild(flashcardTitle);
+                        flashcardInfo.appendChild(flashcardDetails);
+                        flashcardItem.appendChild(flashcardIcon);
+                        flashcardItem.appendChild(flashcardInfo);
+
+                        flashcardList.appendChild(flashcardItem);
+                    });
+                },
+                error: function (error) {
+                    console.error('Error fetching courses:', error);
+                }
+            });
+        }
+
+        // Tải danh sách courses khi trang tải
+        window.onload = loadCourses;
+
+        function openLearningHistoryDialog() {
+            const userId = 1;
+            const apiUrl = `http://localhost:7024/api/LearningHistory/${userId}`;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    const contentDiv = document.getElementById('learningHistoryContent');
+                    contentDiv.innerHTML = '';
+
+                    data.forEach(item => {
+                        const courseDiv = document.createElement('div');
+                        courseDiv.classList.add('flashcard-item');
+                        courseDiv.innerHTML = `
+                                <div class="flashcard-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="flashcard-info">
+                                    <div class="flashcard-title">${item.courseName}</div>
+                                    <div class="flashcard-details">
+                                        Flashcard set • ${item.numOfQues} terms • by ${item.creator}<br>
+                                        <strong>Date:</strong> ${new Date(item.learningDate).toLocaleDateString()}
+                                    </div>
+                                </div>
+                            `;
+
+                        if (existingCourseIds.includes(item.courseId)) {
+                            const removeButton = document.createElement('button');
+                            removeButton.classList.add('remove-course-btn');
+                            removeButton.textContent = '-';
+                            removeButton.onclick = (e) => {
+                                e.stopPropagation();
+                                removeCourse(item.courseId);
+                            };
+                            courseDiv.appendChild(removeButton);
+                        } else {
+                            const addButton = document.createElement('button');
+                            addButton.classList.add('add-course-btn');
+                            addButton.textContent = '+';
+                            addButton.onclick = (e) => {
+                                e.stopPropagation();
+                                addCourseToFolder(item.courseId);
+                            };
+                            courseDiv.appendChild(addButton);
+                        }
+
+                        contentDiv.appendChild(courseDiv);
+                    });
+
+                    document.getElementById('learningHistoryDialog').style.display = 'block';
+                },
+                error: function (error) {
+                    console.error('Error fetching learning history:', error);
+                }
+            });
+        }
+
+        function closeDialog() {
+            document.getElementById('learningHistoryDialog').style.display = 'none';
+        }
+
+        function addCourseToFolder(courseId) {
+            const folderId = localStorage.getItem("folderId");
+            const apiUrl = `http://localhost:7024/api/Folders/AddCourse`;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ courseId, folderId }),
+                success: function () {
+                    console.log('Course added to folder successfully.');
+                    loadCourses();
+                    openLearningHistoryDialog();
+                },
+                error: function (error) {
+                    console.error('Error adding course to folder:', error);
+                }
+            });
+        }
+
+        function removeCourse(courseId) {
+            const folderId = localStorage.getItem("folderId");
+            const apiUrl = `http://localhost:7024/api/Folders/RemoveCourse`;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ courseId, folderId }),
+                success: function () {
+                    console.log('Course removed from folder successfully.');
+                    loadCourses();
+                    openLearningHistoryDialog();
+                },
+                error: function (error) {
+                    console.error('Error removing course from folder:', error);
+                }
+            });
+        }
+
+        function viewCourseDetail(courseId) {
+            const apiUrl = `http://localhost:7024/odata/Question/${courseId}`;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function () {
+                    window.location.href = `/Questions?courseId=${courseId}`;
+                },
+                error: function (error) {
+                    console.error('Error fetching course details:', error);
+                }
+            });
+        }
+
+        document.getElementById('addCourseBtn').onclick = openLearningHistoryDialog;
+
+        // Đóng modal khi nhấn bên ngoài modal
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('learningHistoryDialog')) {
+                closeDialog();
+            }
+        };
+    </script>
+
+</body>
+</html>

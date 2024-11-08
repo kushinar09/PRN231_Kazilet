@@ -8,10 +8,19 @@
     ".NETCoreApp,Version=v6.0": {
       "PRN231_Kazilet_WebApp/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Google": "6.0.33",
           "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
           "PRN231_Kazilet_WebApp.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Google/6.0.33": {
+        "runtime": {
+          "lib/net6.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "assemblyVersion": "6.0.33.0",
+            "fileVersion": "6.0.3324.37905"
+          }
         }
       },
       "Newtonsoft.Json/13.0.3": {
@@ -29,6 +38,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Microsoft.AspNetCore.Authentication.Google/6.0.33": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Q22DpXokkjOhGWH7x7j6uj/Ss4AHrk2w2IY8nIXZEswKWglPtZqWrGTXCbCQpz4bVjSpsHFufyB5U6GZ29BHFQ==",
+      "path": "microsoft.aspnetcore.authentication.google/6.0.33",
+      "hashPath": "microsoft.aspnetcore.authentication.google.6.0.33.nupkg.sha512"
     },
     "Newtonsoft.Json/13.0.3": {
       "type": "package",
