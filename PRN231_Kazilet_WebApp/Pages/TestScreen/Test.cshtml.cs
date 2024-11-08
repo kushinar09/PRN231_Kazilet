@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PRN231_Kazilet_WebApp.Models.Dto;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 
 namespace PRN231_Kazilet_WebApp.Pages.Test
@@ -46,9 +47,14 @@ namespace PRN231_Kazilet_WebApp.Pages.Test
                 //NumOfQues = numOfQues;
                 //SelectedNumOfQues = numOfQues;
                 SelectedCourseId = id;
-                List<int> listId = selectedQuestions.Split(',')
+                List<int> listId = new List<int> ();
+                if (selectedQuestions != null)
+                {
+                    listId = selectedQuestions.Split(',')
                                      .Select(int.Parse)
                                      .ToList();
+                }
+                
                 string url2 = "";
                 if (random == false)
                 {
@@ -64,7 +70,6 @@ namespace PRN231_Kazilet_WebApp.Pages.Test
                 var url = random
                 ? $"{questionUrl}/GetRandom/{SelectedCourseId}/{numOfQues}"
                 : $"{questionUrl}/GetQuestionsByIds?"+url2;
-                Console.WriteLine(url);
                 var jsonStr = await _httpClient.GetStringAsync(url);
                 JArray jsonArray = JArray.Parse(jsonStr);
                 QuestionList = jsonArray.ToObject<List<QuestionDto>>();

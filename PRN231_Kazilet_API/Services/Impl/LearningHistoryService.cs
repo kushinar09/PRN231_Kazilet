@@ -17,9 +17,25 @@ namespace PRN231_Kazilet_API.Services.Impl
             _mapper = mapper;
         }
 
-        public bool AddLearningHistory(LearningHistoryDto learningHistory)
+        public bool AddLearningHistory(int userId,int courseId)
         {
-            throw new NotImplementedException();
+            var existedOne = _context.LearningHistories.FirstOrDefault(l => l.CourseId == courseId && l.UserId == userId);
+            var learningHistory = _mapper.Map<LearningHistory>(existedOne);
+            
+            if (existedOne != null) {
+                learningHistory.LearningDate = DateTime.Now;
+                _context.LearningHistories.Update(learningHistory);
+            }
+            else
+            {
+                LearningHistory lh = new LearningHistory();
+                lh.CourseId = courseId;
+                lh.UserId = userId;
+                lh.LearningDate = DateTime.Now;
+                _context.LearningHistories.Add(lh);
+            }
+            
+            return _context.SaveChanges()>0?true : false;
         }
 
         public List<LearningHistoryDto> GetAllLearningHistoriesByUserId(int userId)

@@ -48,8 +48,7 @@ namespace PRN231_Kazilet_WebApp.Pages.TestScreen
                 return RedirectToPage("/TestScreen/SelectQuestionsScreen", new
                 {
                     id = Id,
-                    duration = duration,
-                    
+                    duration = duration,                   
                 });
             }
         }

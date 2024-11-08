@@ -21,12 +21,25 @@ namespace PRN231_Kazilet_WebApp.Pages.LearningHistory
         public int UserId {  get; set; }
         [BindProperty]
         public List<LearningHistoryDto> LearningHistories { get; set; }
-        public async Task OnGet(int userId)
+        public async Task OnGet()
         {
-            UserId = userId;
-            HttpResponseMessage response = await _httpClient.GetAsync($"{learningHistorynUrl}/{userId}");
-            string jsonStr = await response.Content.ReadAsStringAsync();
-            LearningHistories = JsonConvert.DeserializeObject<List<LearningHistoryDto>>(jsonStr);
+            string jwtToken = HttpContext.Request.Cookies["accessToken"];
+
+            if (!string.IsNullOrEmpty(jwtToken))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+            }
+            HttpResponseMessage response = await _httpClient.GetAsync($"{learningHistorynUrl}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonStr = await response.Content.ReadAsStringAsync();
+                LearningHistories = JsonConvert.DeserializeObject<List<LearningHistoryDto>>(jsonStr);
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.StatusCode);
+            }
         }
     }
 }

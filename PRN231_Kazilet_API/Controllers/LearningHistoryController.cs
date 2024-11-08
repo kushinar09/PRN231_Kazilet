@@ -12,13 +12,22 @@ namespace PRN231_Kazilet_API.Controllers
     public class LearningHistoryController : ControllerBase
     {
         private readonly ILearningHistory _learningHistoryService;
-        public LearningHistoryController(ILearningHistory learningHistoryService)
+        private readonly IAuthService _authService;
+        public LearningHistoryController(ILearningHistory learningHistoryService, IAuthService authService)
         {
             _learningHistoryService = learningHistoryService;
+            _authService = authService;
         }
-        [HttpGet("{userId}")]
-        public IActionResult GetLearningHistories(int userId) {
-            List<LearningHistoryDto> learningHistoryDtos = _learningHistoryService.GetAllLearningHistoriesByUserId(userId);
+        [HttpGet]
+        public IActionResult GetLearningHistories() {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized(new { isValid = false, message = "No token provided." });
+            }
+            User? u = _authService.GetUserFromJwtToken(token);
+            List<LearningHistoryDto> learningHistoryDtos = _learningHistoryService.GetAllLearningHistoriesByUserId(u.Id);
             if (learningHistoryDtos == null)
             {
                 return NotFound();
@@ -26,6 +35,26 @@ namespace PRN231_Kazilet_API.Controllers
             else
             {
                 return Ok(learningHistoryDtos);
+            }
+        }
+        [HttpPost("{courseId}")]
+        public IActionResult AddLearningHistory(int courseId)
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized(new { isValid = false, message = "No token provided." });
+            }
+            User? u = _authService.GetUserFromJwtToken(token);
+            var isSaved = _learningHistoryService.AddLearningHistory(u.Id,courseId);
+            if (isSaved)
+            {
+                return Ok();              
+            }
+            else
+            {
+                return NotFound();
             }
         }
     }

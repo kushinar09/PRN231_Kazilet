@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PRN231_Kazilet_WebApp.Models.Dto;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace PRN231_Kazilet_WebApp.Pages.Questions
@@ -11,7 +12,8 @@ namespace PRN231_Kazilet_WebApp.Pages.Questions
     public class IndexModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        private readonly string QuestionUrl = "https://localhost:7024/odata/Question";
+        private readonly string QuestionUrl = "http://localhost:7024/odata/Question";
+        private readonly string learningHistorynUrl = "http://localhost:7024/api/LearningHistory";
 
         [BindProperty]
         public List<QuestionDto> QuestionDtos { get; set; }
@@ -27,6 +29,7 @@ namespace PRN231_Kazilet_WebApp.Pages.Questions
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
+            QuestionDtos = new List<QuestionDto>();
         }
 
         public async Task OnGetAsync(int courseId)
@@ -43,6 +46,28 @@ namespace PRN231_Kazilet_WebApp.Pages.Questions
                 QuestionDtos = JsonConvert.DeserializeObject<List<QuestionDto>>(jsonValue.value.ToString());
                 await Console.Out.WriteLineAsync(QuestionDtos[0].Answers.ToList().Count + "");
             }
+            await updateLearningHistory(courseId);
         }
+        public async Task updateLearningHistory(int courseId)
+        {
+            string jwtToken = HttpContext.Request.Cookies["accessToken"];
+
+            if (!string.IsNullOrEmpty(jwtToken))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+            }
+
+            HttpResponseMessage response = await _httpClient.PostAsync($"{learningHistorynUrl}/{courseId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Success");
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.StatusCode);
+            }
+        }
+
     }
 }
