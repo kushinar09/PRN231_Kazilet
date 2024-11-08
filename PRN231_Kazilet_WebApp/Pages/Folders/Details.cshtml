@@ -206,6 +206,7 @@
 
                     data.forEach(course => {
                         const flashcardItem = document.createElement('div');
+                        flashcardItem.classList.add('cursor-pointer');
                         flashcardItem.classList.add('flashcard-item');
                         flashcardItem.onclick = () => viewCourseDetail(course.id);
 
