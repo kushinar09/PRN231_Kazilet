@@ -115,6 +115,13 @@ namespace PRN231_Kazilet_API.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("{userId}")]
+        public IActionResult GetOwnedCourses(int userId)
+        {
+            return Ok(_courseService.GetOwnedCourses(userId));
+        }
+
         [EnableQuery]
         [HttpGet]
         [Route("Details/{courseId}")]

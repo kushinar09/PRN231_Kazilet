@@ -159,5 +159,15 @@ namespace PRN231_Kazilet_API.Services.Impl
 
             return _context.SaveChanges() > 0;
         }
+
+        public List<CourseDto> GetOwnedCourses(int userId)
+        {
+            var courses = _context.Courses
+                .Where(c => c.CreatedBy == userId)
+                .Include(c => c.Questions)
+                .ToList();
+
+            return _mapper.Map<List<CourseDto>>(courses);
+        }
     }
 }
