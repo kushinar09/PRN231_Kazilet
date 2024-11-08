@@ -173,6 +173,8 @@
                 </div>
             </div>
             <div>
+                <button class="" style="background:none;color: #471b43;border:1px solid #33333350;" id="importQuestionsBtn">Import Questions</button>
+                <input type="file" id="fileInput" accept=".xlsx" style="display: none">
                 <button class="" style="background:none;color: #471b43;border:1px solid #33333350;" id="exportQuestionsBtn">Export Questions</button>
             </div>
         </div>
@@ -198,6 +200,65 @@
                 addCard(question.content, question.answers);
             });
         }
+
+        // Hàm import
+        document.getElementById('importQuestionsBtn').addEventListener('click', function () {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) {
+                return;
+            }
+
+            // Validate file extension
+            const fileExt = file.name.split('.').pop().toLowerCase();
+            if (fileExt !== 'xlsx') {
+                alert('Please select an Excel file (.xlsx)');
+                return;
+            }
+
+            const courseId = document.getElementById('courseId').value.trim();
+            if (!courseId) {
+                alert('Course ID is missing.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Show loading indicator or disable button
+            const importBtn = document.getElementById('importQuestionsBtn');
+            const originalText = importBtn.textContent;
+            importBtn.textContent = 'Importing...';
+            importBtn.disabled = true;
+
+            // Sửa lại URL endpoint và thêm courseId vào query parameter
+            fetch(`http://localhost:7024/api/Courses/Import?courseId=${courseId}`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) { // Kiểm tra response.ok thay vì status
+                        alert('Questions imported successfully!');
+                        window.location.reload();
+                    } else {
+                        throw new Error('Import failed with status: ' + response.status);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to import questions. Please try again.');
+                })
+                .finally(() => {
+                    // Reset button state
+                    importBtn.textContent = originalText;
+                    importBtn.disabled = false;
+                    // Reset file input
+                    document.getElementById('fileInput').value = '';
+                });
+        });
 
         // Hàm export
         document.getElementById('exportQuestionsBtn').addEventListener('click', function () {

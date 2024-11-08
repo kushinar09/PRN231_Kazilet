@@ -238,6 +238,7 @@
             </div>
             <div>
                 <button class="" style="background:none;color: #471b43;border:1px solid #33333350;" onclick="document.getElementById('fileInput').click()">Import Questions</button>
+                <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none" onchange="importExcel(this)">
             </div>
         </div>
         <div id="flashcards"></div>
@@ -276,35 +277,48 @@
         flashcardsContainer.appendChild(newCard);
     }
 
-    // Hàm importfunction importQuestions() {
-    const fileInput = document.getElementById('fileInput');
-    const file = fileInput.files[0];
 
-    if (!file) {
-        alert("Please select a file.");
-        return;
+    // Thêm hàm importExcel
+    function importExcel(input) {
+        const file = input.files[0];
+        if (file) {
+            // Kiểm tra phần mở rộng của file
+            const fileExt = file.name.split('.').pop().toLowerCase();
+            if (fileExt !== 'xlsx' && fileExt !== 'xls') {
+                alert('Please select an Excel file (.xlsx or .xls)');
+                return;
+            }
+
+            // Tạo FormData object để gửi file
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Lấy courseId từ URL hoặc từ biến global (tùy vào cách bạn lưu trữ)
+            const courseId = new URLSearchParams(window.location.search).get('courseId');
+
+            // Gọi API import
+            fetch(`http://localhost:7024/api/Courses/import?courseId=${courseId}`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error('Import failed');
+                })
+                .then(result => {
+                    alert('Import successful!');
+                    // Có thể reload trang hoặc cập nhật UI tùy theo yêu cầu
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to import questions. Please try again.');
+                });
+        }
     }
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("courseId", 1); // Replace 1 with the actual course ID you want to import for
-
-    fetch("http://localhost:7024/api/Courses/import", {
-        method: "POST",
-        body: formData
-    })
-        .then(response => {
-            if (response.ok) {
-                alert("Questions imported successfully!");
-            } else {
-                alert("Failed to import questions.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while importing questions.");
-        });
-            }
 
 
     function addDefinition(button) {
