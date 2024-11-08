@@ -29,6 +29,20 @@ namespace PRN231_Kazilet_API.Controllers
             return Ok(_gameplayService.GetAllGameplayCompleted());
         }
 
+        [HttpGet]
+        [Route("get-detail-question")]
+        public IActionResult GetDetailQuestion([FromQuery] int id, [FromQuery] int turn)
+        {
+            return Ok(_gameplayService.GetDetailQuestion(id, turn));
+        }
+
+        [HttpGet]
+        [Route("report/{id}")]
+        public IActionResult GetReportGameplay(int id)
+        {
+            return Ok(_gameplayService.GetReportGameplay(id));
+        }
+
         [HttpPost]
         [Route("host")]
         public IActionResult HostGame([FromQuery] int courseId, [FromQuery] string username)

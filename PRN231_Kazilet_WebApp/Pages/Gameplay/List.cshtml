@@ -33,6 +33,11 @@
         return `${day}/${month}/${year}, ${hours}:${minutes}`;
     }
 
+    function goTo(id) {
+        console.log(id);
+        window.location.href = "https://localhost:7081/Gameplay/Report?id=" + id;
+    }
+
     async function getListGameplay() {
         const apiUrl = "http://localhost:7024/api/Gameplay/get-all";
         try {
@@ -46,7 +51,7 @@
                 document.getElementById("listgame").innerHTML = "";
                 for (var i = 0; i < data.length; i++) {
                     var html = `
-                                <div class="flex cursor-pointer mb-6 justify-between items-center shadow rounded-lg px-4 py-8">
+                                    <div id="${data[i].id}" onclick="goTo(${data[i].id})" class="flex cursor-pointer mb-6 justify-between items-center shadow rounded-lg px-4 py-8">
                             <div class="flex items-center">
                                 <div class="mr-4">
                                     <img src="/images/host.png" class="w-10 h-10" />

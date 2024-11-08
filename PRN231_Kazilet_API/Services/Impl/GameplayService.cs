@@ -467,7 +467,7 @@ namespace PRN231_Kazilet_API.Services.Impl
                 .ThenBy(gm => gm.Username)
                 .ToList();
             List<PlayerDto> playerDtos = new List<PlayerDto>();
-            for(int i = 0; i < ranking.Count; i++)
+            for (int i = 0; i < ranking.Count; i++)
             {
                 string avatar = GetPlayerAvatar(code, ranking[i].Username);
                 playerDtos.Add(new PlayerDto(avatar, ranking[i].Username, ranking[i].Score.GetValueOrDefault(0)));
@@ -538,6 +538,11 @@ namespace PRN231_Kazilet_API.Services.Impl
         public double GetAvgDuration(string code, string username)
         {
             return (double)_context.Gameplays.Where(g => g.Code == code && g.Username == username && g.Turn != 0).Average(g => g.Duration);
+        }
+
+        public double GetAvgDurationForTurn(string code, int turn)
+        {
+            return (double)_context.Gameplays.Where(g => g.Code == code && g.Turn == turn).Average(g => g.Duration);
         }
 
         public int GetHighestStreak(string code, string username)
@@ -675,7 +680,7 @@ namespace PRN231_Kazilet_API.Services.Impl
             PlayerAvatarDto playerAvatarDto = new PlayerAvatarDto();
             playerAvatarDto.PlayerAvatar = gameplay.Avatar;
             List<string> avatars = new List<string>();
-            List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code && g.Turn == 0 ).ToList();
+            List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code && g.Turn == 0).ToList();
             for (int i = 0; i < gameplays.Count; i++)
             {
                 avatars.Add(gameplays[i].Avatar);
@@ -687,10 +692,10 @@ namespace PRN231_Kazilet_API.Services.Impl
         public async Task<bool> UpdatePlayerAvatar(string code, string username, string avatar)
         {
             Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == 0 && g.Username == username);
-            if(gameplay != null)
+            if (gameplay != null)
             {
                 Gameplay gAvatar = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == 0 && g.Avatar == avatar);
-                if(gAvatar == null)
+                if (gAvatar == null)
                 {
                     gameplay.Avatar = avatar;
                     _context.SaveChanges();
@@ -714,7 +719,7 @@ namespace PRN231_Kazilet_API.Services.Impl
                 .Include(gs => gs.Course)
                 .Where(gs => gs.CreatedBy == userId && gs.IsCompleted == true).ToList();
             List<GameplaySettingDto> gameplaySettingDtos = _mapper.Map<List<GameplaySettingDto>>(list);
-            for(int i = 0; i < gameplaySettingDtos.Count; i++)
+            for (int i = 0; i < gameplaySettingDtos.Count; i++)
             {
                 gameplaySettingDtos[i].CourseName = list[i].Course.Name;
                 gameplaySettingDtos[i].NoPlayers = GetTotalPlayers(gameplaySettingDtos[i].Code);
@@ -722,18 +727,175 @@ namespace PRN231_Kazilet_API.Services.Impl
             return gameplaySettingDtos;
         }
 
-        public float CalculateCorrectPercent(string code)
+        public double CalculateCorrectPercent(string code)
         {
-            List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code).ToList();
-            return 0;
+            int cnt = 0;
+            List<GameplayAnswer> gameplayAnswer = _context.GameplayAnswers.Include(ga => ga.Gameplay)
+                    .Where(ga => ga.Gameplay.Code == code)
+                    .ToList();
+            for (int i = 0; i < gameplayAnswer.Count; i++)
+            {
+                if (gameplayAnswer[i] != null)
+                {
+                    Answer answer = _context.Answers.FirstOrDefault(a => a.Id == gameplayAnswer[i].PlayerAnswer);
+                    if (answer != null)
+                    {
+                        if (answer.IsCorrect == true)
+                        {
+                            cnt++;
+                        }
+                    }
+                }
+            }
+            Console.WriteLine("Percent: " + (double)cnt / gameplayAnswer.Count + " " + cnt);
+            return ((double)cnt / gameplayAnswer.Count) * 100;
         }
 
-        public ReportGameplayDto GetReportGameplay(string code)
+        public double CalculateCorrectPercentForTurn(string code, int turn)
         {
-            ReportGameplayDto reportGameplayDto = new ReportGameplayDto();
-            reportGameplayDto.Code = code;
-            return reportGameplayDto;
+            int cnt = 0;
+            List<GameplayAnswer> gameplayAnswer = _context.GameplayAnswers.Include(ga => ga.Gameplay)
+                    .Where(g => g.Gameplay.Code == code && g.Gameplay.Turn == turn)
+                    .ToList();
+            List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code && g.Turn == turn).ToList();
+            for (int i = 0; i < gameplayAnswer.Count; i++)
+            {
+                Answer answer = _context.Answers.FirstOrDefault(a => a.Id == gameplayAnswer[i].PlayerAnswer);
+                if (answer != null)
+                {
+                    if (answer.IsCorrect == true)
+                    {
+                        cnt++;
+                    }
+                    
+                }
+            }
+            return (float)cnt / gameplays.Count * 100;
+        }
+
+        public ReportDetailQuestionDto GetDetailQuestion(int id, int no)
+        {
+            ReportDetailQuestionDto reportDetailQuestionDto = new ReportDetailQuestionDto();
+            GameplaySetting gameplaySetting = _context.GameplaySettings.FirstOrDefault(gs => gs.Id == id);
+            GameplayAnswer gameplayAnswer = _context.GameplayAnswers
+                                .Include(ga => ga.Question)
+                                .Include(ga => ga.Gameplay)
+                                .FirstOrDefault(ga => ga.Gameplay.Code == gameplaySetting.Code && ga.Gameplay.Turn == no);
+            reportDetailQuestionDto.QuestionDto = _mapper.Map<QuestionDto>(_context.Questions
+                .Include(q => q.Answers)
+                .FirstOrDefault(q => q.Id == gameplayAnswer.QuestionId));
+            reportDetailQuestionDto.CorrectPercent = CalculateCorrectPercentForTurn(gameplaySetting.Code, no);
+            reportDetailQuestionDto.Duration = GetAvgDurationForTurn(gameplaySetting.Code, no);
+            reportDetailQuestionDto.Details = GetDetailPlayerAnswers(gameplaySetting.Code, no);
+            return reportDetailQuestionDto;
+        }
+
+        public List<DetailPlayerAnswer> GetDetailPlayerAnswers(string code, int turn)
+        {
+
+            List<DetailPlayerAnswer> detailPlayerAnswers = new List<DetailPlayerAnswer>();
+            List<GameplayAnswer> gameplayAnswer = _context.GameplayAnswers
+                                .Include(ga => ga.Question)
+                                .Include(ga => ga.Gameplay)
+                                .Where(ga => ga.Gameplay.Code == code && ga.Gameplay.Turn == turn).ToList();
+            for (int i = 0; i < gameplayAnswer.Count; i++)
+            {
+                string avatar = gameplayAnswer[i].Gameplay.Avatar;
+                string username = gameplayAnswer[i].Gameplay.Username;
+                double duration = (double)gameplayAnswer[i].Gameplay.Duration;
+                int score = (int)gameplayAnswer[i].Gameplay.Score;
+                bool isCorrect = false;
+                string playerAnswer = "";
+
+                Answer answer = _context.Answers.FirstOrDefault(a => a.Id == gameplayAnswer[i].PlayerAnswer);
+                if(answer != null)
+                {
+                    if(answer.IsCorrect == true)
+                    {
+                        isCorrect = true;
+                    }
+                    string[] str = new string[] {"A", "B", "C", "D", "E", "F", "G", "H", "M"};
+                    List<Answer> answers = _context.Answers
+                        .Include(a => a.Question)
+                        .Where(a => a.QuestionId == gameplayAnswer[i].QuestionId).ToList();
+                    for (int j = 0; j < answers.Count; j++)
+                    {
+                        if (answers[j].Id == answer.Id)
+                        {
+                            playerAnswer = str[j];
+                        }
+                    }
+                }
+                else
+                {
+                    playerAnswer = "Not answered";
+                }
+                DetailPlayerAnswer detailPlayerAnswer = new DetailPlayerAnswer(avatar, username, playerAnswer, isCorrect, duration, score);
+                detailPlayerAnswers.Add(detailPlayerAnswer);
+            }
+            return detailPlayerAnswers;
+
+        }
+
+        public List<ReportQuestionDto> GetReportQuestions(string code)
+        {
+            List<ReportQuestionDto> reportQuestionDtos = new List<ReportQuestionDto>();
+            List<GameplayAnswer> gameplayAnswer = _context.GameplayAnswers
+                                .Include(ga => ga.Question)
+                                .Include(ga => ga.Gameplay)
+                                .Where(ga => ga.Gameplay.Code == code)
+                                .GroupBy(ga => ga.Question.Content)  // Nhóm theo nội dung câu hỏi để loại bỏ các câu hỏi trùng lặp
+                                .Select(group => group.First())
+                                .ToList();
+            for (int i = 0; i < gameplayAnswer.Count; i++)
+            {
+                reportQuestionDtos.Add(new ReportQuestionDto((int)gameplayAnswer[i].Gameplay.Turn, gameplayAnswer[i].Question.Content, CalculateCorrectPercentForTurn(code, gameplayAnswer[i].Gameplay.Turn.GetValueOrDefault())));
+            }
+            reportQuestionDtos.Sort((a, b) => a.No - b.No);
+            return reportQuestionDtos;
+        }
+
+        public List<ReportOverviewDto> GetReportOverviews(string code)
+        {
+            var ranking = _context.Gameplays.Where(g => g.Code == code && g.Turn != 0)
+                .GroupBy(g => g.Username)
+                .Select(gm => new
+                {
+                    Username = gm.Key,
+                    Duration = gm.Average(gm => gm.Duration),
+                    Score = gm.Sum(gm => gm.Score)
+                })
+                .OrderByDescending(gm => gm.Score)
+                .ThenBy(gm => gm.Duration)
+                .ThenBy(gm => gm.Username)
+                .ToList();
+            List<ReportOverviewDto> reportOverviewDtos = new List<ReportOverviewDto>();
+            for (int i = 0; i < ranking.Count; i++)
+            {
+                string avatar = GetPlayerAvatar(code, ranking[i].Username);
+                reportOverviewDtos.Add(new ReportOverviewDto(i + 1, avatar, ranking[i].Username, ranking[i].Duration.GetValueOrDefault(0), ranking[i].Score.GetValueOrDefault(0)));
+            }
+            return reportOverviewDtos;
+        }
+
+        public ReportGameplayDto GetReportGameplay(int id)
+        {
+            GameplaySetting gameplaySetting = _context.GameplaySettings.FirstOrDefault(gs => gs.Id == id);
+            if (gameplaySetting != null)
+            {
+                ReportGameplayDto reportGameplayDto = new ReportGameplayDto();
+                reportGameplayDto.Code = gameplaySetting.Code;
+                reportGameplayDto.CorrectPercent = CalculateCorrectPercent(gameplaySetting.Code);
+                reportGameplayDto.IncorrectPercent = 100 - reportGameplayDto.CorrectPercent;
+                reportGameplayDto.NoPlayers = GetPlayerInRoom(gameplaySetting.Code).Count;
+                reportGameplayDto.NoQuestions = gameplaySetting.NoQuestion.GetValueOrDefault(0);
+                reportGameplayDto.Overview = GetReportOverviews(gameplaySetting.Code);
+                reportGameplayDto.Question = GetReportQuestions(gameplaySetting.Code);
+                Console.WriteLine(reportGameplayDto.ToString());
+                return reportGameplayDto;
+            }
+            return null;
         }
     }
-  
+
 }

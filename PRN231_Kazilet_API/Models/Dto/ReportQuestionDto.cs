@@ -6,6 +6,13 @@
 
         public string Content { get; set; } 
 
-        public float CorrectPercent { get;set; }
+        public double CorrectPercent { get;set; }
+
+        public ReportQuestionDto(int no, string content, double correctPercent)
+        {
+            No = no;
+            Content = content;
+            CorrectPercent = correctPercent;
+        }
     }
 }

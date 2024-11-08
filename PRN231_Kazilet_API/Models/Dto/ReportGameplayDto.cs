@@ -3,9 +3,9 @@
     public class ReportGameplayDto
     {
         public string Code { get; set; }    
-        public float CorrectPercent { get;set; }
+        public double CorrectPercent { get;set; }
 
-        public float IncorrectPercent { get;set; }
+        public double IncorrectPercent { get;set; }
 
         public int NoPlayers { get; set; }
 
@@ -14,5 +14,11 @@
         public List<ReportOverviewDto> Overview { get; set; }
 
         public List<ReportQuestionDto> Question { get; set; }
+
+      
+        public override string? ToString()
+        {
+            return Code + " " + CorrectPercent + " " + IncorrectPercent;
+        }
     }
 }

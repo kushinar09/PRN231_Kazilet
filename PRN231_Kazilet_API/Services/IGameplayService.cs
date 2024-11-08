@@ -61,6 +61,11 @@ namespace PRN231_Kazilet_API.Services
 
         public List<GameplaySettingDto> GetAllGameplayCompleted();
 
-        public ReportGameplayDto GetReportGameplay(string code);
+        public ReportGameplayDto GetReportGameplay(int id);
+
+        public ReportDetailQuestionDto GetDetailQuestion(int id, int no);
+
+        public List<DetailPlayerAnswer> GetDetailPlayerAnswers(string code, int turn);
+
     }
 }
