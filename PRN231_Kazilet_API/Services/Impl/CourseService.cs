@@ -163,7 +163,22 @@ namespace PRN231_Kazilet_API.Services.Impl
         public bool IsCoursePublic(int courseId)
         {
             var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
-            return course?.IsPublic ?? false;
+            if (course == null)
+            {
+                // Log or handle the case where the course does not exist
+                return false; // Or throw an exception if needed
+            }
+            return (bool)course.IsPublic;
+        }
+
+        public bool VerifyPassword(int courseId, string password)
+        {
+            var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
+            if (course == null)
+            {
+                return false;
+            }
+            return course.CoursePassword == password;
         }
 
 
@@ -189,6 +204,26 @@ namespace PRN231_Kazilet_API.Services.Impl
                 })
                 .ToList();
 
+            return courses;
+        }
+
+        public List<CourseDto> GetCourseByUser(int created_by)
+        {
+            var courses = _context.Courses.Where(c => c.CreatedBy == created_by).Select(c => new CourseDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                CreatedAt = c.CreatedAt,
+                CreatedBy = c.CreatedBy,
+                CoursePassword = c.CoursePassword,
+                IsPublic = c.IsPublic,
+                Status = c.Status,
+                CreatedByNavigation = new User
+                {
+                    Username = c.CreatedByNavigation.Username
+                }
+            }).ToList();
             return courses;
         }
     }

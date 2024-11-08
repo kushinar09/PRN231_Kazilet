@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using PRN231_Kazilet_API.Models.Dto;
 //using OfficeOpenXml;
 using PRN231_Kazilet_API.Models.Entities;
@@ -46,7 +47,7 @@ namespace PRN231_Kazilet_API.Controllers
         //}
 
         [HttpPost("import")]
-        public IActionResult ImportFromExcel(IFormFile file)
+        public IActionResult ImportFromExcel(IFormFile file, int courseId)
         {
             if (file == null || file.Length <= 0)
             {
@@ -56,7 +57,7 @@ namespace PRN231_Kazilet_API.Controllers
             using (var stream = new MemoryStream())
             {
                 file.CopyTo(stream);
-                /*
+
                 using (var package = new ExcelPackage(stream))
                 {
                     var worksheet = package.Workbook.Worksheets[0];
@@ -64,42 +65,70 @@ namespace PRN231_Kazilet_API.Controllers
 
                     for (int row = 2; row <= rowCount; row++) // Bắt đầu từ hàng 2 để bỏ qua tiêu đề
                     {
-                        var course = new Course
+                        var questionContent = worksheet.Cells[row, 1].Value?.ToString();
+                        var correctAnswer = worksheet.Cells[row, 2].Value?.ToString();
+                        var answer1 = worksheet.Cells[row, 3].Value?.ToString();
+                        var answer2 = worksheet.Cells[row, 4].Value?.ToString();
+                        var answer3 = worksheet.Cells[row, 5].Value?.ToString();
+
+                        // Tạo câu hỏi mới
+                        var question = new Question
                         {
-                            Name = worksheet.Cells[row, 2].Value?.ToString(),
-                            Description = worksheet.Cells[row, 3].Value?.ToString(),
-                            IsPublic = bool.Parse(worksheet.Cells[row, 4].Value?.ToString() ?? "true"),
+                            CourseId = courseId,
+                            Content = questionContent,
+                            IsMarked = false,  // Bạn có thể thêm logic để xác định IsMarked
                         };
 
-                        _context.Courses.Add(course);
+                        // Tạo các câu trả lời
+                        var answers = new List<Answer>
+                {
+                    new Answer { Content = correctAnswer, IsCorrect = true },
+                    new Answer { Content = answer1, IsCorrect = false },
+                    new Answer { Content = answer2, IsCorrect = false },
+                    new Answer { Content = answer3, IsCorrect = false }
+                };
+
+                        question.Answers = answers;
+
+                        _context.Questions.Add(question);
                     }
 
                     _context.SaveChanges();
                 }
-                */
             }
-            return Ok("Courses imported successfully from Excel.");
+
+            return Ok("Questions imported successfully from Excel.");
         }
 
         [HttpGet("export")]
-        public IActionResult ExportToExcel()
+        public IActionResult ExportToExcel(int courseId)
         {
-            var courses = _context.Courses.ToList();
+            var questions = _context.Questions
+                                    .Where(q => q.CourseId == courseId)
+                                    .Include(q => q.Answers)  // Bao gồm câu trả lời
+                                    .ToList();
 
-            /*
             using (var package = new ExcelPackage())
             {
-                var worksheet = package.Workbook.Worksheets.Add("Courses");
-                worksheet.Cells[1, 2].Value = "Name";
-                worksheet.Cells[1, 3].Value = "Description";
-                worksheet.Cells[1, 4].Value = "IsPublic";
+                var worksheet = package.Workbook.Worksheets.Add("Questions");
+                worksheet.Cells[1, 1].Value = "Câu hỏi";
+                worksheet.Cells[1, 2].Value = "Câu trả lời đúng";
+                worksheet.Cells[1, 3].Value = "Câu trả lời 1";
+                worksheet.Cells[1, 4].Value = "Câu trả lời 2";
+                worksheet.Cells[1, 5].Value = "Câu trả lời 3";
+                worksheet.Cells[1, 6].Value = "Câu trả lời 4";
 
                 int row = 2;
-                foreach (var course in courses)
+                foreach (var question in questions)
                 {
-                    worksheet.Cells[row, 2].Value = course.Name;
-                    worksheet.Cells[row, 3].Value = course.Description;
-                    worksheet.Cells[row, 4].Value = course.IsPublic;
+                    var correctAnswer = question.Answers.FirstOrDefault(a => (bool)a.IsCorrect)?.Content;
+
+                    worksheet.Cells[row, 1].Value = question.Content;
+                    worksheet.Cells[row, 2].Value = correctAnswer;
+                    worksheet.Cells[row, 3].Value = question.Answers.ElementAtOrDefault(0)?.Content;
+                    worksheet.Cells[row, 4].Value = question.Answers.ElementAtOrDefault(1)?.Content; 
+                    worksheet.Cells[row, 5].Value = question.Answers.ElementAtOrDefault(2)?.Content; 
+                    worksheet.Cells[row, 6].Value = question.Answers.ElementAtOrDefault(3)?.Content;
                     row++;
                 }
 
@@ -108,12 +137,11 @@ namespace PRN231_Kazilet_API.Controllers
                 stream.Position = 0;
 
                 var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                var fileName = "Courses.xlsx";
+                var fileName = "Questions.xlsx";
                 return File(stream, contentType, fileName);
             }
-            */
-            return Ok();
         }
+
 
         [EnableQuery]
         [HttpGet]
@@ -185,8 +213,27 @@ namespace PRN231_Kazilet_API.Controllers
         public IActionResult IsCoursePublic(int courseId)
         {
             bool isPublic = _courseService.IsCoursePublic(courseId);
+            return isPublic ? Ok("Course is public.") : NotFound("Course is private.");
+        }
 
-            return isPublic ? Ok("Course is public.") : NotFound("Course is not public.");
+        [HttpPost("Courses/VerifyPassword/{courseId}")]
+        public IActionResult VerifyPassword(int courseId, [FromBody] string password)
+        {
+            if (_courseService.VerifyPassword(courseId, password))
+            {
+                return Ok();
+            }
+            else
+            {
+                return Content("Invalid password. Please try again.", "text/html", System.Text.Encoding.UTF8);
+            }
+        }
+
+        [HttpGet("by-user/{userId}")]
+        public IActionResult GetCourseByUser(int userId)
+        {
+            var courses = _courseService.GetCourseByUser(userId);
+            return Ok(courses);
         }
 
         [HttpGet("search")]

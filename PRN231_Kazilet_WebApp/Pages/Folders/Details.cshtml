@@ -163,6 +163,35 @@
         .remove-course-btn:hover {
             background-color: #d33426;
         }
+
+        #passwordInput {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #submitPassword {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            #submitPassword:hover {
+                background-color: #45a049;
+            }
+
+        #errorMessage {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -175,18 +204,19 @@
         </div>
     </div>
 
-    <div id="learningHistoryDialog" class="modal">
+    <div class="flashcard-list" id="flashcardList"></div>
+
+    <div id="passwordModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeDialog()">&times;</span>
-            <h2>Learning History</h2>
-            <div id="learningHistoryContent" class="flashcard-list">
-                <!-- Fetched data will be displayed here -->
-            </div>
+            <span class="close" onclick="closePasswordModal()">&times;</span>
+            <h2>Enter Course Password</h2>
+            <input type="password" id="passwordInput" placeholder="Enter password" />
+            <button id="submitPassword">Submit</button>
+            <p id="errorMessage" style="display:none;"></p>
         </div>
     </div>
 
-    <div class="flashcard-list" id="flashcardList"></div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         const flashcardList = document.getElementById('flashcardList');
         let existingCourseIds = [];
@@ -207,7 +237,7 @@
                     data.forEach(course => {
                         const flashcardItem = document.createElement('div');
                         flashcardItem.classList.add('flashcard-item');
-                        flashcardItem.onclick = () => viewCourseDetail(course.id);
+                        flashcardItem.onclick = () => checkCoursePublic(course.id);
 
                         const flashcardIcon = document.createElement('div');
                         flashcardIcon.classList.add('flashcard-icon');
@@ -241,133 +271,59 @@
         // Tải danh sách courses khi trang tải
         window.onload = loadCourses;
 
-        function openLearningHistoryDialog() {
-            const userId = 1;
-            const apiUrl = `http://localhost:7024/api/LearningHistory/${userId}`;
-
+        // Kiểm tra xem course có public không
+        function checkCoursePublic(courseId) {
             $.ajax({
-                url: apiUrl,
+                url: `http://localhost:7024/api/Courses/IsPublic/${courseId}`,
                 method: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    const contentDiv = document.getElementById('learningHistoryContent');
-                    contentDiv.innerHTML = '';
+                success: function (response) {
+                    if (response === "Course is public.") {
+                        window.location.href = `/Questions?courseId=${courseId}`;
+                    } else {
+                        openPasswordModal(courseId);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error checking course public status:', error);
+                }
+            });
+        }
 
-                    data.forEach(item => {
-                        const courseDiv = document.createElement('div');
-                        courseDiv.classList.add('flashcard-item');
-                        courseDiv.innerHTML = `
-                                <div class="flashcard-icon">
-                                    <i class="fas fa-book-open"></i>
-                                </div>
-                                <div class="flashcard-info">
-                                    <div class="flashcard-title">${item.courseName}</div>
-                                    <div class="flashcard-details">
-                                        Flashcard set • ${item.numOfQues} terms • by ${item.creator}<br>
-                                        <strong>Date:</strong> ${new Date(item.learningDate).toLocaleDateString()}
-                                    </div>
-                                </div>
-                            `;
+        // Mở modal để nhập password
+        function openPasswordModal(courseId) {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('submitPassword').onclick = function () {
+                submitPassword(courseId);
+            };
+        }
 
-                        if (existingCourseIds.includes(item.courseId)) {
-                            const removeButton = document.createElement('button');
-                            removeButton.classList.add('remove-course-btn');
-                            removeButton.textContent = '-';
-                            removeButton.onclick = (e) => {
-                                e.stopPropagation();
-                                removeCourse(item.courseId);
-                            };
-                            courseDiv.appendChild(removeButton);
+        // Đóng modal
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+        }
+
+        // Submit password để vào khóa học
+        function submitPassword(courseId) {
+            const password = document.getElementById('passwordInput').value;
+            if (password) {
+                $.ajax({
+                    url: `http://localhost:7024/api/Courses/VerifyPassword/${courseId}`,
+                    method: 'POST',
+                    data: { password: password },
+                    success: function (response) {
+                        if (response === "Password is correct.") {
+                            window.location.href = `/Questions?courseId=${courseId}`;
                         } else {
-                            const addButton = document.createElement('button');
-                            addButton.classList.add('add-course-btn');
-                            addButton.textContent = '+';
-                            addButton.onclick = (e) => {
-                                e.stopPropagation();
-                                addCourseToFolder(item.courseId);
-                            };
-                            courseDiv.appendChild(addButton);
+                            document.getElementById('errorMessage').style.display = 'block';
+                            document.getElementById('errorMessage').textContent = 'Incorrect password!';
                         }
-
-                        contentDiv.appendChild(courseDiv);
-                    });
-
-                    document.getElementById('learningHistoryDialog').style.display = 'block';
-                },
-                error: function (error) {
-                    console.error('Error fetching learning history:', error);
-                }
-            });
-        }
-
-        function closeDialog() {
-            document.getElementById('learningHistoryDialog').style.display = 'none';
-        }
-
-        function addCourseToFolder(courseId) {
-            const folderId = localStorage.getItem("folderId");
-            const apiUrl = `http://localhost:7024/api/Folders/AddCourse`;
-
-            $.ajax({
-                url: apiUrl,
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ courseId, folderId }),
-                success: function () {
-                    console.log('Course added to folder successfully.');
-                    loadCourses();
-                    openLearningHistoryDialog();
-                },
-                error: function (error) {
-                    console.error('Error adding course to folder:', error);
-                }
-            });
-        }
-
-        function removeCourse(courseId) {
-            const folderId = localStorage.getItem("folderId");
-            const apiUrl = `http://localhost:7024/api/Folders/RemoveCourse`;
-
-            $.ajax({
-                url: apiUrl,
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ courseId, folderId }),
-                success: function () {
-                    console.log('Course removed from folder successfully.');
-                    loadCourses();
-                    openLearningHistoryDialog();
-                },
-                error: function (error) {
-                    console.error('Error removing course from folder:', error);
-                }
-            });
-        }
-
-        function viewCourseDetail(courseId) {
-            const apiUrl = `http://localhost:7024/odata/Question/${courseId}`;
-
-            $.ajax({
-                url: apiUrl,
-                method: 'GET',
-                success: function () {
-                    window.location.href = `/Questions?courseId=${courseId}`;
-                },
-                error: function (error) {
-                    console.error('Error fetching course details:', error);
-                }
-            });
-        }
-
-        document.getElementById('addCourseBtn').onclick = openLearningHistoryDialog;
-
-        // Đóng modal khi nhấn bên ngoài modal
-        window.onclick = function (event) {
-            if (event.target == document.getElementById('learningHistoryDialog')) {
-                closeDialog();
+                    },
+                    error: function (error) {
+                        console.error('Error submitting password:', error);
+                    }
+                });
             }
-        };
+        }
     </script>
-
 </body>
 </html>
