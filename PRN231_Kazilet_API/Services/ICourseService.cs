@@ -8,5 +8,8 @@ namespace PRN231_Kazilet_API.Services
         public CourseDto GetCourse(int courseId);
         public bool UpdateCourse(CourseDto courseDto);
         public bool DeleteCourse(int courseId);
+        public List<CourseDto> SearchCourses(string search);
+
+        bool IsCoursePublic(int courseId);
     }
 }

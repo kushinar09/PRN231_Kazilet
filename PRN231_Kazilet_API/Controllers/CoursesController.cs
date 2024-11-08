@@ -179,5 +179,28 @@ namespace PRN231_Kazilet_API.Controllers
                 return NotFound("Course not found or could not be deleted.");
             }
         }
+
+
+        [HttpGet("IsPublic/{courseId}")]
+        public IActionResult IsCoursePublic(int courseId)
+        {
+            var isPublic = _courseService.IsCoursePublic(courseId);
+
+            if (isPublic)
+            {
+                return Ok("Course is public.");
+            }
+            else
+            {
+                return NotFound("Course is not public or does not exist.");
+            }
+        }
+
+        [HttpGet("search")]
+        public IActionResult SearchCourses(string search)
+        {
+            var courses = _courseService.SearchCourses(search);
+            return Ok(courses);
+        }
     }
 }

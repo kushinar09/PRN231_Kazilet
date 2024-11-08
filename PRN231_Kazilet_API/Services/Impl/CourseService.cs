@@ -159,5 +159,25 @@ namespace PRN231_Kazilet_API.Services.Impl
 
             return _context.SaveChanges() > 0;
         }
+
+        public bool IsCoursePublic(int courseId)
+        {
+            var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
+            if (course == null)
+            {
+                return false;
+            }
+            return (bool)course.IsPublic;
+        }
+
+
+        public List<CourseDto> SearchCourses(string searchTerm)
+        {
+            var courses = _context.Courses
+                .Where(c => c.Name.Contains(searchTerm))
+                .ToList();
+
+            return _mapper.Map<List<CourseDto>>(courses);
+        }
     }
 }
