@@ -10,11 +10,25 @@
     }
 
     .flipped {
-        transform: rotateY(180deg);
+        transform: rotateX(180deg);
     }
 
     .backface-hidden {
         backface-visibility: hidden;
+    }
+
+    #box {
+        transition: height 0.5s ease, padding 0.5s ease, font-size 0.5s ease;
+    }
+
+    /* Cho mặt sau */
+    #back-side {
+        transition: padding 0.5s ease, font-size 0.5s ease;
+    }
+
+    /* Cho các phần tử khác nếu cần */
+    .p-box, .pp-box {
+        transition: width 0.5s ease, margin 0.5s ease;
     }
 </style>
 <!--
@@ -91,16 +105,16 @@
             <!--<div id="box" class="w-full h-56 [perspective:1000px] cursor-pointer mb-4 animate-[fade-out_2s_ease-out_1s_1_forwards] opacity-1">-->
             <div id="box" class="w-full h-56 [perspective:1000px] cursor-pointer mb-4">
 
-                <div class="relative w-full  flip-card" id="flipCard">
+                <div class="relative w-full bg-white flip-card" id="flipCard">
                     <!-- Mặt trước -->
-                    <div id="front-side" class="flex justify-center items-center w-full  text-xl mb-4 border-2 border-solid border-gray-100 shadow-xl rounded-lg p-8 backface-hidden absolute inset-0 rounded-xl shadow-xl  [transform:rotateX(180deg)]">
+                    <div id="front-side" class="flex justify-center items-center w-full  text-xl mb-4 border-2 border-solid border-gray-100 shadow rounded-lg p-8 backface-hidden absolute inset-0 rounded-xl shadow-xl  [transform:rotateX(180deg)]">
                         @{
                             answerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
                         }
 
                     </div>
                     <!-- Mặt sau -->
-                    <div id="back-side" class="flex flex-col justify-center w-full  text-xl border-2 border-solid border-gray-100 shadow-xl rounded-lg p-8 inset-0 backface-hidden [transform:rotateY(0deg)]">
+                    <div id="back-side" class="flex flex-col justify-center w-full  text-xl border-2 border-solid border-gray-100 shadow rounded-lg p-8 inset-0 backface-hidden [transform:rotateX(0deg)]">
                         <div id="back-side-q" class="mb-2">
                         </div>
                         <div id="back-side-a" class="flex flex-col">
@@ -123,7 +137,7 @@
                                 <svg class="h-8 w-8 text-gray-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <line x1="5" y1="12" x2="19" y2="12" />  <line x1="5" y1="12" x2="9" y2="16" />  <line x1="5" y1="12" x2="9" y2="8" /></svg>
                             </button>
                         </div>
-                        <div class="mr-4 font-medium text-lg" style="margin-bottom: 8px">
+                        <div class="mr-4 font-medium text-lg " style="margin-bottom: 4px">
                             <span><span id="page">1</span> / <span id="total">@Model.Total</span></span>
                         </div>
                         <div style="display:none" id="courseId">@Model.CourseId</div>
@@ -138,24 +152,39 @@
 
                         <div>
                             <button id="maximize" class="h-8 w-8">
-                                <svg id="fullScreenBtn" onclick="fullScreenClick()" class="h-full w-full text-gray-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="16 4 20 4 20 8" />  <line x1="14" y1="10" x2="20" y2="4" />  <polyline points="8 20 4 20 4 16" />  <line x1="4" y1="20" x2="10" y2="14" />  <polyline points="16 20 20 20 20 16" />  <line x1="14" y1="14" x2="20" y2="20" />  <polyline points="8 4 4 4 4 8" />  <line x1="4" y1="4" x2="10" y2="10" /></svg>
+                                <svg id="fullScreenBtn" onclick="fullScreenClick()" class="h-full w-full text-black" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="16 4 20 4 20 8" />  <line x1="14" y1="10" x2="20" y2="4" />  <polyline points="8 20 4 20 4 16" />  <line x1="4" y1="20" x2="10" y2="14" />  <polyline points="16 20 20 20 20 16" />  <line x1="14" y1="14" x2="20" y2="20" />  <polyline points="8 4 4 4 4 8" />  <line x1="4" y1="4" x2="10" y2="10" /></svg>
                             </button>
-                            <button style="display:none" id="minimize" class="h-8 w-8">
+                            <button style="display:none " id="minimize" class="h-8 w-8">
                                 <svg id="minimizeBtn" class="h-full w-full text-black" onclick="fullScreenClick()" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="5 9 9 9 9 5" />  <line x1="3" y1="3" x2="9" y2="9" />  <polyline points="5 15 9 15 9 19" />  <line x1="3" y1="21" x2="9" y2="15" />  <polyline points="19 9 15 9 15 5" />  <line x1="15" y1="9" x2="21" y2="3" />  <polyline points="19 15 15 15 15 19" />  <line x1="15" y1="15" x2="21" y2="21" /></svg>
-                                </buttonstyle>
+                                </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div>
+            <div class="text-lg  font-semibold">
+                PRM392
+            </div>
+            <div class="mt-4">
+                <button style="background:#8854c0" class="py-4 w-full cursor-pointer text-base text-white rounded-lg px-8 shadow-xl">
+                    Test
+                </button>
+            </div>
+            <div class="mt-4">
+                <button style="background:#8854c0" class="py-4 w-full cursor-pointer text-base text-white rounded-lg px-8 shadow-xl">
+                    Host Game
+                </button>
+            </div>
+        </div>
         <div id="remain">
-            <div class="text-lg font-semibold">
+            <div class="text-lg  font-semibold mt-4">
                 Terminology in this module (@Model.QuestionDtos.Count)
             </div>
-            <div id="questions">
+            <div id="questions" class="mt-4">
                 @for (int i = 0; i < Model.QuestionDtos.Count; i++)
                 {
-                    <div class="flex flex-row mb-4 border-2 border-solid border-gray-100 shadow-xl rounded-lg p-4">
+                    <div class="flex flex-row bg-white mb-4 border-2 border-solid border-gray-100 shadow rounded-lg p-4">
                         <div class="flex flex-col mr-2" style="width: 40%">
                             <div class="mb-2" id="@($"{Model.QuestionDtos[i].Id}question")">
                                 @Model.QuestionDtos[i].Content
@@ -183,9 +212,7 @@
                                 }
                             </div>
                             <div style="width: 50%" class="flex flex-row justify-end">
-                                <div class="mr-2">
-                                    <svg class="h-6 w-6 text-black cursor-pointer" onclick="starClick('@($"{Model.QuestionDtos[i].Id}star")')" id="@($"{Model.QuestionDtos[i].Id}star")" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-                                </div>
+                               
                                 <div>
                                     <svg class="h-6 w-6 text-black cursor-pointer" onclick="speakerClick('@($"{Model.QuestionDtos[i].Id}speaker")')" id="@($"{Model.QuestionDtos[i].Id}speaker")" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
@@ -200,7 +227,7 @@
             @if (Model.Total > 100)
             {
 
-                <button type="button" id="btnDisplay" onclick="displayMore('@($"{Model.CourseId}")')" class="text-white cursor-pointer w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Display @(Model.Total - 100) more</button>
+                <button type="button" id="btnDisplay" style="background:#8854c0" onclick="displayMore('@($"{Model.CourseId}")')" class="text-white cursor-pointer w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Display @(Model.Total - 100) more</button>
             }
         </div>
     </div>
@@ -343,21 +370,21 @@
         var pBox = document.getElementById("pBox");
         var ppBox = document.getElementById("ppBox");
         if (iFullScreen) {
-            box.classList.remove("h-56");
+            box.classList.remove("h-56"); // Bỏ lớp có chiều cao cố định
             backSide.style.padding = "100px";
             backSide.style.fontSize = "30px";
             pBox.style.width = "80%";
             pBox.style.marginRight = "10%";
             pBox.style.marginLeft = "10%";
-            ppBox.classList.add("w-full");
-        }
-        else {
-            box.classList.add("h-56");
+            ppBox.classList.add("w-full"); // Thêm lớp CSS thay đổi kích thước
+        } else {
+            box.classList.add("h-56"); // Thêm lại lớp có chiều cao cố định
             backSide.style.padding = "2rem";
             backSide.style.fontSize = "1.25rem";
             pBox.removeAttribute("style");
-            ppBox.classList.remove("w-full");
+            ppBox.classList.remove("w-full"); // Bỏ lớp CSS thay đổi kích thước
         }
+
         if (!isRandom)
             getQuestionFlashcard(page);
         else
@@ -562,7 +589,7 @@
 
             for (var i = 0; i < questions.length; i++) {
                 let pparentDiv = $("<div></div>")
-                    .addClass("flex flex-row mb-4 border-2 border-solid border-gray-100 shadow-xl rounded-lg p-4")
+                    .addClass("flex flex-row mb-4 border-2 border-solid border-gray-100 shadow rounded-lg p-4")
 
                 let parentDiv1 = $("<div style=\"width: 40%\"></div>")
                     .addClass("flex flex-col mr-2")
@@ -593,11 +620,7 @@
                         pAnswerTrueDiv.append(answerTrueDiv);
 
                         let svgDiv = $(`
-                                                                                                                                                                                    <div class=\"mr-2\">
-                                                                                                                                                                                                            <svg class="h-6 w-6 text-black cursor-pointer" onclick="starClick('${questions[i].Id}star')" id="${questions[i].Id}star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                                                                                                                                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                                                                                                                                                                        </svg>
-                                                                                                                                                                                    </div>
+                                                                                                                                                                             
                                                                                                                                                                                     <div>
                                                                                                                                                                                                     <svg class="h-6 w-6 text-black cursor-pointer" onclick="speakerClick('${questions[i].Id}speaker')" id="${questions[i].Id}speaker" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
                                                                                                                                                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>

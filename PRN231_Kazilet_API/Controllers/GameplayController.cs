@@ -86,6 +86,20 @@ namespace PRN231_Kazilet_API.Controllers
         }
 
         [HttpPost]
+        [Route("update-avatar")]
+        public IActionResult UpdatePlayerAvatar([FromQuery] string code, [FromQuery] string username, [FromQuery] string avatar)
+        {
+            return Ok(_gameplayService.UpdatePlayerAvatar(code, username, avatar));
+        }
+
+        [HttpGet]
+        [Route("get-avatars")]
+        public IActionResult GetAvatarInformation([FromQuery] string code, [FromQuery] string username)
+        {
+            return Ok(_gameplayService.GetPlayerAvatarInformation(code, username));
+        }
+
+        [HttpPost]
         [Route("start")]
         public async Task<IActionResult> StartGame([FromQuery] string code, [FromQuery] string username)
         {

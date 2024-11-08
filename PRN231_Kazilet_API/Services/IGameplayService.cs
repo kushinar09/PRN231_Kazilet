@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PRN231_Kazilet_API.Models.Dto;
 using PRN231_Kazilet_API.Models.Entities;
+using PRN231_Kazilet_API.Services.Impl;
 
 namespace PRN231_Kazilet_API.Services
 {
@@ -16,9 +17,13 @@ namespace PRN231_Kazilet_API.Services
 
         public string JoinGame(string code, string username, HttpContext httpContext);
 
-        public List<string> GetPlayerInRoom(string code);
+        public List<PlayerInformationDto> GetPlayerInRoom(string code);
+
+        public PlayerAvatarDto GetPlayerAvatarInformation(string code, string username);
 
         public int[] GetQuestionAlreadyAnswer(string code);
+
+        public bool UpdatePlayerAvatar(string code, string username, string avatar);
 
         public int AddPlayerAnswer(string code, string username, PlayerAnswerDto playerAnswerDto, HttpContext httpContext);
 
@@ -47,6 +52,10 @@ namespace PRN231_Kazilet_API.Services
         public void DeleteFromLobby(string code, string username);
 
         public void UpdateGetResult(string code, int turn);
+
+        public string[] GetAvatarInLobby(string code);
+
+        public string GetPlayerAvatar(string code, string username);
 
         public PlayerAnswerDto CheckSubmittedLatest(string code, string username);
     }

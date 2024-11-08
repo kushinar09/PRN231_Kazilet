@@ -37,11 +37,14 @@ namespace PRN231_Kazilet_API
             var token = _contextAccessor.HttpContext.Request.Query["token"];
             string username = _authService.GetUsernameFromToken(token);
             string code = _authService.CheckGameplayCodeValid(token);
-            await Console.Out.WriteLineAsync("Code: " + code);
+            string avatar = _gameplayService.GetPlayerAvatar(code, username);
             if (!string.IsNullOrEmpty(code))
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, code);
-                await Clients.Group(code).SendAsync("UserJoined", username);
+                await Clients.Group(code).SendAsync("UserJoined", new{
+                    Username = username,
+                    Avatar = avatar
+                });
             }
             else
             {
@@ -56,7 +59,6 @@ namespace PRN231_Kazilet_API
             var token = _contextAccessor.HttpContext.Request.Query["token"];
             string username = _authService.GetUsernameFromToken(token);
             string code = _authService.CheckGameplayCodeValid(token);
-            await Console.Out.WriteLineAsync("Username: " + username);
             int courseId = (int)_context.GameplaySettings.FirstOrDefault(c => c.Code == code).CourseId;
             List<QuestionDto> questionDtos = _questionService.GetAllQuestionsByCourse(courseId);
             int questionId = GameplayUtils.GenerateRandom(questionDtos.Count);
@@ -66,15 +68,15 @@ namespace PRN231_Kazilet_API
             }
             QuestionDto questionDto = _questionService.GetById(questionId);
             List<GameplayAddI> gameplayAdds = new List<GameplayAddI>();
-            List<string> players = _gameplayService.GetPlayerInRoom(code);
+            List<PlayerInformationDto> players = _gameplayService.GetPlayerInRoom(code);
             for (int i = 0; i < players.Count; i++)
             {
                 int currentQuestion = _gameplayService.GetCurrentQuestion(code);
                 int totalQuestion = _gameplayService.GetTotalQuestions(code);
-                int streak = _gameplayService.GetAnswerStreak(code, players[i]);
+                int streak = _gameplayService.GetAnswerStreak(code, players[i].Username);
                 int timeLimit = _gameplayService.GetTimeLimit(code);
-                int point = _gameplayService.GetPoint(code, players[i]);
-                gameplayAdds.Add(new GameplayAddI(players[i], currentQuestion, totalQuestion, streak, timeLimit, point, DateTime.Now));
+                int point = _gameplayService.GetPoint(code, players[i].Username);
+                gameplayAdds.Add(new GameplayAddI(players[i].Username, currentQuestion, totalQuestion, streak, timeLimit, point, DateTime.Now));
             }
             GameplayQuestionDto gameplayQuestionDto = new GameplayQuestionDto(questionDto, gameplayAdds);            //await _signalRHub.Clients.Group(code).SendAsync("GetQuestion", questionDto);
             string json = JsonConvert.SerializeObject(gameplayQuestionDto);
@@ -122,6 +124,7 @@ namespace PRN231_Kazilet_API
 
         public async Task Answer(string json)
         {
+            await Console.Out.WriteLineAsync("JSON: " + json);
             var token = _contextAccessor.HttpContext.Request.Query["token"];
             string username = _authService.GetUsernameFromToken(token);
             string code = _authService.CheckGameplayCodeValid(token);
@@ -137,7 +140,7 @@ namespace PRN231_Kazilet_API
                 List<GameplayReportDto> gameplayReportDtos = _gameplayService.GetGameplayReportForTurn(code, playerAnswerDto.Turn);
                 await Clients.Group(code).SendAsync("GetReport", JsonConvert.SerializeObject(gameplayReportDtos));
 
-                await Task.Delay(3000);
+                await Task.Delay(3500);
                 GameplayRankingDto gameplayRankingDto = _gameplayService.GetGameplayRankingForTurn(code, playerAnswerDto.Turn);
                 await Clients.Group(code).SendAsync("GetRanking", JsonConvert.SerializeObject(gameplayRankingDto));
 

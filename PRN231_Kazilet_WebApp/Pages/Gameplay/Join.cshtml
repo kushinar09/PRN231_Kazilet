@@ -3,18 +3,18 @@
 @{
 }
 
-<div style="background-color:#381271FF" class="flex items-center justify-center p-8">
+<div style="background-color:#471b43" class="flex items-center justify-center p-8">
     <div class="max-w-3xl  rounded-lg overflow-hidden shadow-2xl">
         <div class="text-center flex flex-col items-center justify-center" style="padding: 100px">
             <h1 class="text-4xl font-bold text-white mb-4">GAME PIN</h1>
             <form id="formFind" onsubmit="find(event)" class="text-center flex flex-col w-fit justify-center p-8 rounded-lg items-center bg-white">
                 <input type="text" id="code" class="text-black mb-4 py-5 px-10 border text-xl border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center h-16 w-full" placeholder="Enter Game PIN" required />
-                <button style="background: black" type="submit" class="focus:outline-none text-xl text-white bg-black focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm h-16 w-full">Find</button>
+                <button style="background: #8854c0" type="submit" class="focus:outline-none text-xl text-white bg-black focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm h-16 w-full">Find</button>
             </form>
 
             <form id="formJoin" style="display:none" onsubmit="join(event)" class="text-center flex flex-col w-fit justify-center p-8 rounded-lg items-center bg-white">
                 <input type="text" id="username" class="text-black mb-4 py-5 px-10 border text-xl border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center h-16 w-full" placeholder="Enter Username" required />
-                <button style="background: black" type="submit" class="focus:outline-none text-xl text-white bg-black focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm h-16 w-full">Join</button>
+                <button style="background: #8854c0" type="submit" class="focus:outline-none text-xl text-white bg-black focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm h-16 w-full">Join</button>
             </form>
         </div>
     </div>
@@ -202,8 +202,7 @@
     async function join(event) {
         event.preventDefault();
         console.log(document.getElementById("code").value + " " + document.getElementById("username").value);
-        window.location.href = "http://localhost:7081/Gameplay/WaitScreen?code=" + document.getElementById("code").value + "&username=" + document.getElementById("username").value;
-
+        window.location.href = "https://localhost:7081/Gameplay/Lobby?code=" + document.getElementById("code").value + "&username=" + document.getElementById("username").value;
        
     }
 </script>

@@ -89,10 +89,12 @@ namespace PRN231_Kazilet_API.Services.Impl
                 gameplaySetting.TimeLimit = 15;
                 gameplaySetting.CourseId = courseId;
                 gameplaySetting.IsSkillEnabled = true;
-                gameplaySetting.NoQuestion = 20;
+                //gameplaySetting.NoQuestion = 20;
+                gameplaySetting.NoQuestion = 5;
                 _context.GameplaySettings.Add(gameplaySetting);
                 Gameplay gameplay = new Gameplay(code, username, 0);
-
+                string avatar = RandomAvatar(code);
+                gameplay.Avatar = avatar;
                 _context.Gameplays.Add(gameplay);
                 _context.SaveChanges();
                 return code;
@@ -150,6 +152,8 @@ namespace PRN231_Kazilet_API.Services.Impl
 
                     string gameToken = _authService.GetGameplayToken(code, username);
                     Gameplay gameplay = new Gameplay(code, username, 0);
+                    string avatar = RandomAvatar(code);
+                    gameplay.Avatar = avatar;
                     _context.Gameplays.Add(gameplay);
                     _context.SaveChanges();
                     return gameToken;
@@ -157,6 +161,26 @@ namespace PRN231_Kazilet_API.Services.Impl
                 }
             }
             return "";
+        }
+
+        public string[] GetAvatarInLobby(string code)
+        {
+            string[] avatars = (_context.Gameplays
+                    .Where(g => g.Turn == 0 && g.Code == code)
+                    .Select(g => g.Avatar).ToArray());
+            return avatars;
+        }
+
+        public string RandomAvatar(string code)
+        {
+            string[] avatarsExisted = GetAvatarInLobby(code);
+            string avatar = GameplayUtils.GenerateAvatar();
+            while (avatarsExisted.Contains(avatar))
+            {
+                avatar = GameplayUtils.GenerateAvatar();
+            }
+            Console.WriteLine("Avatar: " + avatar);
+            return avatar;
         }
 
         public bool CheckExistCode(string code)
@@ -168,17 +192,30 @@ namespace PRN231_Kazilet_API.Services.Impl
             return false;
         }
 
-        public List<string> GetPlayerInRoom(string code)
+        public List<PlayerInformationDto> GetPlayerInRoom(string code)
         {
-            List<string> list = _context.Gameplays.Where(g => g.Code == code && g.Turn == 0).Select(g => g.Username).ToList();
+            List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code && g.Turn == 0).ToList();
+            List<PlayerInformationDto> list = new List<PlayerInformationDto>();
+            for (int i = 0; i < gameplays.Count; i++)
+            {
+                PlayerInformationDto playerInformation = new PlayerInformationDto(gameplays[i].Username, gameplays[i].Avatar);
+                list.Add(playerInformation);
+            }
             return list;
         }
 
         public int[] GetQuestionAlreadyAnswer(string code)
         {
             Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Turn != 0 && g.Code == code);
-            int[] questions = (_context.GameplayAnswers.Where(g => g.GameplayId == gameplay.Id).Select(g => g.QuestionId).ToArray());
-            return questions;
+            if (gameplay != null)
+            {
+                int[] questions = (_context.GameplayAnswers
+                    .Include(g => g.Gameplay)
+                    .Where(g => g.Gameplay.Turn != 0 && g.Gameplay.Code == code)
+                    .Select(g => g.QuestionId).ToArray());
+                return questions;
+            }
+            return new int[0];
         }
 
         public GameplaySettingDto UpdateGameplaySetting(GameplaySettingDto gameplaySettingDto)
@@ -206,16 +243,16 @@ namespace PRN231_Kazilet_API.Services.Impl
             _context.SaveChanges();
             QuestionDto questionDto = _questionService.GetById(questionId);
             List<GameplayAddI> gameplayAdds = new List<GameplayAddI>();
-            List<string> players = GetPlayerInRoom(code);
+            List<PlayerInformationDto> players = GetPlayerInRoom(code);
             for (int i = 0; i < players.Count; i++)
             {
                 int currentQuestion = GetCurrentQuestion(code);
                 int totalQuestion = GetTotalQuestions(code);
-                int streak = GetAnswerStreak(code, players[i]);
+                int streak = GetAnswerStreak(code, players[i].Username);
                 int timeLimit = GetTimeLimit(code);
-                int point = GetPoint(code, players[i]);
-                gameplayAdds.Add(new GameplayAddI(players[i], currentQuestion, totalQuestion, streak, timeLimit, point, DateTime.Now));
-                
+                int point = GetPoint(code, players[i].Username);
+                gameplayAdds.Add(new GameplayAddI(players[i].Username, currentQuestion, totalQuestion, streak, timeLimit, point, DateTime.Now));
+
             }
             await Console.Out.WriteLineAsync("N: " + questionDto.Answers.ToList().Count);
             for (int i = 0; i < questionDto.Answers.ToList().Count; i++)
@@ -238,7 +275,7 @@ namespace PRN231_Kazilet_API.Services.Impl
             GameplaySetting gameplaySetting = _context.GameplaySettings.FirstOrDefault(gs => gs.Code == code);
             Gameplay gameplay = new Gameplay();
             GameplayAnswer gameplayAnswer = new GameplayAnswer();
-           
+
             gameplay.Code = code;
             gameplay.Username = username;
             gameplayAnswer.QuestionId = playerAnswerDto.QuestionId;
@@ -270,6 +307,11 @@ namespace PRN231_Kazilet_API.Services.Impl
             else
                 gameplay.Score = 0;
             _context.Gameplays.Add(gameplay);
+            _context.SaveChanges();
+
+            gameplayAnswer.GameplayId = gameplay.Id;
+            _context.GameplayAnswers.Add(gameplayAnswer);
+
             _context.SaveChanges();
             int numberSubmitted = _context.Gameplays.Where(g => g.Code == code && g.Turn == playerAnswerDto.Turn).Count();
             return numberSubmitted;
@@ -354,11 +396,14 @@ namespace PRN231_Kazilet_API.Services.Impl
             for (int i = 0; i < gameplays.Count; i++)
             {
                 GameplayResultDto gameplayResultDto = new GameplayResultDto();
-                Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn);
                 gameplayResultDto.Username = gameplays[i].Username;
+                Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn && g.Username == gameplayResultDto.Username);
                 GameplayAnswer gameplayAnswer = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplay.Id);
                 Answer answer = _context.Answers.FirstOrDefault(a => a.Id == gameplayAnswer.PlayerAnswer);
-                gameplayResultDto.IsCorrect = (bool)answer.IsCorrect;
+                if (answer != null)
+                    gameplayResultDto.IsCorrect = (bool)answer.IsCorrect;
+                else
+                    gameplayResultDto.IsCorrect = false;
                 gameplayResultDto.Streak = (int)_context.Gameplays.FirstOrDefault(g => g.Username == gameplays[i].Username && g.Code == code && g.Turn == turn).Streak;
                 gameplayResultDto.Score = (int)_context.Gameplays.FirstOrDefault(g => g.Username == gameplays[i].Username && g.Code == code && g.Turn == turn).Score;
                 gameplayResultDto.Place = i + 1;
@@ -370,7 +415,9 @@ namespace PRN231_Kazilet_API.Services.Impl
         public List<GameplayReportDto> GetGameplayReportForTurn(string code, int turn)
         {
             var gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn);
-            var gameplays = _context.GameplayAnswers.Where(g => g.GameplayId == gameplay.Id)
+            var gameplays = _context.GameplayAnswers
+                .Include(g => g.Gameplay)
+                .Where(g => g.Gameplay.Code == code && g.Gameplay.Turn == turn)
                 .GroupBy(ga => ga.PlayerAnswer)
                 .Select(gm => new
                 {
@@ -446,13 +493,16 @@ namespace PRN231_Kazilet_API.Services.Impl
         {
             List<Gameplay> gameplay = _context.Gameplays.Where(g => g.Code == code && g.Username == username && g.Turn != 0).ToList();
             int cnt = 0;
-            for(int i = 0; i < gameplay.Count; i++)
+            for (int i = 0; i < gameplay.Count; i++)
             {
                 GameplayAnswer ga = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplay[i].Id);
                 Answer answer = _context.Answers.FirstOrDefault(a => a.Id == ga.PlayerAnswer);
-                if(answer.IsCorrect == true)
+                if (answer != null)
                 {
-                    cnt++;
+                    if (answer.IsCorrect == true)
+                    {
+                        cnt++;
+                    }
                 }
             }
             return cnt;
@@ -576,5 +626,43 @@ namespace PRN231_Kazilet_API.Services.Impl
                 return null;
             }
         }
+
+        public string GetPlayerAvatar(string code, string username)
+        {
+            Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == 0 && g.Username == username);
+            return gameplay.Avatar;
+        }
+
+        public PlayerAvatarDto GetPlayerAvatarInformation(string code, string username)
+        {
+            Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == 0 && g.Username == username);
+            PlayerAvatarDto playerAvatarDto = new PlayerAvatarDto();
+            playerAvatarDto.PlayerAvatar = gameplay.Avatar;
+            List<string> avatars = new List<string>();
+            List<Gameplay> gameplays = _context.Gameplays.Where(g => g.Code == code && g.Turn == 0 ).ToList();
+            for (int i = 0; i < gameplays.Count; i++)
+            {
+                avatars.Add(gameplays[i].Avatar);
+            }
+            playerAvatarDto.AvatarInLobby = avatars;
+            return playerAvatarDto;
+        }
+
+        public bool UpdatePlayerAvatar(string code, string username, string avatar)
+        {
+            Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == 0 && g.Username == username);
+            if(gameplay != null)
+            {
+                Gameplay gAvatar = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == 0 && g.Avatar == avatar);
+                if(gAvatar == null)
+                {
+                    gameplay.Avatar = avatar;
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
+            return false;
+        }
     }
+  
 }
