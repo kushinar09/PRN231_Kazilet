@@ -99,24 +99,63 @@
             color: #666;
             font-size: 14px;
         }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+            .close:hover, .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
     </style>
 </head>
 <body>
     <div class="header">
         <div>
-            <div class="title">aasdasdasda</div>
-            <div class="modified-date"><i class="fas fa-clock"></i> Modified 07/11/24</div>
+            <div class="title">Courses</div>
         </div>
         <div class="buttons">
-            <button class="btn">Study</button>
             <button class="btn"><i class="fas fa-plus"></i></button>
-            <button class="btn"><i class="fas fa-ellipsis-h"></i></button>
         </div>
     </div>
 
-    <div class="search-bar">
-        <span>Recent</span>
-        <input type="text" class="search-input" placeholder="Search this folder">
+    <!-- Dialog for displaying learning history data -->
+    <div id="learningHistoryDialog" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDialog()">&times;</span>
+            <h2>Learning History</h2>
+            <div id="learningHistoryContent">
+                <!-- Fetched data will be displayed here -->
+            </div>
+        </div>
     </div>
 
     <div class="flashcard-list" id="flashcardList"></div>
@@ -194,6 +233,43 @@
             // Thêm flashcard-item vào danh sách flashcard
             flashcardList.appendChild(flashcardItem);
         });
+    </script>
+
+    <script>
+        function openLearningHistoryDialog() {
+            const userId = 1;
+            const apiUrl = `http://localhost:7024/api/LearningHistory/${userId}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const contentDiv = document.getElementById('learningHistoryContent');
+                    contentDiv.innerHTML = '';
+
+                    data.forEach(item => {
+                        const courseDiv = document.createElement('div');
+                        courseDiv.innerHTML = `
+                                    <strong>Course Name:</strong> ${item.courseName}<br>
+                                    <strong>Creator:</strong> ${item.creator}<br>
+                                    <strong>Date:</strong> ${new Date(item.learningDate).toLocaleDateString()}<br>
+                                    <strong>Number of Questions:</strong> ${item.numOfQues}<br>
+                                    <hr>
+                                `;
+                        contentDiv.appendChild(courseDiv);
+                    });
+
+                    document.getElementById('learningHistoryDialog').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error fetching learning history:', error);
+                });
+        }
+
+        function closeDialog() {
+            document.getElementById('learningHistoryDialog').style.display = 'none';
+        }
+
+        document.querySelector('.btn i.fa-plus').parentNode.onclick = openLearningHistoryDialog;
     </script>
 </body>
 </html>

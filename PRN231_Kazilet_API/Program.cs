@@ -112,6 +112,7 @@ namespace PRN231_Kazilet_API
             //builder.Services.AddTransient<IGameplayService, GameplayService>();
             builder.Services.AddTransient<IAuthService, AuthService>();
             builder.Services.AddTransient<ICourseService, CourseService>();
+            builder.Services.AddTransient<ILearningHistory, LearningHistoryService>();
             builder.Services.AddTransient<IFolderService, FolderService>();
 
             var app = builder.Build();
