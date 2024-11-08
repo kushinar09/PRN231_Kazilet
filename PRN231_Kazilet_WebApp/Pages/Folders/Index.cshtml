@@ -243,8 +243,8 @@
                 .then(data => {
                     if (data) {
                         // Lưu trữ dữ liệu khóa học vào localStorage (hoặc sessionStorage)
-                        localStorage.setItem('folderData', JSON.stringify(data));
-
+                        // localStorage.setItem('folderData', JSON.stringify(data));
+                        localStorage.setItem('folderId', folderId)
                         // Chuyển hướng đến trang EditCourse
                         window.location.href = '/Folders/Details';
                     } else {

@@ -25,6 +25,7 @@
             box-shadow: none;
             outline: none;
         }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
@@ -161,13 +162,18 @@
         <input type="text" id="title" placeholder="Enter a title" style="width:100%">
         <input type="text" id="courseId" style="display:none">
         <textarea id="description" placeholder="Add a description..." style="width:100%"></textarea>
-        <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <div style="display: flex; align-items: center">
-                <label for="publicCheckbox">Private Course</label>
-                <input style="position:relative;top:8px;left:3px" class="custom-checkbox" type="checkbox" id="publicCheckbox" onchange="togglePasswordField()">
+        <div style="display: flex; justify-content:space-between">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center">
+                    <label for="publicCheckbox">Private Course</label>
+                    <input style="position:relative;top:8px;left:3px" class="custom-checkbox" type="checkbox" id="publicCheckbox" onchange="togglePasswordField()">
+                </div>
+                <div id="passwordContainer" style="display: none; margin-left: 10px;">
+                    <input type="password" id="password" placeholder="Enter password" style="width: 100%">
+                </div>
             </div>
-            <div id="passwordContainer" style="display: none; margin-left: 10px;">
-                <input type="password" id="password" placeholder="Enter password" style="width: 100%">
+            <div>
+                <button class="" style="background:none;color: #471b43;border:1px solid #33333350;">Export Questions</button>
             </div>
         </div>
         <div id="flashcards"></div>
@@ -236,29 +242,29 @@
             const newCard = document.createElement('div');
             newCard.className = 'card';
             newCard.innerHTML = `
-                                <div class="card-header">
-                                    <span class="card-number">${cardCount}</span>
-                                    <div>
-                                        <button onclick="removeCard(this)">×</button>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <div class="term">
-                                        <input type="text" value="${questionContent}" class="question-content">
-                                    </div>
-                                    <div class="definition">
-                                        ${answers.map(answer => `
-                                                    <div class="definition-container" style="display: flex; align-items: center; gap: 10px;">
-                                                                    <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;" ${answer.isCorrect ? 'checked' : ''}>
-                                                <input type="text" value="${answer.content}">
-                                                        
-                                                <button class="remove-definition" onclick="removeDefinition(this)">×</button>
+                                        <div class="card-header">
+                                            <span class="card-number">${cardCount}</span>
+                                            <div>
+                                                <button onclick="removeCard(this)">×</button>
                                             </div>
-                                        `).join('')}
-                                        <button class="add-definition" onclick="addDefinition(this)">+ Add another answer</button>
-                                    </div>
-                                </div>
-                            `;
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="term">
+                                                <input type="text" value="${questionContent}" class="question-content">
+                                            </div>
+                                            <div class="definition">
+                                                ${answers.map(answer => `
+                                                            <div class="definition-container" style="display: flex; align-items: center; gap: 10px;">
+                                                                            <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;" ${answer.isCorrect ? 'checked' : ''}>
+                                                        <input type="text" value="${answer.content}">
+
+                                                        <button class="remove-definition" onclick="removeDefinition(this)">×</button>
+                                                    </div>
+                                                `).join('')}
+                                                <button class="add-definition" onclick="addDefinition(this)">+ Add another answer</button>
+                                            </div>
+                                        </div>
+                                    `;
             flashcardsContainer.appendChild(newCard);
         }
 
@@ -268,13 +274,13 @@
             const newDefinition = document.createElement('div');
             newDefinition.className = 'definition-container';
             newDefinition.innerHTML = `
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                                                                                    <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;">
+                                                <div style="display: flex; align-items: center; gap: 10px;">
+                                                                                                            <input type="checkbox" class="custom-checkbox" style="margin-right: 5px; border: 1px solid #33333350; margin-top: 4px;">
 
-                                    <input type="text" placeholder="Enter answer">
-                                    <button class="remove-definition" onclick="removeDefinition(this)">×</button>
-                                </div>
-                            `;
+                                            <input type="text" placeholder="Enter answer">
+                                            <button class="remove-definition" onclick="removeDefinition(this)">×</button>
+                                        </div>
+                                    `;
             definitionContainer.insertBefore(newDefinition, button);
         }
 

@@ -48,42 +48,56 @@
             cursor: pointer;
         }
 
-        .search-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            overflow: auto;
         }
 
-        .search-input {
-            padding: 8px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .modal-content {
+            position: relative;
+            margin: 5% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
         }
 
         .flashcard-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            padding: 10px;
         }
 
         .flashcard-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            cursor:pointer;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
         }
 
         .flashcard-icon {
-            background-color: #e6f3ff;
-            color: #0066cc;
-            padding: 10px;
-            border-radius: 4px;
+            font-size: 24px;
+            color: #1a73e8;
             margin-right: 15px;
         }
 
@@ -92,49 +106,15 @@
         }
 
         .flashcard-title {
+            font-size: 16px;
             font-weight: bold;
+            color: #333;
         }
 
-        .flashcard-terms {
-            color: #666;
+        .flashcard-details {
             font-size: 14px;
+            color: #666;
         }
-
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 8px;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-            .close:hover, .close:focus {
-                color: black;
-                text-decoration: none;
-                cursor: pointer;
-            }
     </style>
 </head>
 <body>
@@ -152,7 +132,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeDialog()">&times;</span>
             <h2>Learning History</h2>
-            <div id="learningHistoryContent">
+            <div id="learningHistoryContent" class="flashcard-list">
                 <!-- Fetched data will be displayed here -->
             </div>
         </div>
@@ -161,81 +141,53 @@
     <div class="flashcard-list" id="flashcardList"></div>
 
     <script>
-        // Lấy dữ liệu từ localStorage
-        const folderData = JSON.parse(localStorage.getItem('folderData')) || [];
-
-        // Tham chiếu đến danh sách flashcard
         const flashcardList = document.getElementById('flashcardList');
+        let existingCourseIds = []; // Lưu trữ các courseId đã tồn tại trong folder
 
-        function viewCourseDetail(courseId) {
-            // URL of the API
-            const apiUrl = `http://localhost:7024/odata/Question/${courseId}`;
+        window.onload = function () {
+            const folderId = localStorage.getItem("folderId");
+            const apiUrl = `http://localhost:7024/api/Folders/GetCourse/${folderId}`;
 
-            // Fetch the course details and then redirect
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
-                    // Redirect to the Questions page with the courseId as a query parameter
-                    window.location.href = `/Questions?courseId=${courseId}`;
+                    flashcardList.innerHTML = '';
+                    existingCourseIds = data.map(course => course.id);
+
+                    data.forEach(course => {
+                        const flashcardItem = document.createElement('div');
+                        flashcardItem.classList.add('flashcard-item');
+                        flashcardItem.onclick = () => viewCourseDetail(course.id);
+
+                        const flashcardIcon = document.createElement('div');
+                        flashcardIcon.classList.add('flashcard-icon');
+                        flashcardIcon.innerHTML = '<i class="fas fa-book-open"></i>';
+
+                        const flashcardInfo = document.createElement('div');
+                        flashcardInfo.classList.add('flashcard-info');
+                        flashcardInfo.onclick = () => viewCourseDetail(course.id);
+
+                        const flashcardTitle = document.createElement('div');
+                        flashcardTitle.classList.add('flashcard-title');
+                        flashcardTitle.textContent = course.name;
+
+                        const button = document.createElement('button');
+                        button.classList.add('btn');
+                        button.innerHTML = '<i class="fas fa-ellipsis-h"></i>';
+
+                        flashcardInfo.appendChild(flashcardTitle);
+                        flashcardItem.appendChild(flashcardIcon);
+                        flashcardItem.appendChild(flashcardInfo);
+                        flashcardItem.appendChild(button);
+
+                        flashcardList.appendChild(flashcardItem);
+                    });
                 })
                 .catch(error => {
-                    console.error('Error fetching course details:', error);
+                    console.error('Error fetching courses:', error);
                 });
-        }
+        };
 
-        // Tạo các phần tử flashcard từ dữ liệu folderData
-        folderData.forEach(course => {
-            // Tạo một phần tử flashcard-item
-            const flashcardItem = document.createElement('div');
-            flashcardItem.classList.add('flashcard-item');
-
-            // Thêm sự kiện onclick gọi viewCourseDetail với id của course
-            flashcardItem.onclick = () => viewCourseDetail(course.id);
-
-            // Icon flashcard
-            const flashcardIcon = document.createElement('div');
-            flashcardIcon.classList.add('flashcard-icon');
-            flashcardIcon.innerHTML = '<i class="fas fa-book-open"></i>';
-
-            // Thông tin flashcard
-            const flashcardInfo = document.createElement('div');
-            flashcardInfo.classList.add('flashcard-info');
-
-            // Tiêu đề flashcard (name)
-            const flashcardTitle = document.createElement('div');
-            flashcardTitle.classList.add('flashcard-title');
-            flashcardTitle.textContent = course.name;
-
-            // Course ID (ẩn)
-            const hiddenCourseId = document.createElement('div');
-            hiddenCourseId.classList.add('course-id');
-            hiddenCourseId.style.display = 'none';
-            hiddenCourseId.textContent = course.id;
-
-            // Số lượng từ (mặc định hoặc dựa vào số câu hỏi nếu có)
-            const flashcardTerms = document.createElement('div');
-            flashcardTerms.classList.add('flashcard-terms');
-            flashcardTerms.textContent = `Flashcard set • ${course.questions.length} terms`;
-
-            // Nút hành động
-            const button = document.createElement('button');
-            button.classList.add('btn');
-            button.innerHTML = '<i class="fas fa-ellipsis-h"></i>';
-
-            // Ghép các thành phần vào flashcard-info và flashcard-item
-            flashcardInfo.appendChild(flashcardTitle);
-            flashcardInfo.appendChild(hiddenCourseId);
-            flashcardInfo.appendChild(flashcardTerms);
-            flashcardItem.appendChild(flashcardIcon);
-            flashcardItem.appendChild(flashcardInfo);
-            flashcardItem.appendChild(button);
-
-            // Thêm flashcard-item vào danh sách flashcard
-            flashcardList.appendChild(flashcardItem);
-        });
-    </script>
-
-    <script>
         function openLearningHistoryDialog() {
             const userId = 1;
             const apiUrl = `http://localhost:7024/api/LearningHistory/${userId}`;
@@ -248,13 +200,37 @@
 
                     data.forEach(item => {
                         const courseDiv = document.createElement('div');
+                        courseDiv.classList.add('flashcard-item');
                         courseDiv.innerHTML = `
-                                    <strong>Course Name:</strong> ${item.courseName}<br>
-                                    <strong>Creator:</strong> ${item.creator}<br>
-                                    <strong>Date:</strong> ${new Date(item.learningDate).toLocaleDateString()}<br>
-                                    <strong>Number of Questions:</strong> ${item.numOfQues}<br>
-                                    <hr>
-                                `;
+                                <div class="flashcard-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="flashcard-info">
+                                    <div class="flashcard-title">${item.courseName}</div>
+                                    <div class="flashcard-details">
+                                        Flashcard set • ${item.numOfQues} terms • by ${item.creator}<br>
+                                        <strong>Date:</strong> ${new Date(item.learningDate).toLocaleDateString()}
+                                    </div>
+                                </div>
+                            `;
+
+                        // Kiểm tra xem courseId đã có trong folder chưa
+                        if (existingCourseIds.includes(item.courseId)) {
+                            // Nếu đã có, hiển thị nút "-"
+                            const removeButton = document.createElement('button');
+                            removeButton.classList.add('remove-course-btn');
+                            removeButton.textContent = '-';
+                            removeButton.onclick = () => RemoveCourse(item.courseId);
+                            courseDiv.appendChild(removeButton);
+                        } else {
+                            // Nếu chưa có, hiển thị nút "+"
+                            const addButton = document.createElement('button');
+                            addButton.classList.add('add-course-btn');
+                            addButton.textContent = '+';
+                            addButton.onclick = () => addCourseToFolder(item.courseId);
+                            courseDiv.appendChild(addButton);
+                        }
+
                         contentDiv.appendChild(courseDiv);
                     });
 
@@ -269,8 +245,72 @@
             document.getElementById('learningHistoryDialog').style.display = 'none';
         }
 
+        function addCourseToFolder(courseId) {
+            const folderId = localStorage.getItem("folderId");
+            const apiUrl = `http://localhost:7024/api/Folders/AddCourse`;
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ courseId, folderId })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Course added to folder successfully.');
+                        window.location.reload();
+                        openLearningHistoryDialog();
+                    } else {
+                        console.error('Failed to add course to folder.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding course to folder:', error);
+                });
+        }
+
+        function RemoveCourse(courseId) {
+            const folderId = localStorage.getItem("folderId");
+            const apiUrl = `http://localhost:7024/api/Folders/RemoveCourse`;
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ courseId, folderId })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Course removed from folder successfully.');
+                        window.location.reload();
+                        openLearningHistoryDialog();
+                    } else {
+                        console.error('Failed to remove course from folder.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error removing course from folder:', error);
+                });
+        }
+
+        function viewCourseDetail(courseId) {
+            const apiUrl = `http://localhost:7024/odata/Question/${courseId}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = `/Questions?courseId=${courseId}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching course details:', error);
+                });
+        }
+
         document.querySelector('.btn i.fa-plus').parentNode.onclick = openLearningHistoryDialog;
     </script>
+
 </body>
 </html>
 

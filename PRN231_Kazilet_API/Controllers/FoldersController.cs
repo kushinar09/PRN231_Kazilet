@@ -78,10 +78,10 @@ namespace PRN231_Kazilet_API.Controllers
         }
 
         [HttpPost("RemoveCourse")]
-        public IActionResult RemoveCourseToFolder([FromQuery] int folderId, [FromQuery] int courseId)
+        public IActionResult RemoveCourseToFolder([FromBody] FolderCourseDto folderCourseDto)
         {
 
-            if (_folderService.RemoveCourseInFolder(courseId, folderId))
+            if (_folderService.RemoveCourseInFolder(folderCourseDto))
             {
                 return Ok();
             }

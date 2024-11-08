@@ -60,10 +60,10 @@ namespace PRN231_Kazilet_API.Services.Impl
             return courseDtos;
         }
 
-        public bool RemoveCourseInFolder(int courseId, int folderId)
+        public bool RemoveCourseInFolder(FolderCourseDto folderCourseDto)
         {
-            var course = _context.Courses.Include(c => c.Folders).FirstOrDefault(c => c.Id == courseId);
-            var folder = _context.Folders.Find(folderId);
+            var course = _context.Courses.Include(c => c.Folders).FirstOrDefault(c => c.Id == folderCourseDto.CourseId);
+            var folder = _context.Folders.Find(folderCourseDto.FolderId);
 
             if (course == null || folder == null)
                 return false;
@@ -92,5 +92,4 @@ namespace PRN231_Kazilet_API.Services.Impl
             return _context.SaveChanges() > 0;
         }
     }
-
 }
