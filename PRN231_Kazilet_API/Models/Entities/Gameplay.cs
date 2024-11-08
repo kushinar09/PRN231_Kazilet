@@ -25,5 +25,14 @@ namespace PRN231_Kazilet_API.Models.Entities
         public virtual GameplaySetting? CodeNavigation { get; set; }
         public virtual User? User { get; set; }
         public virtual ICollection<GameplayAnswer> GameplayAnswers { get; set; }
+
+
+
+        public Gameplay(string? code, string? username, int? turn)
+        {
+            Code = code;
+            Username = username;
+            Turn = turn;
+        }
     }
 }

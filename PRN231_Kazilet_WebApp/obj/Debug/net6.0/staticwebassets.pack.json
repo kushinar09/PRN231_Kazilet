@@ -25,6 +25,114 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar1.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar1.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar10.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar10.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar11.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar11.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar12.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar12.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar13.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar13.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar14.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar14.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar15.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar15.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar2.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar2.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar3.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar3.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar4.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar4.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar5.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar5.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar6.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar6.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar7.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar7.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar8.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar8.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\avatar9.jpg",
+      "PackagePath": "staticwebassets\\images\\avatar9.jpg"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\coin.png",
+      "PackagePath": "staticwebassets\\images\\coin.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\correct.png",
+      "PackagePath": "staticwebassets\\images\\correct.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\fire.png",
+      "PackagePath": "staticwebassets\\images\\fire.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\first.png",
+      "PackagePath": "staticwebassets\\images\\first.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\host.png",
+      "PackagePath": "staticwebassets\\images\\host.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\hourglass.png",
+      "PackagePath": "staticwebassets\\images\\hourglass.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\incorrect.png",
+      "PackagePath": "staticwebassets\\images\\incorrect.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\medal.png",
+      "PackagePath": "staticwebassets\\images\\medal.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\podium.png",
+      "PackagePath": "staticwebassets\\images\\podium.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\report.png",
+      "PackagePath": "staticwebassets\\images\\report.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\second.png",
+      "PackagePath": "staticwebassets\\images\\second.png"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\images\\third.png",
+      "PackagePath": "staticwebassets\\images\\third.png"
+    },
+    {
       "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\imgs\\course.jpg",
       "PackagePath": "staticwebassets\\imgs\\course.jpg"
     },
@@ -271,6 +379,34 @@
     {
       "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\microsoft\\signalr\\dist\\browser\\signalr.min.js",
       "PackagePath": "staticwebassets\\microsoft\\signalr\\dist\\browser\\signalr.min.js"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\applause.mp3",
+      "PackagePath": "staticwebassets\\music\\applause.mp3"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\bg_sound.mp3",
+      "PackagePath": "staticwebassets\\music\\bg_sound.mp3"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\coin_spill.mp3",
+      "PackagePath": "staticwebassets\\music\\coin_spill.mp3"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\error.mp3",
+      "PackagePath": "staticwebassets\\music\\error.mp3"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\new_answer.mp3",
+      "PackagePath": "staticwebassets\\music\\new_answer.mp3"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\success.mp3",
+      "PackagePath": "staticwebassets\\music\\success.mp3"
+    },
+    {
+      "Id": "D:\\cms\\PRN231_HuongNT7\\Projects\\Git\\PRN231_Kazilet\\PRN231_Kazilet_WebApp\\wwwroot\\music\\tic_tac.mp3",
+      "PackagePath": "staticwebassets\\music\\tic_tac.mp3"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.PRN231_Kazilet_WebApp.Microsoft.AspNetCore.StaticWebAssets.props",

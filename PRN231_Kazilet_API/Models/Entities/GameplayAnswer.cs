@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace PRN231_Kazilet_API.Models.Entities
 {
-    public partial class GameplayAnswer
+
+    public class GameplayAnswer
     {
         public int GameplayId { get; set; }
         public int QuestionId { get; set; }

@@ -47,7 +47,7 @@
         </div>
         <nav class="py-4">
             <ul class="space-y-3">
-                <li class="py-2 pl-4 hover:bg-gray-100 cursor-pointer">
+                <li class="py-2 pl-4 hover:bg-gray-100 cursor-pointer" onclick="window.location.href = '/'">
                     <button class="text-left text-primary rounded-md flex items-center focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -71,7 +71,7 @@
                         <span class="menuItemText ml-2 truncate">My Courses</span>
                     </button>
                 </li>
-                <li class="py-2 pl-4 hover:bg-gray-100 cursor-pointer">
+                <li class="py-2 pl-4 hover:bg-gray-100 cursor-pointer" onclick="window.location.href = '/gameplay/list'">
                     <button class="text-left text-primary rounded-md flex items-center focus:outline-none">
                         <svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <rect x="2" y="6" width="20" height="12" rx="2" />  <path d="M6 12h4m-2 -2v4" />  <line x1="15" y1="11" x2="15" y2="11.01" />  <line x1="18" y1="13" x2="18" y2="13.01" /></svg>
                         <span class="menuItemText ml-2 truncate">My Games</span>
@@ -211,7 +211,7 @@
             // Loop through each course and create a category item
             courses.forEach(course => {
                 const categoryItem = document.createElement("a");
-                categoryItem.href = "/course/detail" + course.id;
+                categoryItem.href = "/questions?courseId=" + course.id;
                 categoryItem.className = "flex flex-col items-center group";
 
                 categoryItem.innerHTML = `
@@ -240,7 +240,7 @@
 
             courses.forEach(course => {
                 const courseCard = document.createElement('a');
-                courseCard.href = "#"; // Add course link if available
+                courseCard.href = "/questions?courseId=" + course.id; // Add course link if available
                 courseCard.className = "block";
 
                 courseCard.innerHTML = `
@@ -267,7 +267,7 @@
         if (!token) return false;
 
         try {
-            const response = await fetch('https://localhost:7024/api/Authentication/check', {
+            const response = await fetch('http://localhost:7024/api/Authentication/check', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -411,7 +411,7 @@
                 return;
             }
 
-            const apiUrl = 'https://localhost:7024/api/Authentication/change';
+            const apiUrl = 'http://localhost:7024/api/Authentication/change';
 
             try {
                 const token = getCookie('accessToken');

@@ -32,7 +32,7 @@ namespace PRN231_Kazilet_API
                 {
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                     options.JsonSerializerOptions.WriteIndented = true;
-                });
+                }); 
             builder.Services.AddDbContext<PRN231_Kazilet_v2Context>(
                     options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")
                     )
@@ -129,7 +129,12 @@ namespace PRN231_Kazilet_API
             //builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+            builder.Services.AddTransient<IQuestionService, QuestionService>();
+            builder.Services.AddTransient<IGameplayService, GameplayService>();
             builder.Services.AddTransient<IAuthService, AuthService>();
+            builder.Services.AddTransient<ICourseService, CourseService>();
+            builder.Services.AddTransient<IFolderService, FolderService>();
+
             var app = builder.Build();
             app.UseCors(MyAllowSpecificOrigins);
 
@@ -145,6 +150,8 @@ namespace PRN231_Kazilet_API
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
+
+            app.MapHub<SignalrServer>("/signalrServer");
 
             app.Run();
         }

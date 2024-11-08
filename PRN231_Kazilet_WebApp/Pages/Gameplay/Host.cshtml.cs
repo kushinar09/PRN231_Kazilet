@@ -32,6 +32,7 @@ namespace PRN231_Kazilet_WebApp.Pages.Gameplay
         }
         public async Task OnGetAsync(int courseId)
         {
+            
             Username = "Mast";
             HttpResponseMessage response = await _httpClient.PostAsync(GameplayUrl + "/host?courseId=" + courseId + "&username=Mast", null);
             await Console.Out.WriteLineAsync(response.ToString());
@@ -39,10 +40,10 @@ namespace PRN231_Kazilet_WebApp.Pages.Gameplay
             {
                 string json = await response.Content.ReadAsStringAsync();
                 dynamic jsonValue = JsonConvert.DeserializeObject<dynamic>(json);
-                Console.WriteLine(jsonValue.ToString());
                 Code = jsonValue.code.ToString();
                 Token = jsonValue.token.ToString();
             }
+            
         }
     }
 }

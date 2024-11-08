@@ -1,0 +1,93 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PRN231_Kazilet_API.Models.Dto;
+using PRN231_Kazilet_API.Models.Entities;
+using PRN231_Kazilet_API.Services;
+using PRN231_Kazilet_API.Services.Impl;
+
+namespace PRN231_Kazilet_API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class FoldersController : ControllerBase
+    {
+        private IFolderService _folderService;
+        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly PRN231_Kazilet_v2Context _context;
+
+        public FoldersController(IFolderService folderService, IHttpContextAccessor contextAccessor, PRN231_Kazilet_v2Context context)
+        {
+            _folderService = folderService;
+            _contextAccessor = contextAccessor;
+            _context = context;
+
+        }
+        //TODO: Sửa created By đổi qua getUser
+        [HttpPost("Add")]
+        public IActionResult AddFolder([FromQuery] string folderName)
+        {
+            FolderDto folderDto = new FolderDto();
+            folderDto.CreatedBy = 1;
+            folderDto.Name = folderName;
+            _folderService.AddFolder(folderDto);
+            return Ok(folderDto);
+        }
+
+        [HttpGet("folders/{userid}")]
+        public IActionResult GetFoldersByUser(int userid)
+        {
+            /*
+            var folders = _context.Folders.Include(f => f.FolderCourses).ThenInclude(fc => fc.Course).Where(f => f.CreatedByNavigation.Id == userid).ToList();
+            if (folders == null || folders.Count == 0)
+            {
+                return NotFound("No folders found for user");
+            }
+            return Ok(folders);
+            */
+            return Ok();
+        }
+
+        [HttpPost("AddCourse")]
+        public IActionResult AddCourseToFolder([FromQuery] int folderId, [FromQuery] int courseId)
+        {
+           
+            if(_folderService.AddCourseToFolder(courseId, folderId))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("RemoveCourse")]
+        public IActionResult RemoveCourseToFolder([FromQuery] int folderId, [FromQuery] int courseId)
+        {
+
+            if (_folderService.RemoveCourseInFolder(courseId, folderId))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("RemoveFolder")]
+        public IActionResult RemoveFolder([FromQuery] int folderId)
+        {
+
+            if (_folderService.RemoveFolder( folderId))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+    }
+}
