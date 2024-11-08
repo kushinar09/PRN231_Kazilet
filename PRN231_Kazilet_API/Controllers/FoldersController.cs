@@ -23,7 +23,7 @@ namespace PRN231_Kazilet_API.Controllers
             _context = context;
 
         }
-        //TODO: Sửa created By đổi qua getUser
+
         [HttpPost("Add")]
         public IActionResult AddFolder([FromQuery] string folderName)
         {

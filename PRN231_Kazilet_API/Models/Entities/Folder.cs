@@ -15,8 +15,8 @@ namespace PRN231_Kazilet_API.Models.Entities
         public string? Name { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
-
         public virtual User? CreatedByNavigation { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Course> Courses { get; set; }
     }
 }

@@ -172,6 +172,7 @@
                 </div>
             </div>
             <div>
+                <button id="redirect-button" onclick="editCourse(1)">Edit Course</button>
                 <button class="" style="background:none;color: #471b43;border:1px solid #33333350;">Import Questions</button>
             </div>
         </div>
@@ -183,7 +184,26 @@
 </body>
 <script>
     let cardCount = 0;
+    function editCourse(courseId) {
+        // Fetch API để lấy thông tin khóa học
+        fetch(`http://localhost:7024/api/Courses/Details/${courseId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    // Lưu trữ dữ liệu khóa học vào localStorage (hoặc sessionStorage)
+                    localStorage.setItem('courseData', JSON.stringify(data));
 
+                    // Chuyển hướng đến trang EditCourse
+                    window.location.href = '/Courses/EditCourse';
+                } else {
+                    alert('Failed to fetch course details');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching course data:', error);
+                alert('Error fetching course details');
+            });
+    }
     function addCard() {
         cardCount++;
         const flashcardsContainer = document.getElementById('flashcards');
@@ -247,24 +267,21 @@
         const isPublic = document.getElementById('publicCheckbox').checked;
         const password = isPublic ? document.getElementById('password').value.trim() : null;
 
-        if (!validateForm(title, isPublic, password)) {
-            return; // Dừng nếu có lỗi validation
-        }
+        // if (!validateForm(title, isPublic, password)) {
+        //     return;
+        // }
 
         const questions = [];
         const terms = document.querySelectorAll('.question-content');  // Tìm tất cả các câu hỏi
         const allDefinitions = document.querySelectorAll('.definition');  // Tìm tất cả các container câu trả lời
 
-        // Lặp qua từng câu hỏi và lấy dữ liệu
         for (let i = 0; i < terms.length; i++) {
             const questionContent = terms[i].value.trim();
             const answers = [];
 
-            // Lấy tất cả câu trả lời cho câu hỏi i
             const definitions = allDefinitions[i].querySelectorAll('.definition-container input[type="text"]');  // Tìm tất cả các câu trả lời
             const checkboxes = allDefinitions[i].querySelectorAll('.definition-container input[type="checkbox"]');  // Tìm tất cả checkbox
 
-            // Lặp qua các câu trả lời và lấy dữ liệu
             for (let j = 0; j < definitions.length; j++) {
                 const definitionContent = definitions[j].value.trim();
                 const isCorrect = checkboxes[j].checked;
@@ -277,7 +294,6 @@
                 }
             }
 
-            // Thêm câu hỏi và câu trả lời vào danh sách
             questions.push({
                 content: questionContent,
                 answers: answers
@@ -287,24 +303,24 @@
         const courseData = {
             name: title,
             description: description,
-            createdAt: new Date().toISOString(),  // Lấy thời gian hiện tại
+            createdAt: new Date().toISOString(),
             createdBy: 1,  //TODO: Lấy userId hiện tại (Giả sử người tạo là người có ID là 1)
             coursePassword: password,
             isPublic: !isPublic,
-            status: null, // Trạng thái có thể là null
-            folders: [],  // Mặc định là mảng rỗng
-            gameplaySettings: [],  // Mặc định là mảng rỗng
-            learningHistories: [],  // Mặc định là mảng rỗng
-            questions: questions  // Dữ liệu câu hỏi và câu trả lời
+            status: null,
+            folders: [],
+            gameplaySettings: [],  
+            learningHistories: [],  
+            questions: questions  
         };
 
-        // Gửi dữ liệu đến API
+ 
         fetch('http://localhost:7024/api/Courses/Add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(courseData), // Chuyển dữ liệu thành JSON string
+            body: JSON.stringify(courseData),
         })
             .then(response => response.json())
             .then(data => {
@@ -322,37 +338,37 @@
 
 
 
-    function validateForm(title, isPublic, password) {
-        if (!title) {
-            alert('Title cannot be empty!');
-            return false;
-        }
+    // function validateForm(title, isPublic, password) {
+    //     if (!title) {
+    //         alert('Title cannot be empty!');
+    //         return false;
+    //     }
 
-        const terms = document.querySelectorAll('.question-content');
-        const definitions = document.querySelectorAll('.definition-container input[type="text"]');
+    //     const terms = document.querySelectorAll('.question-content');
+    //     const definitions = document.querySelectorAll('.definition-container input[type="text"]');
 
-        for (let i = 0; i < terms.length; i++) {
-            if (!terms[i].value.trim()) {
-                alert(`Question ${i + 1} cannot be empty!`);
-                return false;
-            }
-        }
+    //     for (let i = 0; i < terms.length; i++) {
+    //         if (!terms[i].value.trim()) {
+    //             alert(`Question ${i + 1} cannot be empty!`);
+    //             return false;
+    //         }
+    //     }
 
-        for (let i = 0; i < definitions.length; i++) {
-            if (!definitions[i].value.trim()) {
-                alert(`Answer for Question ${Math.floor(i / 4) + 1} cannot be empty!`);
-                return false;
-            }
-        }
+    //     for (let i = 0; i < definitions.length; i++) {
+    //         if (!definitions[i].value.trim()) {
+    //             alert(`Answer for Question ${Math.floor(i / 4) + 1} cannot be empty!`);
+    //             return false;
+    //         }
+    //     }
 
-        // Nếu khóa học công khai mà không có mật khẩu, yêu cầu nhập mật khẩu
-        if (isPublic && !password) {
-            alert('Password cannot be empty for private courses!');
-            return false;
-        }
+    //     // Nếu khóa học công khai mà không có mật khẩu, yêu cầu nhập mật khẩu
+    //     if (isPublic && !password) {
+    //         alert('Password cannot be empty for private courses!');
+    //         return false;
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
     // Toggle hiển thị trường mật khẩu nếu checkbox được tick vào
     function togglePasswordField() {

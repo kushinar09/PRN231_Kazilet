@@ -242,7 +242,7 @@
         window.onload = loadCourses;
 
         function openLearningHistoryDialog() {
-            const userId = 1;
+            const userId = 1;//TODO: Lấy userId người hiện tại
             const apiUrl = `http://localhost:7024/api/LearningHistory/${userId}`;
 
             $.ajax({

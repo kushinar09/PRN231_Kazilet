@@ -199,9 +199,7 @@
             });
         }
 
-        if (!validateForm(title, isPublic, password)) {
-            return; // Dừng nếu có lỗi validation
-        }
+        
 
         function validateForm(title, isPublic, password) {
             if (!title) {
@@ -302,6 +300,11 @@
             const isPublic = document.getElementById('publicCheckbox').checked;
             const password = isPublic ? document.getElementById('password').value.trim() : null;
 
+
+            if (!validateForm(title, isPublic, password)) {
+                return; // Dừng nếu có lỗi validation
+            }
+
             // Xử lý lưu thay đổi khóa học vào API
             const questions = [];
             const terms = document.querySelectorAll('.question-content');
@@ -359,8 +362,18 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while updating the course.');
+                    const apiUrl = `http://localhost:7024/odata/Question/${courseId}`;
+
+                    $.ajax({
+                        url: apiUrl,
+                        method: 'GET',
+                        success: function () {
+                            window.location.href = `/Questions?courseId=${courseId}`;
+                        },
+                        error: function (error) {
+                            console.error('Error fetching course details:', error);
+                        }
+                    });
                 });
         }
 

@@ -140,8 +140,8 @@ namespace PRN231_Kazilet_API.Services.Impl
         public CourseDto GetCourse(int courseId)
         {
             var course = _context.Courses
-    .Include(c => c.Questions) // Bao gồm danh sách Questions
-    .ThenInclude(q => q.Answers) // Bao gồm cả danh sách Answers trong mỗi Question
+    .Include(c => c.Questions)
+    .ThenInclude(q => q.Answers) 
     .FirstOrDefault(c => c.Id == courseId);
 
             return _mapper.Map<CourseDto>(course);
