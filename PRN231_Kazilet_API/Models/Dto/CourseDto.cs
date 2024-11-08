@@ -8,5 +8,7 @@
         public string? CoursePassword { get; set; }
         public bool? IsPublic { get; set; }
         public string? CreateByName {  get; set; }
+        public int NumOfQues {  get; set; }
+        public string Descript { get; set; }
     }
 }

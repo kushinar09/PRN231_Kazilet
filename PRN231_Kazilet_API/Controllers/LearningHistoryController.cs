@@ -57,5 +57,11 @@ namespace PRN231_Kazilet_API.Controllers
                 return NotFound();
             }
         }
+        [HttpGet("GetTopCourse")]
+        public IActionResult GetTopCourse()
+        {
+            var courseList = _learningHistoryService.GetTop5Course();
+            return courseList == null ? NotFound() : Ok(courseList);
+        }
     }
 }

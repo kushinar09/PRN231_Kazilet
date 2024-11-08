@@ -35,5 +35,6 @@ namespace PRN231_Kazilet_API.Controllers
             var courseList = _mapper.Map<List<CourseDto>>(_courseService.GetCoursesByFolder(folderId));
             return courseList == null ? NotFound() : Ok(courseList);
         }
+        
     }
 }

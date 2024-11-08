@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PRN231_Kazilet_API.Models.Dto;
 using PRN231_Kazilet_API.Models.Entities;
+using System.Diagnostics;
 
 namespace PRN231_Kazilet_API.Services.Impl
 {
@@ -45,6 +48,18 @@ namespace PRN231_Kazilet_API.Services.Impl
             return _context.Courses.Where(c=>c.CreatedBy==userId).ToList();
         }
 
+        
+        public class CourseCount
+        {
+            public int CourseId { get; set; }
+            public int Count { get; set; }
+            public CourseCount(int courseId,int count)
+            {
+                CourseId = courseId;
+                Count=count;
+            }
+
+        }
         public bool SaveChanged()
         {
             return _context.SaveChanges()>0?true:false;
