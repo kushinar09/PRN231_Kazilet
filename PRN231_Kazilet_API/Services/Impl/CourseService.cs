@@ -163,21 +163,33 @@ namespace PRN231_Kazilet_API.Services.Impl
         public bool IsCoursePublic(int courseId)
         {
             var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
-            if (course == null)
-            {
-                return false;
-            }
-            return (bool)course.IsPublic;
+            return course?.IsPublic ?? false;
         }
 
 
         public List<CourseDto> SearchCourses(string searchTerm)
         {
             var courses = _context.Courses
-                .Where(c => c.Name.Contains(searchTerm))
+                .Include(c => c.CreatedByNavigation) // Include the related User data
+                .Where(c => c.Name.Contains(searchTerm)) // Assuming search by name
+                .Select(c => new CourseDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.Description,
+                    CreatedAt = c.CreatedAt,
+                    CreatedBy = c.CreatedBy,
+                    CoursePassword = c.CoursePassword,
+                    IsPublic = c.IsPublic,
+                    Status = c.Status,
+                    CreatedByNavigation = new User
+                    {
+                        Username = c.CreatedByNavigation.Username
+                    }
+                })
                 .ToList();
 
-            return _mapper.Map<List<CourseDto>>(courses);
+            return courses;
         }
     }
 }

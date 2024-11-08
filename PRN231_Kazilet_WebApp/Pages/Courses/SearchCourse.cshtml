@@ -45,23 +45,23 @@
             align-items: center;
         }
 
-        .search-box input {
-            flex-grow: 1;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
+            .search-box input {
+                flex-grow: 1;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+            }
 
-        .search-box button {
-            background-color: #471b43;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
+            .search-box button {
+                background-color: #471b43;
+                color: #fff;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 4px;
+                margin-left: 10px;
+                cursor: pointer;
+            }
 
         .flashcard-list {
             display: grid;
@@ -72,7 +72,7 @@
 
         .flashcard-item {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
@@ -82,7 +82,7 @@
         .flashcard-icon {
             font-size: 24px;
             color: #471b43;
-            margin-right: 20px;
+            margin-bottom: 10px;
         }
 
         .flashcard-info {
@@ -93,6 +93,19 @@
             font-size: 18px;
             font-weight: bold;
             color: #333;
+            margin-bottom: 5px;
+        }
+
+        .flashcard-description {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .flashcard-created-by {
+            font-size: 12px;
+            color: #777;
+            font-style: italic;
         }
     </style>
 </head>
@@ -138,7 +151,17 @@
                         flashcardTitle.classList.add('flashcard-title');
                         flashcardTitle.textContent = course.name;
 
+                        const flashcardDescription = document.createElement('div');
+                        flashcardDescription.classList.add('flashcard-description');
+                        flashcardDescription.textContent = course.description || 'No description available.';
+
+                        const flashcardCreatedBy = document.createElement('div');
+                        flashcardCreatedBy.classList.add('flashcard-created-by');
+                        flashcardCreatedBy.textContent = `Created by: ${course.createdByNavigation.username || 'Unknown'}`;
+
                         flashcardInfo.appendChild(flashcardTitle);
+                        flashcardInfo.appendChild(flashcardDescription);
+                        flashcardInfo.appendChild(flashcardCreatedBy);
                         flashcardItem.appendChild(flashcardIcon);
                         flashcardItem.appendChild(flashcardInfo);
 

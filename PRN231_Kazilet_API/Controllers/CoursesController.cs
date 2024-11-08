@@ -184,16 +184,9 @@ namespace PRN231_Kazilet_API.Controllers
         [HttpGet("IsPublic/{courseId}")]
         public IActionResult IsCoursePublic(int courseId)
         {
-            var isPublic = _courseService.IsCoursePublic(courseId);
+            bool isPublic = _courseService.IsCoursePublic(courseId);
 
-            if (isPublic)
-            {
-                return Ok("Course is public.");
-            }
-            else
-            {
-                return NotFound("Course is not public or does not exist.");
-            }
+            return isPublic ? Ok("Course is public.") : NotFound("Course is not public.");
         }
 
         [HttpGet("search")]
