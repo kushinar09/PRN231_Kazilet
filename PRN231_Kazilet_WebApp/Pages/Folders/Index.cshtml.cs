@@ -9,7 +9,7 @@ namespace PRN231_Kazilet_WebApp.Pages.Folders
     public class IndexModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        private readonly string folderUrl = "http://localhost:5149/api/Folders/folders/";
+        private readonly string folderUrl = "https://localhost:7024/api/Folders/folders/";
 
         public IndexModel()
         {

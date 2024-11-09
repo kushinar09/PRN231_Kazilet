@@ -311,7 +311,7 @@
         importBtn.disabled = true;
 
         // Sửa lại URL endpoint và thêm courseId vào query parameter
-        fetch(`http://localhost:7024/api/Courses/Import?courseId=${courseId}`, {
+        fetch(`https://localhost:7024/api/Courses/Import?courseId=${courseId}`, {
             method: 'POST',
             body: formData
         })
@@ -343,7 +343,7 @@
             alert('Course ID is missing.');
             return;
         }
-        const apiUrl = `http://localhost:7024/api/Courses/export?courseId=${courseId}`;
+        const apiUrl = `https://localhost:7024/api/Courses/export?courseId=${courseId}`;
         // Tạo một thẻ <a> ẩn và kích hoạt click để tải xuống file
         const a = document.createElement('a');
         a.href = apiUrl;
@@ -497,7 +497,7 @@
         };
 
         // Gửi API để cập nhật dữ liệu khóa học
-        fetch('http://localhost:7024/api/Courses/Update', {
+        fetch('https://localhost:7024/api/Courses/Update', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -513,7 +513,7 @@
                 }
             })
             .catch(error => {
-                const apiUrl = `http://localhost:7024/odata/Question/${courseId}`;
+                const apiUrl = `https://localhost:7024/odata/Question/${courseId}`;
 
                 $.ajax({
                     url: apiUrl,

@@ -10,7 +10,7 @@ namespace PRN231_Kazilet_WebApp.Pages.TestScreen
     public class TestOptionsModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        private readonly string questionUrl = "http://localhost:7024/odata/Question";
+        private readonly string questionUrl = "https://localhost:7024/odata/Question";
         public TestOptionsModel()
         {
             _httpClient = new HttpClient();

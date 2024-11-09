@@ -99,7 +99,7 @@ function sendAnswer(answer) {
 
 function connect(token) {
     connection = new signalR.HubConnectionBuilder()
-        .withUrl("http://localhost:7024/signalrServer?token=" + token, {
+        .withUrl("https://localhost:7024/signalrServer?token=" + token, {
             accessTokenFactory: () => token,
             skipNegotiation: true,  // skipNegotiation as we specify WebSockets
             transport: signalR.HttpTransportType.WebSockets
@@ -406,7 +406,7 @@ function connect(token) {
         connection.on("GetFinalReport", async function (result) {
             audio.src = "";
             audioApplause.play();
-            const apiUrl = "http://localhost:7024/api/Gameplay/final-report?code=" + result + "&username=" + getCookie("kazilet_gameplay_username");
+            const apiUrl = "https://localhost:7024/api/Gameplay/final-report?code=" + result + "&username=" + getCookie("kazilet_gameplay_username");
             try {
                 const response = await fetch(apiUrl, {
                     method: 'GET'

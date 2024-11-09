@@ -35,7 +35,7 @@
             </button>
         </form>
         <div class="mt-6">
-            <form method="get" action="http://localhost:7024/api/authentication/google-login">
+            <form method="get" action="https://localhost:7024/api/authentication/google-login">
                 <button type="submit"
                         class="w-full bg-white text-gray-900 py-2 px-4 rounded-md hover:bg-gray-200 transition duration-300 flex items-center justify-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -75,7 +75,7 @@
             errorMessage.classList.add('hidden');
             alert('Đăng ký thành công!');
 
-            const apiUrl = 'http://localhost:7024/api/Authentication/register';
+            const apiUrl = 'https://localhost:7024/api/Authentication/register';
             const data = {
                 username: name,
                 email: email,

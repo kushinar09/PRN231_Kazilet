@@ -194,28 +194,13 @@ namespace PRN231_Kazilet_API.Services.Impl
         public List<CourseDto> SearchCourses(string searchTerm)
         {
             var courses = _context.Courses
+                .Include(c => c.Questions)
                 .Include(c => c.CreatedByNavigation) // Include the related User data
-                .Where(c => c.Name.Contains(searchTerm)) // Assuming search by name
-                .Select(c => new CourseDto
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Description = c.Description,
-                    CreatedAt = c.CreatedAt,
-                    CreatedBy = c.CreatedBy,
-                    CoursePassword = c.CoursePassword,
-                    IsPublic = c.IsPublic,
-                    Status = c.Status,
-                    CreatedByNavigation = new User
-                    {
-                        Username = c.CreatedByNavigation.Username
-                    }
-                })
+                .Where(c => c.Name.Contains(searchTerm))
                 .ToList();
 
-            return courses;
+            return _mapper.Map<List<CourseDto>>(courses); ;
         }
-
         public List<CourseDto> GetCourseByUser(int created_by)
         {
             var courses = _context.Courses.Where(c => c.CreatedBy == created_by).Select(c => new CourseDto

@@ -11,7 +11,7 @@ namespace PRN231_Kazilet_WebApp.Pages.Test
     public class TestModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        private readonly string questionUrl = "http://localhost:7024/odata/Question";
+        private readonly string questionUrl = "https://localhost:7024/odata/Question";
 
         [BindProperty]
         public List<QuestionDto> QuestionList { get; set; }

@@ -658,7 +658,7 @@ namespace PRN231_Kazilet_API.Services.Impl
                 Gameplay gameplay = _context.Gameplays.FirstOrDefault(g => g.Code == code && g.Turn == turn && g.Username == username);
                 GameplayAnswer gameplayAnswer = _context.GameplayAnswers.FirstOrDefault(ga => ga.GameplayId == gameplay.Id);
                 PlayerAnswerDto playerAnswerDto = new PlayerAnswerDto();
-                if(gameplayAnswer != null)
+                if (gameplayAnswer != null)
                     playerAnswerDto.PlayerAnswer = gameplayAnswer.PlayerAnswer;
                 playerAnswerDto.Turn = (int)gameplay.Turn;
                 return playerAnswerDto;
@@ -718,7 +718,9 @@ namespace PRN231_Kazilet_API.Services.Impl
             int userId = 1;
             List<GameplaySetting> list = _context.GameplaySettings
                 .Include(gs => gs.Course)
-                .Where(gs => gs.CreatedBy == userId && gs.IsCompleted == true).ToList();
+                .Where(gs => gs.CreatedBy == userId && gs.IsCompleted == true)
+                .OrderByDescending(gs => gs.CreatedAt)
+                .ToList();
             List<GameplaySettingDto> gameplaySettingDtos = _mapper.Map<List<GameplaySettingDto>>(list);
             for (int i = 0; i < gameplaySettingDtos.Count; i++)
             {
@@ -768,7 +770,7 @@ namespace PRN231_Kazilet_API.Services.Impl
                     {
                         cnt++;
                     }
-                    
+
                 }
             }
             return (float)cnt / gameplays.Count * 100;
@@ -809,13 +811,13 @@ namespace PRN231_Kazilet_API.Services.Impl
                 string playerAnswer = "";
 
                 Answer answer = _context.Answers.FirstOrDefault(a => a.Id == gameplayAnswer[i].PlayerAnswer);
-                if(answer != null)
+                if (answer != null)
                 {
-                    if(answer.IsCorrect == true)
+                    if (answer.IsCorrect == true)
                     {
                         isCorrect = true;
                     }
-                    string[] str = new string[] {"A", "B", "C", "D", "E", "F", "G", "H", "M"};
+                    string[] str = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "M" };
                     List<Answer> answers = _context.Answers
                         .Include(a => a.Question)
                         .Where(a => a.QuestionId == gameplayAnswer[i].QuestionId).ToList();

@@ -270,7 +270,7 @@
         // Hàm để tải và hiển thị danh sách các course trong folder
         function loadCourses() {
             const folderId = localStorage.getItem("folderId");
-            const apiUrl = `http://localhost:7024/api/Folders/GetCourse/${folderId}`;
+            const apiUrl = `https://localhost:7024/api/Folders/GetCourse/${folderId}`;
 
             $.ajax({
                 url: apiUrl,
@@ -320,7 +320,7 @@
         // Kiểm tra xem course có public không
         function checkCoursePublic(courseId) {
             $.ajax({
-                url: `http://localhost:7024/api/Courses/IsPublic/${courseId}`,
+                url: `https://localhost:7024/api/Courses/IsPublic/${courseId}`,
                 method: 'GET',
                 success: function (response) {
                     if (response === "Course is public.") {
@@ -354,7 +354,7 @@
             const password = document.getElementById('passwordInput').value;
             if (password) {
                 $.ajax({
-                    url: `http://localhost:7024/api/Courses/VerifyPassword/${courseId}?password=` + password,
+                    url: `https://localhost:7024/api/Courses/VerifyPassword/${courseId}?password=` + password,
                     method: 'POST',
                     body: "",
                     success: function (response) {

@@ -10,7 +10,7 @@ namespace PRN231_Kazilet_WebApp.Pages.LearningHistory
     public class HistoryModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        private readonly string learningHistorynUrl = "http://localhost:7024/api/LearningHistory";
+        private readonly string learningHistorynUrl = "https://localhost:7024/api/LearningHistory";
         public HistoryModel()
         {
             _httpClient = new HttpClient();
